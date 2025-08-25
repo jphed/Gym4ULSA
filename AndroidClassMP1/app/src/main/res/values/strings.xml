@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mobile1Project</string>
+    <string name="app_name">Gym4ULSA</string>
     <string name="login_image_desc">Login Image</string>
     <string name="email_label">Email</string>
     <string name="password_label">Password</string>
