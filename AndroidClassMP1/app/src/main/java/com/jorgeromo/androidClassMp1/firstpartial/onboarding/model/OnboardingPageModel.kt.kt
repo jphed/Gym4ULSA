@@ -10,6 +10,7 @@ import androidx.annotation.DrawableRes
  */
 data class OnboardingPageModel(
     @DrawableRes val imageRes: Int,
+    val videoRes: Int? = null,
     val title: String,
     val description: String
 )

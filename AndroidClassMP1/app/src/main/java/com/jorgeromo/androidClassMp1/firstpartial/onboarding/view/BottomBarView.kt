@@ -10,10 +10,10 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.navigationBars
 
-/**
- * Vista del onboarding que muestra los botones de anterior, siguiente/empezar
- */
 @Composable
 fun BottomBarView(
     isLastPage: Boolean,
@@ -25,7 +25,10 @@ fun BottomBarView(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(
+                WindowInsets.navigationBars.asPaddingValues() // 🔽 deja espacio de la barra del sistema
+            )
+            .padding(horizontal = 16.dp, vertical = 8.dp) // tu padding normal
     ) {
         TextButton(
             enabled = page > 0,
