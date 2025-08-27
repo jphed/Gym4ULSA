@@ -19,7 +19,7 @@ fun ThirdPartialView(navController: NavController) {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Tercero Parcial Moviles I",
+            text = "AJUSTES",
             fontSize = 24.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()

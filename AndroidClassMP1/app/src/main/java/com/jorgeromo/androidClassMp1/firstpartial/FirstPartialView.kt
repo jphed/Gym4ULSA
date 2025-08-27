@@ -17,7 +17,7 @@ fun FirstPartialView() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Primer Parcial Moviles I",
+            text = "RUTINA",
             fontSize = 24.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
