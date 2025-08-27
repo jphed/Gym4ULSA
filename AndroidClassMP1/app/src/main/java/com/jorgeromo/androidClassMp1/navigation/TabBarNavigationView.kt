@@ -57,14 +57,17 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
 
     Scaffold(
         topBar = {
-            // Puedes usar SmallTopAppBar o CenterAlignedTopAppBar
             CenterAlignedTopAppBar(
-                title = { Text(text = "Jorge Parra 13104") },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color(0xFF9575CD), // Azul
-                titleContentColor = Color.White
-            )
+                title = { Text(text = "Gym4ULSA") },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Black,
+                    titleContentColor = Color.White,
+                    navigationIconContentColor = Color.White,
+                    actionIconContentColor = Color.White
+                )
             )
         },
+
         bottomBar = {
             NavigationBar {
                 items.forEach { screen ->
