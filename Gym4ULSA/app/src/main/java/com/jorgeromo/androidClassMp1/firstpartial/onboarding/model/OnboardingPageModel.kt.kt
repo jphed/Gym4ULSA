@@ -1,6 +1,7 @@
 package com.jorgeromo.androidClassMp1.firstpartial.onboarding.model
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 
 /**
  * Este será el modelo de datos de nuestro onboarding
@@ -11,6 +12,6 @@ import androidx.annotation.DrawableRes
 data class OnboardingPageModel(
     @DrawableRes val imageRes: Int,
     val videoRes: Int? = null,
-    val title: String,
-    val description: String
+    @StringRes val titleRes: Int,
+    @StringRes val descriptionRes: Int
 )

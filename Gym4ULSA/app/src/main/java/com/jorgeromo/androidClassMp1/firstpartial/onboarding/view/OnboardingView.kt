@@ -1,6 +1,7 @@
 package com.jorgeromo.androidClassMp1.firstpartial.onboarding.views
 
 import android.widget.Toast
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.jorgeromo.androidClassMp1.R
 import com.jorgeromo.androidClassMp1.firstpartial.onboarding.viewmodel.OnboardingViewModel
 import kotlinx.coroutines.launch
 
@@ -44,51 +46,44 @@ fun OnboardingView(
             pagerState.scrollToPage(currentPage)
         }
     }
-
-    Scaffold(
-        bottomBar = {
-            BottomBarView(
-                isLastPage = viewModel.isLastPage(),
-                page = currentPage,
-                total = pages.size,
-                onPrev = {
-                    if (currentPage > 0) {
-                        scope.launch { pagerState.animateScrollToPage(currentPage - 1) }
-                    }
-                },
-                onNext = {
-                    if (!viewModel.isLastPage()) {
-                        scope.launch { pagerState.animateScrollToPage(currentPage + 1) }
-                    } else {
-                        onFinish() // <- callback
-                        Toast.makeText(context, "Onboarding finished", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            )
+    
+    // Auto-finish when reaching the last page
+    LaunchedEffect(pagerState.currentPage) {
+        if (pagerState.currentPage == pages.size - 1) {
+            // Small delay to let user see the last page
+            kotlinx.coroutines.delay(2000)
+            onFinish()
+            Toast.makeText(context, context.getString(R.string.onboarding_finished), Toast.LENGTH_SHORT).show()
         }
-    ) { padding ->
-        Column(
+    }
+
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        // Main Content
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.fillMaxSize()
+        ) { page ->
+            OnboardingPageView(pageModel = pages[page])
+        }
+
+        // Dots Indicator - positioned at the top
+        DotsIndicatorView(
+            totalDots = pages.size,
+            selectedIndex = currentPage,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .padding(horizontal = 24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            ) { page ->
-                OnboardingPageView(pageModel = pages[page])
-            }
+                .align(Alignment.TopCenter)
+                .padding(top = 60.dp)
+        )
 
-            DotsIndicatorView(
-                totalDots = pages.size,
-                selectedIndex = currentPage,
-                modifier = Modifier
-                    .padding(top = 12.dp, bottom = 16.dp)
-            )
-        }
+        // Bottom indicator (optional - shows subtle hint on last page)
+        BottomBarView(
+            isLastPage = viewModel.isLastPage(),
+            page = currentPage,
+            total = pages.size,
+            onPrev = { },
+            onNext = { }
+        )
     }
 }

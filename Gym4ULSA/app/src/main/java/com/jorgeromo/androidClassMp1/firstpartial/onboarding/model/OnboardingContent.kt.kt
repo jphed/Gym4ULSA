@@ -9,18 +9,18 @@ object OnboardingContent {
     val pages = listOf(
         OnboardingPageModel(
             imageRes = R.drawable.onb_1,
-            title = "Tu mejor version empieza hoy!",
-            description = "No esperes el momento perfecto, empieza y haz que suceda."
+            titleRes = R.string.onboarding_title_1,
+            descriptionRes = R.string.onboarding_description_1
         ),
         OnboardingPageModel(
             imageRes = R.drawable.onb_2,
-            title = "Rompe tus limites!",
-            description = "Cada repetición es un paso más hacia tu meta."
+            titleRes = R.string.onboarding_title_2,
+            descriptionRes = R.string.onboarding_description_2
         ),
         OnboardingPageModel(
             imageRes = R.drawable.onb_3,
-            title = "El progreso se construye con constancia!",
-            description = "La disciplina de hoy es el resultado de mañana."
+            titleRes = R.string.onboarding_title_3,
+            descriptionRes = R.string.onboarding_description_3
         )
     )
 }
