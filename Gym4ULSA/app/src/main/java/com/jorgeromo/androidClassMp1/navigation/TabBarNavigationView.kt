@@ -35,7 +35,7 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
     // Mapa de títulos por ruta (incluye tabs y pantallas internas)
     val routeTitles = remember {
         mapOf(
-            ScreenNavigation.Ids.route to ScreenNavigation.Ids.label,
+            ScreenNavigation.Login.route to ScreenNavigation.Login.label,
             ScreenNavigation.FirstPartial.route to ScreenNavigation.FirstPartial.label,
             ScreenNavigation.SecondPartial.route to ScreenNavigation.SecondPartial.label,
             ScreenNavigation.ThirdPartial.route to ScreenNavigation.ThirdPartial.label,
@@ -94,7 +94,7 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = ScreenNavigation.Ids.route,
+            startDestination = ScreenNavigation.Login.route,
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(ScreenNavigation.Ids.route) { IdsView(navController) }

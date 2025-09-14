@@ -2,6 +2,7 @@ package com.jorgeromo.androidClassMp1.firstpartial.onboarding.views
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -31,19 +32,17 @@ import com.jorgeromo.androidClassMp1.firstpartial.onboarding.model.OnboardingPag
  * Vista que tiene la pagina del onboarding (Imagen, titulo, descripción)
  */
 @Composable
-fun OnboardingPageView(pageModel: OnboardingPageModel) {
+fun OnboardingPageView(pageModel: OnboardingPageModel, isLastPage: Boolean) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        // Background Image
+        // Imagen de fondo y gradiente
         Image(
             painter = painterResource(id = pageModel.imageRes),
             contentDescription = stringResource(id = pageModel.titleRes),
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
-        
-        // Gradient Overlay for better text readability
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -53,58 +52,48 @@ fun OnboardingPageView(pageModel: OnboardingPageModel) {
                             Color.Transparent,
                             Color.Black.copy(alpha = 0.3f),
                             Color.Black.copy(alpha = 0.7f)
-                        ),
-                        startY = 0f,
-                        endY = Float.POSITIVE_INFINITY
+                        )
                     )
                 )
         )
-        
-        // Content
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 32.dp, vertical = 48.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = androidx.compose.foundation.layout.Arrangement.Bottom
+            verticalArrangement = Arrangement.Top
         ) {
-            Spacer(Modifier.weight(1f))
-            
+            Spacer(modifier = Modifier.weight(3f)) // Empuja el contenido hacia abajo
+
             Text(
                 text = stringResource(id = pageModel.titleRes),
-                style = MaterialTheme.typography.headlineLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 32.sp,
-                    letterSpacing = 0.5.sp
-                ),
-                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                fontSize = 32.sp,
                 color = Color.White,
+                textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
-            
+
             Text(
                 text = stringResource(id = pageModel.descriptionRes),
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontSize = 18.sp,
-                    lineHeight = 24.sp,
-                    letterSpacing = 0.2.sp
-                ),
-                textAlign = TextAlign.Center,
+                fontSize = 18.sp,
                 color = Color.White.copy(alpha = 0.9f),
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-            
-            // Swipe hint
-            Text(
-                text = stringResource(id = R.string.onboarding_swipe_hint),
-                style = MaterialTheme.typography.bodySmall.copy(
-                    fontSize = 12.sp,
-                    letterSpacing = 0.5.sp
-                ),
                 textAlign = TextAlign.Center,
-                color = Color.White.copy(alpha = 0.6f),
                 modifier = Modifier.padding(bottom = 16.dp)
             )
+
+            if (!isLastPage) {
+                Text(
+                    text = stringResource(id = R.string.onboarding_swipe_hint),
+                    fontSize = 12.sp,
+                    color = Color.White.copy(alpha = 0.6f),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.weight(0.5f)) // Espacio inferior opcional
         }
     }
 }

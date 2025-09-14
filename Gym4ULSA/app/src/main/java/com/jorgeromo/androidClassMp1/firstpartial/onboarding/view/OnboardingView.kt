@@ -46,16 +46,6 @@ fun OnboardingView(
             pagerState.scrollToPage(currentPage)
         }
     }
-    
-    // Auto-finish when reaching the last page
-    LaunchedEffect(pagerState.currentPage) {
-        if (pagerState.currentPage == pages.size - 1) {
-            // Small delay to let user see the last page
-            kotlinx.coroutines.delay(2000)
-            onFinish()
-            Toast.makeText(context, context.getString(R.string.onboarding_finished), Toast.LENGTH_SHORT).show()
-        }
-    }
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -65,7 +55,10 @@ fun OnboardingView(
             state = pagerState,
             modifier = Modifier.fillMaxSize()
         ) { page ->
-            OnboardingPageView(pageModel = pages[page])
+            OnboardingPageView(
+                pageModel = pages[page],
+                isLastPage = viewModel.isLastPage(page)
+            )
         }
 
         // Dots Indicator - positioned at the top
@@ -80,10 +73,13 @@ fun OnboardingView(
         // Bottom indicator (optional - shows subtle hint on last page)
         BottomBarView(
             isLastPage = viewModel.isLastPage(),
-            page = currentPage,
-            total = pages.size,
-            onPrev = { },
-            onNext = { }
+            onFinish = {
+                onFinish()
+                Toast.makeText(context, "Onboarding terminado", Toast.LENGTH_SHORT).show()
+            },
+            modifier = Modifier.align(Alignment.BottomCenter)
         )
+
+
     }
 }

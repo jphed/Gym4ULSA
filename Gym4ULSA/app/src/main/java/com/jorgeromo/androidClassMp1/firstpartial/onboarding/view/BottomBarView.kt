@@ -38,37 +38,35 @@ import com.jorgeromo.androidClassMp1.R
 @Composable
 fun BottomBarView(
     isLastPage: Boolean,
-    page: Int,
-    total: Int,
-    onPrev: () -> Unit,
-    onNext: () -> Unit
+    onFinish: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    // Empty composable - no navigation buttons, only swipe navigation
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        Color.Transparent,
-                        Color.Black.copy(alpha = 0.3f)
-                    )
-                )
-            )
-            .padding(
-                WindowInsets.navigationBars.asPaddingValues()
-            )
+            .padding(WindowInsets.navigationBars.asPaddingValues())
             .padding(horizontal = 24.dp, vertical = 16.dp)
     ) {
-        // Only show a subtle indicator that this is the last page
         if (isLastPage) {
-            Text(
-                text = stringResource(id = R.string.onboarding_start),
-                color = Color.White.copy(alpha = 0.7f),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier.align(Alignment.Center)
-            )
+            // Botón "Entendido!" abajo centrado
+            Button(
+                onClick = onFinish,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Black.copy(alpha = 0.7f),
+                    contentColor = Color.White
+                ),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth(0.6f)
+                    .height(50.dp)
+                    .align(Alignment.BottomEnd)
+            ) {
+                Text(
+                    text = "Continuar",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
 }

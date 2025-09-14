@@ -1,4 +1,5 @@
 package com.jorgeromo.androidClassMp1.firstpartial.onboarding.model
+
 import com.jorgeromo.androidClassMp1.R
 
 /**
