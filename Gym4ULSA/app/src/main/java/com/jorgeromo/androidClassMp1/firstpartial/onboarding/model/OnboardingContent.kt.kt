@@ -8,17 +8,17 @@ import com.jorgeromo.androidClassMp1.R
 object OnboardingContent {
     val pages = listOf(
         OnboardingPageModel(
-            imageRes = R.drawable.onb_1,
+            imageRes = R.drawable.img1,
             titleRes = R.string.onboarding_title_1,
             descriptionRes = R.string.onboarding_description_1
         ),
         OnboardingPageModel(
-            imageRes = R.drawable.onb_2,
+            imageRes = R.drawable.img2,
             titleRes = R.string.onboarding_title_2,
             descriptionRes = R.string.onboarding_description_2
         ),
         OnboardingPageModel(
-            imageRes = R.drawable.onb_3,
+            imageRes = R.drawable.img3,
             titleRes = R.string.onboarding_title_3,
             descriptionRes = R.string.onboarding_description_3
         )
