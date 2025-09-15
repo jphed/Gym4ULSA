@@ -14,12 +14,12 @@ import com.jorgeromo.gym4ULSA.firstpartial.FirstPartialView
 import com.jorgeromo.gym4ULSA.ids.imc.views.IMCView
 import com.jorgeromo.gym4ULSA.ids.IdsView
 import com.jorgeromo.gym4ULSA.ids.location.views.LocationListScreen
-import com.jorgeromo.gym4ULSA.ids.login.views.LoginView
 import com.jorgeromo.gym4ULSA.ids.student.views.StudentView
 import com.jorgeromo.gym4ULSA.ids.sum.views.SumView
 import com.jorgeromo.gym4ULSA.ids.temperature.views.TempView
 import com.jorgeromo.gym4ULSA.thirdpartial.ThirdPartialView
 import androidx.compose.ui.graphics.Color
+import com.jorgeromo.gym4ULSA.firstpartial.login.views.LoginView
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -104,7 +104,7 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
 
             // Rutas internas
             composable(ScreenNavigation.IMC.route) { IMCView() }
-            composable(ScreenNavigation.Login.route) { LoginView() }
+            composable(ScreenNavigation.Login.route) { LoginView(navController) }
             composable(ScreenNavigation.Sum.route) { SumView() }
             composable(ScreenNavigation.Temperature.route) { TempView() }
             composable(ScreenNavigation.StudentList.route) { StudentView() }

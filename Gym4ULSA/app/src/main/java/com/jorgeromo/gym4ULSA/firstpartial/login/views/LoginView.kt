@@ -1,4 +1,4 @@
-package com.jorgeromo.gym4ULSA.ids.login.views
+package com.jorgeromo.gym4ULSA.firstpartial.login.views
 
 import android.os.Handler
 import android.os.Looper
@@ -89,7 +89,7 @@ fun LoginView(navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ulsalogo),
+                painter = painterResource(id = R.drawable.applogo),
                 contentDescription = "ULSA logo",
                 modifier = Modifier
                     .size(150.dp)

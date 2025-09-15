@@ -31,7 +31,7 @@ import com.jorgeromo.gym4ULSA.ui.theme.AndroidClassMP1Theme
 
 
 @Composable
-fun LoginView() {
+fun LoginViewIds() {
     // Variables de estado
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -103,6 +103,6 @@ fun LoginView() {
 @Composable
 fun LoginViewPreview() {
     AndroidClassMP1Theme {
-        LoginView()
+        LoginViewIds()
     }
 }
