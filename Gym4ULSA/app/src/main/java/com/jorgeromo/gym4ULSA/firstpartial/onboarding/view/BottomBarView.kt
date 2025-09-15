@@ -27,6 +27,7 @@ fun BottomBarView(
 ) {
     Box(
         modifier = modifier
+
             .fillMaxWidth()
             .padding(WindowInsets.navigationBars.asPaddingValues())
             .padding(horizontal = 24.dp, vertical = 16.dp)
