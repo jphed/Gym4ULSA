@@ -11,6 +11,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.jorgeromo.gym4ULSA.firstpartial.login.views.LoginView
 import com.jorgeromo.gym4ULSA.firstpartial.onboarding.viewmodel.OnboardingViewModel
 import com.jorgeromo.gym4ULSA.firstpartial.onboarding.views.OnboardingView
 import com.jorgeromo.gym4ULSA.navigation.TabBarNavigationView
@@ -30,18 +33,17 @@ class MainActivity : ComponentActivity() {
                 val scope = rememberCoroutineScope()
                 val vm: OnboardingViewModel = viewModel()
 
-                // Estado nulo mientras se obtiene el valor real del Flow
                 val onboardingDone: Boolean? by ds.onboardingDoneFlow.collectAsState(initial = null)
 
                 when (onboardingDone) {
-                    null -> SplashLoader() // loader / splash temporal
+                    null -> SplashLoader()
                     false -> OnboardingView(
                         viewModel = vm,
                         onFinish = {
                             scope.launch { ds.setOnboardingDone(true) }
                         }
                     )
-                    true -> TabBarNavigationView()
+                    true -> TabBarNavigationView() // Aquí LoginView ya se maneja dentro del NavHost
                 }
             }
         }

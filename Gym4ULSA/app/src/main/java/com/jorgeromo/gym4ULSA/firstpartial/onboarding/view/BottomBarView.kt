@@ -46,7 +46,7 @@ fun BottomBarView(
                     .align(Alignment.BottomEnd)
             ) {
                 Text(
-                    text = "Continuar",
+                    text = "Entendido!",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )
