@@ -17,7 +17,7 @@
 
         <!-- SplashActivity en el paquete utils como punto de entrada -->
         <activity
-            android:name="com.jorgeromo.androidClassMp1.utils.SplashActivity"
+            android:name="com.jorgeromo.gym4ULSA.utils.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.AndroidClassMP1">
             <intent-filter>

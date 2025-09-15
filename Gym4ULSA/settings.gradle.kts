@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "AndroidClassMP1"
+rootProject.name = "Gym4ULSA"
 include(":app")
  

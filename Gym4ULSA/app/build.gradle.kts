@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.jorgeromo.androidClassMp1"
+    namespace = "com.jorgeromo.gym4ULSA"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.jorgeromo.androidClassMp1"
+        applicationId = "com.jorgeromo.gym4ULSA"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
