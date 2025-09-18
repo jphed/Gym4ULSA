@@ -137,13 +137,17 @@ fun LoginView(navController: NavController) {
                 title = {},
                 navigationIcon = {
                     IconButton(onClick = {
-                        // In login, tapping back should send the app to background (like Home button)
-                        context.findActivity()?.moveTaskToBack(true)
+                        // Aquí decides qué acción quieres que haga el botón de perfil
+                        // Ejemplo: mostrar un Toast temporal
+                        Toast.makeText(context, "Perfil", Toast.LENGTH_SHORT).show()
                     }) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Back",
-                            tint = Color.Black
+                            imageVector = Icons.Filled.Face, // ← el ícono de perfil
+                            contentDescription = "Perfil",
+                            tint = Color.Black,
+                            modifier = Modifier
+                                .size(32.dp)             // tamaño más grande
+                                .clip(CircleShape)       // recorte circular
                         )
                     }
                 }
