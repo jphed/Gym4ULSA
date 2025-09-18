@@ -3,6 +3,7 @@ package com.jorgeromo.gym4ULSA.firstpartial.login.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jorgeromo.gym4ULSA.firstpartial.login.model.repository.AuthRepository
+import com.jorgeromo.gym4ULSA.R
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,16 +36,16 @@ class LoginViewModel(private val repo: AuthRepository) : ViewModel() {
     val ui: StateFlow<LoginUiState> = _ui
 
     /*
-     _toastEvents: Channel<String>
-     - Canal para enviar mensajes de texto (eventos de Toast).
+     _toastEvents: Channel<ToastMessage>
+     - Canal para enviar mensajes de Toast como recursos i18n.
      - BUFFERED: permite almacenar mensajes sin perderlos.
-     toastEvents: Flow<String>
+     toastEvents: Flow<ToastMessage>
      - Exposición como Flow, para que la vista los consuma
        de manera reactiva con collectLatest.
     */
-    private val _toastEvents = Channel<String>(Channel.BUFFERED)
+    data class ToastMessage(val resId: Int, val args: List<String> = emptyList())
+    private val _toastEvents = Channel<ToastMessage>(Channel.BUFFERED)
     val toastEvents = _toastEvents.receiveAsFlow()
-
 
     sealed interface LoginNavEvent {
         data object GoHome : LoginNavEvent
@@ -82,7 +83,7 @@ class LoginViewModel(private val repo: AuthRepository) : ViewModel() {
         val email = _ui.value.email.trim()
         val password = _ui.value.password
         if (email.isBlank() || password.isBlank()) {
-            viewModelScope.launch { _toastEvents.send("Email y password son obligatorios") }
+            viewModelScope.launch { _toastEvents.send(ToastMessage(R.string.login_required_fields)) }
             return
         }
 
@@ -92,20 +93,20 @@ class LoginViewModel(private val repo: AuthRepository) : ViewModel() {
             try {
                 val res = repo.login(email, password)
                 if (res.success) {
-                    _toastEvents.send("Login exitoso. Bienvenido ${res.user?.name ?: ""}")
+                    _toastEvents.send(ToastMessage(R.string.login_success_welcome, listOf(res.user?.name ?: "")))
                     delay(500)
                     _navEvents.send(LoginNavEvent.GoHome)
                 } else {
                     val msg = res.message.lowercase()
                     val errorMsg = when {
-                        "correo" in msg || "email" in msg -> "Correo equivocado"
-                        "contraseña" in msg || "password" in msg -> "Contraseña inválida"
-                        else -> "Login fallido"
+                        "correo" in msg || "email" in msg -> null to R.string.login_error_wrong_email
+                        "contraseña" in msg || "password" in msg -> null to R.string.login_error_wrong_password
+                        else -> null to R.string.login_failed
                     }
-                    _toastEvents.send(errorMsg)
+                    _toastEvents.send(ToastMessage(errorMsg.second))
                 }
             } catch (e: Exception) {
-                _toastEvents.send("Error de red/servidor")
+                _toastEvents.send(ToastMessage(R.string.network_error))
             } finally {
                 _ui.value = _ui.value.copy(isLoading = false)
             }

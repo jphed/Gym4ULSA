@@ -15,12 +15,33 @@
     <string name="onboarding_start">Empezar</string>
     <string name="onboarding_finished">¡Onboarding completado!</string>
     <string name="onboarding_swipe_hint">← Desliza para continuar →</string>
+    <string name="onboarding_understood">¡Entendido!</string>
     
     <!-- Login -->
     <string name="login_image_desc">Imagen de Login</string>
     <string name="email_label">Correo electrónico</string>
     <string name="password_label">Contraseña</string>
     <string name="login_button">Iniciar sesión</string>
+    
+    <!-- Login toasts (default: English) -->
+    <string name="login_required_fields">Email and password are required</string>
+    <string name="login_success_welcome">Login successful. Welcome %1$s</string>
+    <string name="login_error_wrong_email">Wrong email</string>
+    <string name="login_error_wrong_password">Invalid password</string>
+    <string name="login_failed">Login failed</string>
+    <string name="network_error">Network/server error</string>
+
+    <!-- Bottom Bar -->
+    <string name="bottom_home">Inicio</string>
+    <string name="bottom_routine">Rutina</string>
+    <string name="bottom_nutrition">Nutrición</string>
+    <string name="bottom_settings">Ajustes</string>
+
+    <!-- Remember credentials dialog -->
+    <string name="remember_title">¿Guardar credenciales?</string>
+    <string name="remember_message">¿Deseas que recordemos tu correo para iniciar sesión más rápido la próxima vez?</string>
+    <string name="remember_yes">Guardar</string>
+    <string name="remember_no">Ahora no</string>
     
     <!-- IMC Calculator -->
     <string name="enter_weight">Ingresa el peso (kg)</string>

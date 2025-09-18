@@ -60,12 +60,13 @@ fun OnboardingPageView(pageModel: OnboardingPageModel, isLastPage: Boolean) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            Spacer(modifier = Modifier.weight(3f)) // Empuja el contenido hacia abajo
+            Spacer(modifier = Modifier.weight(4f)) // Empuja el contenido hacia abajo
 
             Text(
                 text = stringResource(id = pageModel.titleRes),
                 fontWeight = FontWeight.Bold,
                 fontSize = 32.sp,
+                lineHeight = 40.sp,
                 color = Color.White,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 16.dp)
