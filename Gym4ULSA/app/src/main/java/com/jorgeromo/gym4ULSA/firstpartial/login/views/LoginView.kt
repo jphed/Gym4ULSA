@@ -11,9 +11,11 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +45,16 @@ import com.jorgeromo.gym4ULSA.firstpartial.login.viewmodel.LoginViewModelFactory
 import com.jorgeromo.gym4ULSA.navigation.ScreenNavigation
 import com.jorgeromo.gym4ULSA.ui.theme.OrangeRed
 import kotlinx.coroutines.flow.collectLatest
+import com.jorgeromo.gym4ULSA.utils.DataStoreManager
+import androidx.compose.runtime.collectAsState
+import kotlinx.coroutines.launch
+import androidx.compose.runtime.rememberCoroutineScope
+import com.jorgeromo.gym4ULSA.utils.CredentialsStore
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginView(navController: NavController) {
     // Repositorio y ViewModel
@@ -52,7 +63,14 @@ fun LoginView(navController: NavController) {
     val ui by vm.ui.collectAsState()
 
     val context = LocalContext.current
+    val ds = remember { DataStoreManager(context) }
+    val credsStore = remember { CredentialsStore(context) }
+    val scope = rememberCoroutineScope()
+    val rememberCreds by ds.rememberCredentialsFlow.collectAsState(initial = false)
+    val savedEmail by ds.savedEmailFlow.collectAsState(initial = "")
+    val promptedEmails by ds.promptedEmailsFlow.collectAsState(initial = emptySet())
     var passwordVisible by remember { mutableStateOf(false) }
+    var showRememberDialog by remember { mutableStateOf(false) }
 
     // Función para mostrar Toast seguro
     fun showToastSafe(text: String) {
@@ -65,10 +83,27 @@ fun LoginView(navController: NavController) {
         }
     }
 
-    // Escucha los mensajes de toast
+    // Escucha los mensajes de toast (i18n via resource IDs)
     LaunchedEffect(vm) {
-        vm.toastEvents.collectLatest { msg ->
-            showToastSafe(msg)
+        vm.toastEvents.collectLatest { tm ->
+            val text = if (tm.args.isEmpty()) {
+                context.getString(tm.resId)
+            } else {
+                context.getString(tm.resId, *tm.args.toTypedArray())
+            }
+            showToastSafe(text)
+        }
+    }
+
+    // Prefill saved email and password if user opted to remember and fields are empty
+    LaunchedEffect(rememberCreds, savedEmail) {
+        if (rememberCreds && savedEmail.isNotBlank()) {
+            if (ui.email.isBlank()) vm.onEmailChange(savedEmail)
+            if (ui.password.isBlank()) {
+                credsStore.getPassword(savedEmail)?.let { storedPwd ->
+                    vm.onPasswordChange(storedPwd)
+                }
+            }
         }
     }
 
@@ -77,10 +112,17 @@ fun LoginView(navController: NavController) {
         vm.navEvent.collectLatest { event ->
             when(event) {
                 is LoginViewModel.LoginNavEvent.GoHome -> {
-                    // Navega a "Rutina" después del login exitoso
-                    navController.navigate(ScreenNavigation.FirstPartial.route) {
-                        popUpTo(ScreenNavigation.Login.route) { inclusive = true }
-                        launchSingleTop = true
+                    val emailNow = ui.email
+                    val wasPrompted = promptedEmails.contains(emailNow)
+                    if (!wasPrompted) {
+                        // Show dialog only the first time we see this email
+                        showRememberDialog = true
+                    } else {
+                        // Already prompted before: just navigate to Home
+                        navController.navigate(ScreenNavigation.Ids.route) {
+                            popUpTo(ScreenNavigation.Login.route) { inclusive = true }
+                            launchSingleTop = true
+                        }
                     }
                 }
             }
@@ -88,128 +130,237 @@ fun LoginView(navController: NavController) {
     }
 
     // UI del login con fondo animado
-    Scaffold(containerColor = Color.Transparent) { padding ->
-        // Layer 1: background should fill the entire screen behind the TopAppBar
-        Box(modifier = Modifier.fillMaxSize()) {
-            MinimalAnimatedBackground()
-
-            // Layer 2: foreground content respects the inner padding from Scaffold
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-            ) {
-                // Foreground content card
-                Card(
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)
-                    ),
-                    shape = androidx.compose.foundation.shape.RoundedCornerShape(46.dp),
-                    modifier = Modifier
-                        .padding(20.dp)
-                        .align(Alignment.Center)
-                        .shadow(
-                            elevation = 8.dp,
-                            shape = androidx.compose.foundation.shape.RoundedCornerShape(46.dp),
-                            clip = false
+    Scaffold(
+        containerColor = Color.White,
+        topBar = {
+            TopAppBar(
+                title = {},
+                navigationIcon = {
+                    IconButton(onClick = {
+                        // In login, tapping back should send the app to background (like Home button)
+                        context.findActivity()?.moveTaskToBack(true)
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Back",
+                            tint = Color.Black
                         )
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(20.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        // App brand
-                        Image(
-                            painter = painterResource(id = R.drawable.applogo),
-                            contentDescription = "ULSA logo",
-                            modifier = Modifier
-                                .size(96.dp)
-                                .clip(CircleShape)
-                        )
-                        Spacer(Modifier.height(12.dp))
-                        Text(
-                            text = "Welcome back",
-                            style = MaterialTheme.typography.titleLarge.copy(
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        )
-                        Spacer(Modifier.height(16.dp))
-
-                        // Email
-                        OutlinedTextField(
-                            value = ui.email,
-                            onValueChange = vm::onEmailChange,
-                            label = { Text(stringResource(R.string.email_label)) },
-                            singleLine = true,
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Email,
-                                imeAction = ImeAction.Next
-                            ),
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        Spacer(Modifier.height(8.dp))
-
-                        // Password
-                        OutlinedTextField(
-                            value = ui.password,
-                            onValueChange = vm::onPasswordChange,
-                            label = { Text(stringResource(R.string.password_label)) },
-                            singleLine = true,
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Password,
-                                imeAction = ImeAction.Done
-                            ),
-                            keyboardActions = KeyboardActions(onDone = { vm.login() }),
-                            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                            trailingIcon = {
-                                val icon = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
-                                IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                    Icon(imageVector = icon, contentDescription = "Toggle password visibility")
-                                }
-                            },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        Spacer(Modifier.height(16.dp))
-
-                        // Botón login
-                        Button(
-                            onClick = { vm.login() },
-                            enabled = !ui.isLoading,
-                            modifier = Modifier.fillMaxWidth(),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                contentColor = MaterialTheme.colorScheme.onPrimary
-                            )
-                        ) {
-                            if (ui.isLoading) {
-                                CircularProgressIndicator(strokeWidth = 2.dp, modifier = Modifier.size(18.dp))
-                                Spacer(Modifier.width(8.dp))
-                                Text("Signing in…")
-                            } else {
-                                Text(stringResource(R.string.login_button))
-                            }
-                        }
-
-                        Spacer(Modifier.height(12.dp))
-
-                        // Botón Face ID
-                        OutlinedButton(
-                            onClick = { /* TODO: BiometricPrompt flow */ },
-                            enabled = !ui.isLoading,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Icon(Icons.Default.Face, contentDescription = "Face ID", modifier = Modifier.size(20.dp))
-                            Spacer(Modifier.width(8.dp))
-                            Text("Face ID")
-                        }
                     }
                 }
-            }
+            )
         }
+    ) { padding ->
+        if (showRememberDialog) {
+            AlertDialog(
+                onDismissRequest = {
+                    // If dismissed, assume no and continue
+                    scope.launch {
+                        ds.setRememberCredentials(false)
+                        ds.setSavedEmail("")
+                        ds.markEmailPrompted(ui.email)
+                        credsStore.clearCredentials(ui.email)
+                    }
+                    showRememberDialog = false
+                    navController.navigate(ScreenNavigation.Ids.route) {
+                        popUpTo(ScreenNavigation.Login.route) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        scope.launch {
+                            ds.setRememberCredentials(true)
+                            ds.setSavedEmail(ui.email)
+                            ds.markEmailPrompted(ui.email)
+                            credsStore.setCredentials(ui.email, ui.password)
+                        }
+                        showRememberDialog = false
+                        navController.navigate(ScreenNavigation.Ids.route) {
+                            popUpTo(ScreenNavigation.Login.route) { inclusive = true }
+                            launchSingleTop = true
+                        }
+                    }) {
+                        Text(text = stringResource(id = R.string.remember_yes))
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = {
+                        scope.launch {
+                            ds.setRememberCredentials(false)
+                            ds.setSavedEmail("")
+                            ds.markEmailPrompted(ui.email)
+                            credsStore.clearCredentials(ui.email)
+                        }
+                        showRememberDialog = false
+                        navController.navigate(ScreenNavigation.Ids.route) {
+                            popUpTo(ScreenNavigation.Login.route) { inclusive = true }
+                            launchSingleTop = true
+                        }
+                    }) {
+                        Text(text = stringResource(id = R.string.remember_no))
+                    }
+                },
+                title = { Text(text = stringResource(id = R.string.remember_title)) },
+                text = { Text(text = stringResource(id = R.string.remember_message)) }
+            )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(horizontal = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(Modifier.height(48.dp))
+
+            // Brand/logo minimal
+            Image(
+                painter = painterResource(id = R.drawable.applogo),
+                contentDescription = "ULSA logo",
+                modifier = Modifier
+                    .size(150.dp)
+                    .clip(CircleShape)
+            )
+
+            Spacer(Modifier.height(16.dp))
+            Text(
+                text = "Sign in",
+                style = MaterialTheme.typography.headlineMedium.copy(
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.Black
+                )
+            )
+
+            Spacer(Modifier.height(32.dp))
+
+            // Email
+            OutlinedTextField(
+                value = ui.email,
+                onValueChange = vm::onEmailChange,
+                label = { Text(stringResource(R.string.email_label), color = Color.Gray) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next
+                ),
+                modifier = Modifier
+                    .fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black,
+                    focusedBorderColor = Color.Black,
+                    unfocusedBorderColor = Color(0xFFDDDDDD),
+                    cursorColor = Color.Black,
+                    focusedLabelColor = Color.Black,
+                    unfocusedLabelColor = Color.Gray,
+                    disabledBorderColor = Color(0xFFEEEEEE)
+                ),
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            // Password
+            OutlinedTextField(
+                value = ui.password,
+                onValueChange = vm::onPasswordChange,
+                label = { Text(stringResource(R.string.password_label), color = Color.Gray) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(onDone = { vm.login() }),
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                trailingIcon = {
+                    val icon = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(imageVector = icon, contentDescription = "Toggle password visibility", tint = Color.Black)
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black,
+                    focusedBorderColor = Color.Black,
+                    unfocusedBorderColor = Color(0xFFDDDDDD),
+                    cursorColor = Color.Black,
+                    focusedLabelColor = Color.Black,
+                    unfocusedLabelColor = Color.Gray,
+                    disabledBorderColor = Color(0xFFEEEEEE)
+                ),
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
+            )
+
+            Spacer(Modifier.height(24.dp))
+
+            // Login button - solid black
+            Button(
+                onClick = { vm.login() },
+                enabled = !ui.isLoading,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Black,
+                    contentColor = Color.White
+                ),
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
+            ) {
+                if (ui.isLoading) {
+                    CircularProgressIndicator(
+                        strokeWidth = 2.dp,
+                        modifier = Modifier.size(18.dp),
+                        color = Color.White
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text("Signing in…")
+                } else {
+                    Text(stringResource(R.string.login_button))
+                }
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            // Face ID style secondary action (outlined, minimal)
+            OutlinedButton(
+                onClick = { /* TODO: BiometricPrompt flow */ },
+                enabled = !ui.isLoading,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    contentColor = Color.Black
+                ),
+                border = ButtonDefaults.outlinedButtonBorder.copy(
+                    brush = androidx.compose.ui.graphics.SolidColor(Color.Black)
+                ),
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
+            ) {
+                Icon(Icons.Default.Face, contentDescription = "Face ID", modifier = Modifier.size(20.dp), tint = Color.Black)
+                Spacer(Modifier.width(8.dp))
+                Text("Face ID")
+            }
+
+            Spacer(Modifier.weight(1f))
+
+            // Minimal footer
+            Text(
+                text = "Gym4ULSA",
+                style = MaterialTheme.typography.labelMedium.copy(color = Color.Gray)
+            )
+
+            Spacer(Modifier.height(24.dp))
+        }
+    }
+}
+
+private tailrec fun Context.findActivity(): Activity? {
+    return when (this) {
+        is Activity -> this
+        is ContextWrapper -> this.baseContext.findActivity()
+        else -> null
     }
 }
 

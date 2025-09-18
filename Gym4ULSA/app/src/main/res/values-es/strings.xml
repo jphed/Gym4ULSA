@@ -23,6 +23,14 @@
     <string name="password_label">Contraseña</string>
     <string name="login_button">Iniciar sesión</string>
     
+    <!-- Login toasts (Spanish) -->
+    <string name="login_required_fields">El correo y la contraseña son obligatorios</string>
+    <string name="login_success_welcome">Inicio de sesión exitoso. Bienvenido %1$s</string>
+    <string name="login_error_wrong_email">Correo equivocado</string>
+    <string name="login_error_wrong_password">Contraseña inválida</string>
+    <string name="login_failed">Inicio de sesión fallido</string>
+    <string name="network_error">Error de red/servidor</string>
+    
     <!-- IMC Calculator -->
     <string name="enter_weight">Ingresa el peso (kg)</string>
     <string name="enter_height">Ingresa la altura (m)</string>
