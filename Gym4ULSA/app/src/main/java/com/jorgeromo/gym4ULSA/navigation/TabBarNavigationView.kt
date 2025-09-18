@@ -1,12 +1,15 @@
 package com.jorgeromo.gym4ULSA.navigation
 
 import SecondPartialView
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import androidx.navigation.compose.rememberNavController
@@ -20,7 +23,11 @@ import com.jorgeromo.gym4ULSA.ids.temperature.views.TempView
 import com.jorgeromo.gym4ULSA.thirdpartial.ThirdPartialView
 import androidx.compose.ui.graphics.Color
 import com.jorgeromo.gym4ULSA.firstpartial.login.views.LoginView
-
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.foundation.layout.offset
+import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,9 +75,30 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
             )
         },
 
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { /* TODO: assign action, e.g., navigate to add/new */ },
+                shape = RoundedCornerShape(24.dp),
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier
+                    .size(84.dp)
+                    .offset(y = 68.dp) // lowered further; stronger overlap
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = "Add"
+                )
+            }
+        },
+        floatingActionButtonPosition = FabPosition.Center,
+
         bottomBar = {
             NavigationBar {
-                items.forEach { screen ->
+                val leftItems = items.take(2)
+                val rightItems = items.takeLast(2)
+
+                leftItems.forEach { screen ->
                     val selected = currentRoute == screen.route
                     NavigationBarItem(
                         icon = { Icon(screen.icon, contentDescription = screen.label) },
@@ -79,9 +107,34 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
                         onClick = {
                             if (!selected) {
                                 navController.navigate(screen.route) {
-                                    popUpTo(navController.graph.startDestinationId) {
-                                        saveState = true
-                                    }
+                                    popUpTo(navController.graph.startDestinationId) { saveState = true }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            }
+                        }
+                    )
+                }
+
+                // Center spacer to create symmetry around the FAB
+                NavigationBarItem(
+                    icon = { Box(modifier = Modifier.size(48.dp)) {} },
+                    label = { },
+                    selected = false,
+                    enabled = false,
+                    onClick = { }
+                )
+
+                rightItems.forEach { screen ->
+                    val selected = currentRoute == screen.route
+                    NavigationBarItem(
+                        icon = { Icon(screen.icon, contentDescription = screen.label) },
+                        label = { Text(screen.label) },
+                        selected = selected,
+                        onClick = {
+                            if (!selected) {
+                                navController.navigate(screen.route) {
+                                    popUpTo(navController.graph.startDestinationId) { saveState = true }
                                     launchSingleTop = true
                                     restoreState = true
                                 }
@@ -92,23 +145,25 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
             }
         }
     ) { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = ScreenNavigation.Login.route,
-            modifier = Modifier.padding(innerPadding)
-        ) {
-            composable(ScreenNavigation.Ids.route) { IdsView(navController) }
-            composable(ScreenNavigation.FirstPartial.route) { FirstPartialView() }
-            composable(ScreenNavigation.SecondPartial.route) { SecondPartialView() }
-            composable(ScreenNavigation.ThirdPartial.route) { ThirdPartialView(navController) }
+        Box(modifier = Modifier.padding(innerPadding)) {
+            NavHost(
+                navController = navController,
+                startDestination = ScreenNavigation.Login.route,
+                modifier = Modifier
+            ) {
+                composable(ScreenNavigation.Ids.route) { IdsView(navController) }
+                composable(ScreenNavigation.FirstPartial.route) { FirstPartialView() }
+                composable(ScreenNavigation.SecondPartial.route) { SecondPartialView() }
+                composable(ScreenNavigation.ThirdPartial.route) { ThirdPartialView(navController) }
 
-            // Rutas internas
-            composable(ScreenNavigation.IMC.route) { IMCView() }
-            composable(ScreenNavigation.Login.route) { LoginView(navController) }
-            composable(ScreenNavigation.Sum.route) { SumView() }
-            composable(ScreenNavigation.Temperature.route) { TempView() }
-            composable(ScreenNavigation.StudentList.route) { StudentView() }
-            composable(ScreenNavigation.Locations.route) { LocationListScreen() }
+                // Rutas internas
+                composable(ScreenNavigation.IMC.route) { IMCView() }
+                composable(ScreenNavigation.Login.route) { LoginView(navController) }
+                composable(ScreenNavigation.Sum.route) { SumView() }
+                composable(ScreenNavigation.Temperature.route) { TempView() }
+                composable(ScreenNavigation.StudentList.route) { StudentView() }
+                composable(ScreenNavigation.Locations.route) { LocationListScreen() }
+            }
         }
     }
 }
