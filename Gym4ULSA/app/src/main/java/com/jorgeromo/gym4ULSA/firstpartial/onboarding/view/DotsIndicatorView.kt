@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.unit.dp
 
 /**
@@ -49,14 +50,14 @@ fun DotsIndicatorView(
                         if (selected) {
                             Brush.radialGradient(
                                 colors = listOf(
-                                    Color(0xFF6366F1),
-                                    Color(0xFF8B5CF6)
+                                    Color.White,
+                                    Color.White.copy(alpha = 0.85f)
                                 )
                             )
                         } else {
                             Brush.radialGradient(
                                 colors = listOf(
-                                    Color.White.copy(alpha = 0.3f),
+                                    Color.White.copy(alpha = 0.25f),
                                     Color.White.copy(alpha = 0.1f)
                                 )
                             )
@@ -68,7 +69,7 @@ fun DotsIndicatorView(
                                 width = 2.dp,
                                 brush = Brush.radialGradient(
                                     colors = listOf(
-                                        Color.White.copy(alpha = 0.5f),
+                                        Color.White.copy(alpha = 0.6f),
                                         Color.Transparent
                                     )
                                 ),

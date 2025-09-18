@@ -18,6 +18,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.ui.res.stringResource
+import androidx.compose.material3.MaterialTheme
+import com.jorgeromo.gym4ULSA.R
 
 @Composable
 fun BottomBarView(
@@ -27,7 +30,6 @@ fun BottomBarView(
 ) {
     Box(
         modifier = modifier
-
             .fillMaxWidth()
             .padding(WindowInsets.navigationBars.asPaddingValues())
             .padding(horizontal = 24.dp, vertical = 16.dp)
@@ -37,17 +39,17 @@ fun BottomBarView(
             Button(
                 onClick = onFinish,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Black.copy(alpha = 0.7f),
-                    contentColor = Color.White
+                    containerColor = Color.White,
+                    contentColor = Color.Black
                 ),
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .fillMaxWidth(0.6f)
                     .height(50.dp)
-                    .align(Alignment.BottomEnd)
+                    .align(Alignment.BottomCenter)
             ) {
                 Text(
-                    text = "Entendido!",
+                    text = stringResource(id = R.string.onboarding_understood),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )
