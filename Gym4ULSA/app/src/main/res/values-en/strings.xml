@@ -16,6 +16,7 @@
     <string name="onboarding_start">Start</string>
     <string name="onboarding_finished">Onboarding completed!</string>
     <string name="onboarding_swipe_hint">← Swipe to continue →</string>
+    <string name="onboarding_understood">Got it!</string>
     
     <!-- Login -->
     <string name="login_image_desc">Login Image</string>
