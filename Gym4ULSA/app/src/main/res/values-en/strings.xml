@@ -23,6 +23,18 @@
     <string name="email_label">Email</string>
     <string name="password_label">Password</string>
     <string name="login_button">Login</string>
+
+    <!-- Bottom Bar -->
+    <string name="bottom_home">Home</string>
+    <string name="bottom_routine">Routine</string>
+    <string name="bottom_nutrition">Nutrition</string>
+    <string name="bottom_settings">Settings</string>
+
+    <!-- Remember credentials dialog -->
+    <string name="remember_title">Save credentials?</string>
+    <string name="remember_message">Would you like us to remember your email for faster sign in next time?</string>
+    <string name="remember_yes">Save</string>
+    <string name="remember_no">Not now</string>
     
     <!-- IMC Calculator -->
     <string name="enter_weight">Enter Weight (kg)</string>
