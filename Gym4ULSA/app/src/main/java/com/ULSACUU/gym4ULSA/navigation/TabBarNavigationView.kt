@@ -1,7 +1,7 @@
 package com.ULSACUU.gym4ULSA.navigation
 
 
-import PerfilView
+import com.ULSACUU.gym4ULSA.profile.PerfilView
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -191,7 +191,7 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
             ) {
                 composable(ScreenNavigation.Home.route) { HomeView(navController) }
                 composable(ScreenNavigation.Rutina.route) { RutinaView() }
-                composable(ScreenNavigation.Perfil.route) { PerfilView() }
+                composable(ScreenNavigation.Perfil.route) { PerfilView(navController) }
                 composable(ScreenNavigation.Ajustes.route) { AjustesView(navController) }
 
                 // Rutas internas
