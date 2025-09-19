@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import com.ULSACUU.gym4ULSA.routine.RutinaView
 import com.ULSACUU.gym4ULSA.home.HomeView
 import com.ULSACUU.gym4ULSA.settings.AjustesView
+import com.ULSACUU.gym4ULSA.nutrition.view.NutritionView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -196,10 +197,7 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
                 // Rutas internas
                 composable(ScreenNavigation.Login.route) { LoginView(navController) }
                 composable(ScreenNavigation.Nutrition.route) {
-                    // Placeholder nutrition screen
-                    Box(modifier = Modifier.padding(16.dp)) {
-                        Text(text = "Nutrition (coming soon)")
-                    }
+                    NutritionView(navController)
                 }
                 composable(ScreenNavigation.Onboarding.route) {
                     val vm: OnboardingViewModel = viewModel()

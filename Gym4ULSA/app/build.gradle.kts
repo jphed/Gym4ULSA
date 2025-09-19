@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.jorgeromo.gym4ULSA"
+    namespace = "com.ULSACUU.gym4ULSA"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.jorgeromo.gym4ULSA"
+        applicationId = "com.ULSACUU.gym4ULSA"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -42,6 +42,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+    implementation("androidx.appcompat:appcompat:1.7.0")
 
     // BOM de Compose
     implementation(platform(libs.androidx.compose.bom))
@@ -83,4 +84,7 @@ dependencies {
 
     // Encrypted storage for credentials
     implementation("androidx.security:security-crypto:1.1.0")
+
+    // Biometric authentication (Face ID / Fingerprint)
+    implementation("androidx.biometric:biometric:1.1.0")
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Fingerprint
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
@@ -49,6 +50,33 @@ import com.ULSACUU.gym4ULSA.utils.CredentialsStore
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
+
+private enum class BiometricModality { FACE, FINGERPRINT, NONE }
+
+private fun detectBiometricModality(context: Context): BiometricModality {
+    val bm = BiometricManager.from(context)
+    val can = bm.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)
+    if (can != BiometricManager.BIOMETRIC_SUCCESS) return BiometricModality.NONE
+
+    val pm = context.packageManager
+    val hasFace = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        pm.hasSystemFeature(PackageManager.FEATURE_FACE)
+    } else {
+        false
+    }
+    val hasFp = pm.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)
+    return when {
+        hasFace -> BiometricModality.FACE
+        hasFp -> BiometricModality.FINGERPRINT
+        else -> BiometricModality.FINGERPRINT // default to fingerprint icon/text if unknown
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,6 +95,42 @@ fun LoginView(navController: NavController) {
     val promptedEmails by ds.promptedEmailsFlow.collectAsState(initial = emptySet())
     var passwordVisible by remember { mutableStateOf(false) }
     var showRememberDialog by remember { mutableStateOf(false) }
+
+    // Biometric capability and prompt setup
+    val modality by remember(context) { mutableStateOf(detectBiometricModality(context)) }
+    val biometricAvailable = modality != BiometricModality.NONE
+    val activity = remember(context) { context.findActivity() }
+    val executor = remember(context) { ContextCompat.getMainExecutor(context) }
+    val biometricPrompt = remember(activity, executor) {
+        val fa = activity as? FragmentActivity
+        if (fa == null) null else BiometricPrompt(
+            fa,
+            executor,
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    // Navigate directly to Home on success
+                    navController.navigate(ScreenNavigation.Home.route) {
+                        popUpTo(ScreenNavigation.Login.route) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                }
+            }
+        )
+    }
+    val promptInfo = remember(modality) {
+        val title = when (modality) {
+            BiometricModality.FACE -> "Unlock with Face"
+            BiometricModality.FINGERPRINT -> "Unlock with Fingerprint"
+            else -> "Biometric unlock"
+        }
+        BiometricPrompt.PromptInfo.Builder()
+            .setTitle(title)
+            .setSubtitle("Quickly sign in")
+            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
+            .setNegativeButtonText("Cancel")
+            .build()
+    }
 
     // Función para mostrar Toast seguro
     fun showToastSafe(text: String) {
@@ -308,10 +372,16 @@ fun LoginView(navController: NavController) {
 
             Spacer(Modifier.height(12.dp))
 
-            // Face ID style secondary action (outlined, minimal)
+            // Biometric secondary action (auto-detect Face vs Fingerprint)
             OutlinedButton(
-                onClick = { /* TODO: BiometricPrompt flow */ },
-                enabled = !ui.isLoading,
+                onClick = {
+                    if (biometricAvailable && biometricPrompt != null) {
+                        biometricPrompt.authenticate(promptInfo)
+                    } else {
+                        showToastSafe("Biometric not available")
+                    }
+                },
+                enabled = !ui.isLoading && biometricAvailable,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
@@ -323,9 +393,11 @@ fun LoginView(navController: NavController) {
                 ),
                 shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
             ) {
-                Icon(Icons.Default.Face, contentDescription = "Face ID", modifier = Modifier.size(20.dp), tint = Color.Black)
+                val icon = if (modality == BiometricModality.FACE) Icons.Default.Face else Icons.Default.Fingerprint
+                val label = if (modality == BiometricModality.FACE) "Face ID" else "Fingerprint"
+                Icon(icon, contentDescription = label, modifier = Modifier.size(20.dp), tint = Color.Black)
                 Spacer(Modifier.width(8.dp))
-                Text("Face ID")
+                Text(label)
             }
 
             Spacer(Modifier.weight(1f))
@@ -349,6 +421,7 @@ private tailrec fun Context.findActivity(): Activity? {
     }
 }
 
+@Suppress("unused")
 @Composable
 private fun MinimalAnimatedBackground() {
     val red = MaterialTheme.colorScheme.primary
