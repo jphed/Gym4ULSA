@@ -11,7 +11,7 @@ import androidx.navigation.NavController
 
 
 @Composable
-fun ThirdPartialView(navController: NavController) {
+fun AjustesView(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()

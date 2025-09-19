@@ -1,4 +1,4 @@
-package com.jorgeromo.gym4ULSA.ids
+package com.jorgeromo.gym4ULSA.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
-fun IdsView(navController: NavController) {
+fun HomeView(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()

@@ -1,6 +1,7 @@
 package com.jorgeromo.gym4ULSA.navigation
 
-import SecondPartialView
+
+import PerfilView
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -9,18 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.Alignment
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import androidx.navigation.compose.rememberNavController
-import com.jorgeromo.gym4ULSA.firstpartial.FirstPartialView
-import com.jorgeromo.gym4ULSA.ids.imc.views.IMCView
-import com.jorgeromo.gym4ULSA.ids.IdsView
-import com.jorgeromo.gym4ULSA.ids.location.views.LocationListScreen
-import com.jorgeromo.gym4ULSA.ids.student.views.StudentView
-import com.jorgeromo.gym4ULSA.ids.sum.views.SumView
-import com.jorgeromo.gym4ULSA.ids.temperature.views.TempView
-import com.jorgeromo.gym4ULSA.thirdpartial.ThirdPartialView
 import androidx.compose.ui.graphics.Color
 import com.jorgeromo.gym4ULSA.firstpartial.login.views.LoginView
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,15 +27,19 @@ import com.jorgeromo.gym4ULSA.firstpartial.onboarding.viewmodel.OnboardingViewMo
 import androidx.compose.ui.res.stringResource
 import com.jorgeromo.gym4ULSA.R
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.material.icons.filled.AccountCircle
+import com.jorgeromo.gym4ULSA.firstpartial.RutinaView
+import com.jorgeromo.gym4ULSA.home.HomeView
+import com.jorgeromo.gym4ULSA.thirdpartial.AjustesView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TabBarNavigationView(navController: NavHostController = rememberNavController()) {
     val items = listOf(
-        ScreenNavigation.Ids,           // Home
-        ScreenNavigation.FirstPartial,  // Routine
+        ScreenNavigation.Home,           // Home
+        ScreenNavigation.Rutina,  // Routine
         ScreenNavigation.Nutrition,     // Nutrition
-        ScreenNavigation.ThirdPartial   // Settings
+        ScreenNavigation.Ajustes   // Settings
     )
 
     // Mapa de títulos por ruta (incluye tabs y pantallas internas)
@@ -51,17 +47,10 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
         mapOf(
             ScreenNavigation.Login.route to ScreenNavigation.Login.label,
             ScreenNavigation.Onboarding.route to ScreenNavigation.Onboarding.label,
-            ScreenNavigation.Ids.route to ScreenNavigation.Ids.label,
-            ScreenNavigation.FirstPartial.route to ScreenNavigation.FirstPartial.label,
+            ScreenNavigation.Home.route to ScreenNavigation.Home.label,
+            ScreenNavigation.Rutina.route to ScreenNavigation.Rutina.label,
             ScreenNavigation.Nutrition.route to ScreenNavigation.Nutrition.label,
-            ScreenNavigation.ThirdPartial.route to ScreenNavigation.ThirdPartial.label,
-
-            // Rutas internas (ajusta a tus strings preferidos)
-            ScreenNavigation.IMC.route to "IMC",
-            ScreenNavigation.Sum.route to "Sum",
-            ScreenNavigation.Temperature.route to "Temperature",
-            ScreenNavigation.StudentList.route to "Students",
-            ScreenNavigation.Locations.route to "Locations"
+            ScreenNavigation.Ajustes.route to ScreenNavigation.Ajustes.label
         )
     }
 
@@ -79,17 +68,16 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
                     title = { Text(text = "Gym4ULSA") },
                     navigationIcon = {
                         IconButton(onClick = {
-                            if (currentRoute != ScreenNavigation.Login.route) {
-                                navController.navigate(ScreenNavigation.Login.route) {
-                                    popUpTo(navController.graph.startDestinationId) { saveState = true }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
+                            // Navegar a la pantalla Perfil
+                            navController.navigate(ScreenNavigation.Perfil.route) {
+                                popUpTo(navController.graph.startDestinationId) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
                             }
                         }) {
                             Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "Back to Login"
+                                imageVector = Icons.Default.AccountCircle,
+                                contentDescription = "Perfil"
                             )
                         }
                     },
@@ -103,7 +91,7 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
             }
         },
 
-        floatingActionButton = {
+            floatingActionButton = {
             if (currentRoute != ScreenNavigation.Login.route && currentRoute != ScreenNavigation.Onboarding.route) {
                 FloatingActionButton(
                     onClick = { /* TODO: assign action, e.g., navigate to add/new */ },
@@ -135,10 +123,10 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
                             icon = { Icon(screen.icon, contentDescription = screen.label) },
                             label = {
                                 val labelId = when (screen) {
-                                    ScreenNavigation.Ids -> R.string.bottom_home
-                                    ScreenNavigation.FirstPartial -> R.string.bottom_routine
+                                    ScreenNavigation.Home -> R.string.bottom_home
+                                    ScreenNavigation.Rutina -> R.string.bottom_routine
                                     ScreenNavigation.Nutrition -> R.string.bottom_nutrition
-                                    ScreenNavigation.ThirdPartial -> R.string.bottom_settings
+                                    ScreenNavigation.Ajustes -> R.string.bottom_settings
                                     else -> R.string.bottom_home
                                 }
                                 Text(stringResource(labelId))
@@ -171,10 +159,10 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
                             icon = { Icon(screen.icon, contentDescription = screen.label) },
                             label = {
                                 val labelId = when (screen) {
-                                    ScreenNavigation.Ids -> R.string.bottom_home
-                                    ScreenNavigation.FirstPartial -> R.string.bottom_routine
+                                    ScreenNavigation.Home -> R.string.bottom_home
+                                    ScreenNavigation.Rutina -> R.string.bottom_routine
                                     ScreenNavigation.Nutrition -> R.string.bottom_nutrition
-                                    ScreenNavigation.ThirdPartial -> R.string.bottom_settings
+                                    ScreenNavigation.Ajustes -> R.string.bottom_settings
                                     else -> R.string.bottom_home
                                 }
                                 Text(stringResource(labelId))
@@ -201,18 +189,13 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
                 startDestination = ScreenNavigation.Login.route,
                 modifier = Modifier
             ) {
-                composable(ScreenNavigation.Ids.route) { IdsView(navController) }
-                composable(ScreenNavigation.FirstPartial.route) { FirstPartialView() }
-                composable(ScreenNavigation.SecondPartial.route) { SecondPartialView() }
-                composable(ScreenNavigation.ThirdPartial.route) { ThirdPartialView(navController) }
+                composable(ScreenNavigation.Home.route) { HomeView(navController) }
+                composable(ScreenNavigation.Rutina.route) { RutinaView() }
+                composable(ScreenNavigation.Perfil.route) { PerfilView() }
+                composable(ScreenNavigation.Ajustes.route) { AjustesView(navController) }
 
                 // Rutas internas
-                composable(ScreenNavigation.IMC.route) { IMCView() }
-                composable(ScreenNavigation.Login.route) { LoginView(navController) }
-                composable(ScreenNavigation.Sum.route) { SumView() }
-                composable(ScreenNavigation.Temperature.route) { TempView() }
-                composable(ScreenNavigation.StudentList.route) { StudentView() }
-                composable(ScreenNavigation.Locations.route) { LocationListScreen() }
+                composable(ScreenNavigation.Login.route) { LoginView(navController)}
                 composable(ScreenNavigation.Nutrition.route) {
                     // Placeholder nutrition screen
                     Box(modifier = Modifier.padding(16.dp)) {

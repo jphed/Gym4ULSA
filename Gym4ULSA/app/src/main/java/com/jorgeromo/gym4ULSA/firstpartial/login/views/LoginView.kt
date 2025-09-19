@@ -119,7 +119,7 @@ fun LoginView(navController: NavController) {
                         showRememberDialog = true
                     } else {
                         // Already prompted before: just navigate to Home
-                        navController.navigate(ScreenNavigation.Ids.route) {
+                        navController.navigate(ScreenNavigation.Home.route) {
                             popUpTo(ScreenNavigation.Login.route) { inclusive = true }
                             launchSingleTop = true
                         }
@@ -134,23 +134,8 @@ fun LoginView(navController: NavController) {
         containerColor = Color.White,
         topBar = {
             TopAppBar(
-                title = {},
-                navigationIcon = {
-                    IconButton(onClick = {
-                        // Aquí decides qué acción quieres que haga el botón de perfil
-                        // Ejemplo: mostrar un Toast temporal
-                        Toast.makeText(context, "Perfil", Toast.LENGTH_SHORT).show()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Filled.Face, // ← el ícono de perfil
-                            contentDescription = "Perfil",
-                            tint = Color.Black,
-                            modifier = Modifier
-                                .size(32.dp)             // tamaño más grande
-                                .clip(CircleShape)       // recorte circular
-                        )
-                    }
-                }
+                title = { }
+                // 👆 sin navigationIcon, queda limpio
             )
         }
     ) { padding ->
@@ -165,7 +150,7 @@ fun LoginView(navController: NavController) {
                         credsStore.clearCredentials(ui.email)
                     }
                     showRememberDialog = false
-                    navController.navigate(ScreenNavigation.Ids.route) {
+                    navController.navigate(ScreenNavigation.Home.route) {
                         popUpTo(ScreenNavigation.Login.route) { inclusive = true }
                         launchSingleTop = true
                     }
@@ -179,7 +164,7 @@ fun LoginView(navController: NavController) {
                             credsStore.setCredentials(ui.email, ui.password)
                         }
                         showRememberDialog = false
-                        navController.navigate(ScreenNavigation.Ids.route) {
+                        navController.navigate(ScreenNavigation.Home.route) {
                             popUpTo(ScreenNavigation.Login.route) { inclusive = true }
                             launchSingleTop = true
                         }
@@ -196,7 +181,7 @@ fun LoginView(navController: NavController) {
                             credsStore.clearCredentials(ui.email)
                         }
                         showRememberDialog = false
-                        navController.navigate(ScreenNavigation.Ids.route) {
+                        navController.navigate(ScreenNavigation.Home.route) {
                             popUpTo(ScreenNavigation.Login.route) { inclusive = true }
                             launchSingleTop = true
                         }
