@@ -69,10 +69,13 @@ dependencies {
 
     // ViewModel para Compose (recomendado 2.8.x)
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
+    // viewModelScope
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.4")
 
     // Networking (no requerido para el onboarding)
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.6.4")
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
 
     // Pager moderno (HorizontalPager / rememberPagerState)
@@ -81,6 +84,9 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.9.2")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
     implementation("androidx.compose.material3:material3:1.2.1")
+
+    // Imagenes en Compose (Coil)
+    implementation("io.coil-kt:coil-compose:2.6.0")
 
     // Encrypted storage for credentials
     implementation("androidx.security:security-crypto:1.1.0")

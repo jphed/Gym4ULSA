@@ -26,7 +26,7 @@ import com.ULSACUU.gym4ULSA.onboarding.viewmodel.OnboardingViewModel
 import androidx.compose.ui.res.stringResource
 import com.ULSACUU.gym4ULSA.R
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.outlined.Person
 import com.ULSACUU.gym4ULSA.routine.RutinaView
 import com.ULSACUU.gym4ULSA.home.HomeView
 import com.ULSACUU.gym4ULSA.settings.AjustesView
@@ -66,7 +66,7 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
             if (currentRoute != ScreenNavigation.Login.route && currentRoute != ScreenNavigation.Onboarding.route) {
                 CenterAlignedTopAppBar(
                     title = { Text(text = "Gym4ULSA") },
-                    navigationIcon = {
+                    actions = {
                         IconButton(onClick = {
                             // Navegar a la pantalla Perfil
                             navController.navigate(ScreenNavigation.Perfil.route) {
@@ -76,7 +76,7 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
                             }
                         }) {
                             Icon(
-                                imageVector = Icons.Default.AccountCircle,
+                                imageVector = Icons.Outlined.Person,
                                 contentDescription = "Perfil"
                             )
                         }
