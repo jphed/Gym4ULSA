@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import com.ULSACUU.gym4ULSA.R
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.QrCodeScanner
 import com.ULSACUU.gym4ULSA.routine.RutinaView
 import com.ULSACUU.gym4ULSA.home.HomeView
 import com.ULSACUU.gym4ULSA.settings.AjustesView
@@ -66,6 +67,18 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
             if (currentRoute != ScreenNavigation.Login.route && currentRoute != ScreenNavigation.Onboarding.route) {
                 CenterAlignedTopAppBar(
                     title = { Text(text = "Gym4ULSA") },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            navController.navigate(ScreenNavigation.QrScanner.route) {
+                                launchSingleTop = true
+                            }
+                        }) {
+                            Icon(
+                                imageVector = Icons.Outlined.QrCodeScanner,
+                                contentDescription = "Escanear QR"
+                            )
+                        }
+                    },
                     actions = {
                         IconButton(onClick = {
                             // Navegar a la pantalla Perfil
@@ -212,6 +225,9 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
                             }
                         }
                     )
+                }
+                composable(ScreenNavigation.QrScanner.route) {
+                    com.ULSACUU.gym4ULSA.qr.view.QrScannerView(navController)
                 }
             }
         }

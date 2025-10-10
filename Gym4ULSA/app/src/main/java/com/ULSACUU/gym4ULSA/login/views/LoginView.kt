@@ -292,7 +292,7 @@ fun LoginView(navController: NavController) {
                     keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Next,
                     capitalization = androidx.compose.ui.text.input.KeyboardCapitalization.None,
-                    autoCorrect = false
+                    autoCorrectEnabled = false
                 ),
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -321,7 +321,7 @@ fun LoginView(navController: NavController) {
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done,
                     capitalization = androidx.compose.ui.text.input.KeyboardCapitalization.None,
-                    autoCorrect = false
+                    autoCorrectEnabled = false
                 ),
                 keyboardActions = KeyboardActions(onDone = { vm.login() }),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),

@@ -35,16 +35,18 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import com.ULSACUU.gym4ULSA.R
 import com.ULSACUU.gym4ULSA.nutrition.model.Food
 import com.ULSACUU.gym4ULSA.nutrition.viewmodel.NutritionUiState
 import com.ULSACUU.gym4ULSA.nutrition.viewmodel.NutritionViewModel
 import kotlin.math.max
 import kotlin.math.min
+import java.util.Locale
 
 @Composable
 fun NutritionView(navController: NavController, vm: NutritionViewModel = viewModel()) {
     val state by vm.uiState.collectAsState()
-
     when (val s = state) {
         is NutritionUiState.Loading -> LoadingSection()
         is NutritionUiState.Error -> ErrorSection(message = s.message, onRetry = vm::refresh)
@@ -61,7 +63,7 @@ private fun LoadingSection() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Cargando datos…", style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.nutrition_loading), style = MaterialTheme.typography.titleMedium)
     }
 }
 
@@ -74,9 +76,9 @@ private fun ErrorSection(message: String, onRetry: () -> Unit) {
         verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Ocurrió un error", style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.nutrition_error_title), style = MaterialTheme.typography.titleMedium)
         Text(message, style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
-        Button(onClick = onRetry) { Text("Reintentar") }
+        Button(onClick = onRetry) { Text(stringResource(R.string.nutrition_retry)) }
     }
 }
 
@@ -96,8 +98,6 @@ private fun NutritionContent(state: NutritionUiState.Success) {
         // Header con gradiente y anillo de calorías
         item {
             HeaderSection(
-                title = "Tu Balance Diario",
-                subtitle = "Energía consumida",
                 targetKcal = targetKcal,
                 consumedKcal = consumedKcal,
                 progress = progress
@@ -120,7 +120,7 @@ private fun NutritionContent(state: NutritionUiState.Success) {
         // Lista de alimentos
         val foods = data.food_database.orEmpty()
         if (foods.isNotEmpty()) {
-            item { SectionTitle(text = "Alimentos sugeridos") }
+            item { SectionTitle(text = stringResource(R.string.nutrition_foods_title)) }
             items(foods.take(10)) { food ->
                 FoodCard(food = food)
             }
@@ -129,8 +129,9 @@ private fun NutritionContent(state: NutritionUiState.Success) {
         // Suplementos
         val supps = data.supplements_catalog.orEmpty()
         if (supps.isNotEmpty()) {
-            item { SectionTitle(text = "Suplementos") }
+            item { SectionTitle(text = stringResource(R.string.nutrition_supplements_title)) }
             items(supps) { sp ->
+                val locale = Locale.getDefault().language
                 Card(
                     modifier = Modifier
                         .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -150,7 +151,7 @@ private fun NutritionContent(state: NutritionUiState.Success) {
                                 .data(sp.image_url)
                                 .crossfade(true)
                                 .build(),
-                            contentDescription = sp.name,
+                            contentDescription = sp.name.get(locale),
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .size(56.dp)
@@ -159,8 +160,8 @@ private fun NutritionContent(state: NutritionUiState.Success) {
                         )
                         Spacer(Modifier.width(12.dp))
                         Column(Modifier.weight(1f)) {
-                            Text(sp.name, style = MaterialTheme.typography.titleMedium)
-                            val brand = sp.brand ?: "Genérico"
+                            Text(sp.name.get(locale), style = MaterialTheme.typography.titleMedium)
+                            val brand = sp.brand?.get(locale) ?: if (locale == "es") "Genérico" else "Generic"
                             val price = sp.price?.value?.let { "$${"%.0f".format(it)} ${sp.price.currency ?: "MXN"}" } ?: ""
                             Text("$brand  •  $price", color = Color.Gray)
                         }
@@ -173,12 +174,12 @@ private fun NutritionContent(state: NutritionUiState.Success) {
 
 @Composable
 private fun HeaderSection(
-    title: String,
-    subtitle: String,
     targetKcal: Int,
     consumedKcal: Int,
     progress: Float
 ) {
+    val title = stringResource(R.string.nutrition_title)
+    val subtitle = stringResource(R.string.nutrition_subtitle)
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -228,7 +229,7 @@ private fun HeaderSection(
                         )
                     )
                     Text(
-                        text = "de $targetKcal kcal",
+                        text = "${stringResource(R.string.nutrition_of)} $targetKcal ${stringResource(R.string.nutrition_kcal)}",
                         style = MaterialTheme.typography.bodyMedium.copy(
                             color = Color.White.copy(alpha = 0.7f)
                         )
@@ -303,10 +304,10 @@ private fun MacroCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text("Macros del día", style = MaterialTheme.typography.titleMedium)
-            MacroBar("Proteína", proteinConsumed, proteinTarget, Color(0xFF34C759))
-            MacroBar("Carbohidratos", carbsConsumed, carbsTarget, Color(0xFF0A84FF))
-            MacroBar("Grasas", fatConsumed, fatTarget, Color(0xFFFF9F0A))
+            Text(stringResource(R.string.nutrition_macros_title), style = MaterialTheme.typography.titleMedium)
+            MacroBar(stringResource(R.string.nutrition_protein), proteinConsumed, proteinTarget, Color(0xFF34C759))
+            MacroBar(stringResource(R.string.nutrition_carbs), carbsConsumed, carbsTarget, Color(0xFF0A84FF))
+            MacroBar(stringResource(R.string.nutrition_fat), fatConsumed, fatTarget, Color(0xFFFF9F0A))
         }
     }
 }
@@ -348,6 +349,7 @@ private fun SectionTitle(text: String) {
 
 @Composable
 private fun FoodCard(food: Food) {
+    val locale = Locale.getDefault().language
     Card(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -362,7 +364,7 @@ private fun FoodCard(food: Food) {
                     .data(food.image_url)
                     .crossfade(true)
                     .build(),
-                contentDescription = food.name,
+                contentDescription = food.name.get(locale),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(56.dp)
@@ -371,14 +373,14 @@ private fun FoodCard(food: Food) {
             )
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
-                Text(food.name, style = MaterialTheme.typography.titleMedium)
+                Text(food.name.get(locale), style = MaterialTheme.typography.titleMedium)
                 Spacer(Modifier.height(4.dp))
                 val kcal100 = food.per_100g.energy_kcal?.toInt() ?: 0
-                Text("${kcal100} kcal / 100g", color = Color.Gray, style = MaterialTheme.typography.bodySmall)
+                Text(stringResource(R.string.nutrition_per_100g, kcal100), color = Color.Gray, style = MaterialTheme.typography.bodySmall)
                 Spacer(Modifier.height(8.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    TagChip(text = food.tags?.firstOrNull() ?: "Alimento")
-                    food.servings.firstOrNull()?.let { TagChip(text = it.label) }
+                    food.tags?.get(locale)?.firstOrNull()?.let { TagChip(text = it) }
+                    food.servings.firstOrNull()?.let { TagChip(text = it.label.get(locale)) }
                 }
             }
         }

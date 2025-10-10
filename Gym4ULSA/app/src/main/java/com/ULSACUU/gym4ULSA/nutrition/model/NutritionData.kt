@@ -3,6 +3,19 @@ package com.ULSACUU.gym4ULSA.nutrition.model
 // Root JSON structure from the provided Gist
 // Only the fields used in UI/VM are strictly required, but we mirror the schema for flexibility
 
+// Helper for bilingual strings
+data class LocalizedString(
+    val en: String?,
+    val es: String?
+) {
+    fun get(locale: String = "en"): String {
+        return when (locale) {
+            "es" -> es ?: en ?: ""
+            else -> en ?: es ?: ""
+        }
+    }
+}
+
 data class Units(
     val system: String?,
     val weight: String?,
@@ -63,7 +76,7 @@ data class NutritionSettings(
 
 data class Serving(
     val id: String,
-    val label: String,
+    val label: LocalizedString,
     val grams: Double
 )
 
@@ -76,12 +89,25 @@ data class Per100g(
     val sugar_g: Double?
 )
 
+// Helper for bilingual arrays
+data class LocalizedArray(
+    val en: List<String>?,
+    val es: List<String>?
+) {
+    fun get(locale: String = "en"): List<String> {
+        return when (locale) {
+            "es" -> es ?: en ?: emptyList()
+            else -> en ?: es ?: emptyList()
+        }
+    }
+}
+
 data class Food(
     val id: String,
-    val name: String,
+    val name: LocalizedString,
     val servings: List<Serving>,
     val per_100g: Per100g,
-    val tags: List<String>?,
+    val tags: LocalizedArray?,
     val image_url: String? = null
 )
 
@@ -98,12 +124,12 @@ data class Computed(
 data class MealEntry(
     val food_id: String,
     val serving_id: String,
-    val quantity: Double,
+    val quantity: Int,
     val computed: Computed?
 )
 
-data class MealBlock(
-    val name: String,
+data class Meal(
+    val name: LocalizedString,
     val items: List<MealEntry>
 )
 
@@ -118,12 +144,12 @@ data class MealSummary(
 
 data class MealPlanDay(
     val date: String?,
-    val meals: List<MealBlock>,
+    val meals: List<Meal>,
     val summary: MealSummary?
 )
 
 data class SupplementServing(
-    val label: String,
+    val label: LocalizedString,
     val grams: Double
 )
 
@@ -136,9 +162,9 @@ data class SupplementPerServing(
 
 data class Supplement(
     val id: String,
-    val name: String,
-    val brand: String?,
-    val category: String?,
+    val name: LocalizedString,
+    val brand: LocalizedString?,
+    val category: LocalizedString?,
     val serving: SupplementServing?,
     val per_serving: SupplementPerServing?,
     val price: Price?,
