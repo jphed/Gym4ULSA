@@ -57,4 +57,31 @@
     <string name="temp_label">Calculadora de Celsius a Fahrenheit</string>
     <string name="enter_cel">Celsius (C°)</string>
     <string name="calculate_temp">Calcular C° a F°</string>
+    
+    <!-- Nutrition -->
+    <string name="nutrition_title">Your Daily Balance</string>
+    <string name="nutrition_subtitle">Energy consumed</string>
+    <string name="nutrition_of">of</string>
+    <string name="nutrition_kcal">kcal</string>
+    <string name="nutrition_macros_title">Macros</string>
+    <string name="nutrition_protein">Protein</string>
+    <string name="nutrition_carbs">Carbs</string>
+    <string name="nutrition_fat">Fat</string>
+    <string name="nutrition_foods_title">Suggested foods</string>
+    <string name="nutrition_supplements_title">Supplements</string>
+    <string name="nutrition_per_100g">%1$d kcal / 100g</string>
+    <string name="nutrition_loading">Loading data…</string>
+    <string name="nutrition_error_title">An error occurred</string>
+    <string name="nutrition_retry">Retry</string>
+    
+    <!-- QR Scanner -->
+    <string name="qr_title">Scan QR</string>
+    <string name="qr_back">Back</string>
+    <string name="qr_permission_required">Camera permission required</string>
+    <string name="qr_permission_message">To scan QR codes, we need access to your camera.</string>
+    <string name="qr_scanned_success">✓ Code scanned</string>
+    <string name="qr_format">Format: %1$s</string>
+    <string name="qr_scan_again">Scan another code</string>
+    <string name="qr_close">Close</string>
+    <string name="qr_instruction">Point the camera at the QR code</string>
 </resources>

@@ -34,7 +34,11 @@ class LoginViewModelFactory(
 
      El cast (as T) es seguro porque solo se usa para crear este ViewModel.
     */
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return LoginViewModel(repo) as T
+        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
+            return LoginViewModel(repo) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

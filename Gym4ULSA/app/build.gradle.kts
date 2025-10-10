@@ -85,7 +85,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
     implementation("androidx.compose.material3:material3:1.2.1")
 
-    // Imagenes en Compose (Coil)
     implementation("io.coil-kt:coil-compose:2.6.0")
 
     // Encrypted storage for credentials
@@ -93,4 +92,12 @@ dependencies {
 
     // Biometric authentication (Face ID / Fingerprint)
     implementation("androidx.biometric:biometric:1.1.0")
+
+    // CameraX for QR scanning
+    implementation("androidx.camera:camera-camera2:1.3.1")
+    implementation("androidx.camera:camera-lifecycle:1.3.1")
+    implementation("androidx.camera:camera-view:1.3.1")
+
+    // ML Kit Barcode Scanning
+    implementation("com.google.mlkit:barcode-scanning:17.2.0")
 }
