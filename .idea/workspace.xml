@@ -10,15 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="130154ec-2441-48f2-adc1-a5ab9d41fc25" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeDetailsView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeDetailsView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeRepository.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeView.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/login/views/LoginView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/login/views/LoginView.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/navigation/ScreenNavigation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/navigation/ScreenNavigation.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gym4ULSA/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gym4ULSA/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/navigation/TabBarNavigationView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/navigation/TabBarNavigationView.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +60,7 @@
     </scriptDefinition>
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1

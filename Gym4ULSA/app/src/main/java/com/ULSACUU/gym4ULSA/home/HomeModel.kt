@@ -1,7 +1,7 @@
-package com.ULSACUU.gym4ULSA.home
-
+import kotlinx.serialization.Serializable
 import com.google.gson.annotations.SerializedName
 
+@Serializable
 data class RoutinesResponse(
     @SerializedName("rutinas")
     val rutinas: List<Routine>,
@@ -9,6 +9,7 @@ data class RoutinesResponse(
     val ejercicios: List<Exercise>
 )
 
+@Serializable
 data class Routine(
     val id: Int,
     @SerializedName("nombre")
@@ -20,6 +21,7 @@ data class Routine(
     val duracion: String
 )
 
+@Serializable
 data class Exercise(
     val id: Int,
     @SerializedName("nombre")

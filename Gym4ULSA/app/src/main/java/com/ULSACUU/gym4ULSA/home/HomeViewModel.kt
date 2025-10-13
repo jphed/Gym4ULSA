@@ -1,16 +1,13 @@
 package com.ULSACUU.gym4ULSA.home
 
+import Exercise
+import Routine
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-import java.net.URL
 
 class HomeViewModel : ViewModel() {
 
@@ -27,21 +24,18 @@ class HomeViewModel : ViewModel() {
         private set
 
     init {
-        fetchGistData()
+        fetchRoutines()
     }
 
-    private fun fetchGistData() {
+    private fun fetchRoutines() {
         viewModelScope.launch {
             try {
-                val jsonString = withContext(Dispatchers.IO) {
-                    URL("https://gist.githubusercontent.com/YajahiraPP/5d64c24ac355f7c309eeb7d3cdc614b3/raw/13db2f8550ce2f20961f3289d5b0c8d7a5169fef/routines.json")
-                        .readText()
-                }
+                val response = RoutinesRepository.fetchRoutines()
 
-                val data = Json { ignoreUnknownKeys = true }
-                    .decodeFromString<RoutinesResponse>(jsonString)
+                routines = response.rutinas
+                // Guardamos todos los ejercicios para filtrar después
+                setAllExercises(response.ejercicios)
 
-                routines = data.rutinas
                 selectedRoutine = routines.firstOrNull()
                 updateExercisesForSelectedRoutine()
 
@@ -49,15 +43,6 @@ class HomeViewModel : ViewModel() {
                 e.printStackTrace()
             }
         }
-    }
-
-    private fun updateExercisesForSelectedRoutine() {
-        exercisesForSelectedRoutine = selectedRoutine?.let { routine ->
-            // Filtrar ejercicios según la categoría (musculo de la rutina)
-            routinesExercises.filter { it.categoria.equals(routine.musculo, ignoreCase = true) }
-        } ?: emptyList()
-
-        selectedExercise = exercisesForSelectedRoutine.firstOrNull()
     }
 
     // Guardar todos los ejercicios para filtrarlos
@@ -69,6 +54,14 @@ class HomeViewModel : ViewModel() {
 
     fun setAllExercises(exercises: List<Exercise>) {
         routinesExercises = exercises
+    }
+
+    private fun updateExercisesForSelectedRoutine() {
+        exercisesForSelectedRoutine = selectedRoutine?.let { routine ->
+            routinesExercises.filter { it.categoria.equals(routine.musculo, ignoreCase = true) }
+        } ?: emptyList()
+
+        selectedExercise = exercisesForSelectedRoutine.firstOrNull()
     }
 
     fun selectRoutine(routine: Routine) {

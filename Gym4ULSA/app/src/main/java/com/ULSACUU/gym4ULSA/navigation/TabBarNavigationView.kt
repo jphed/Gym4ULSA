@@ -28,8 +28,12 @@ import com.ULSACUU.gym4ULSA.R
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.QrCodeScanner
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import com.ULSACUU.gym4ULSA.home.HomeDetailsView
 import com.ULSACUU.gym4ULSA.routine.RutinaView
 import com.ULSACUU.gym4ULSA.home.HomeView
+import com.ULSACUU.gym4ULSA.home.HomeViewModel
 import com.ULSACUU.gym4ULSA.settings.AjustesView
 import com.ULSACUU.gym4ULSA.nutrition.view.NutritionView
 
@@ -228,6 +232,18 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
                 }
                 composable(ScreenNavigation.QrScanner.route) {
                     com.ULSACUU.gym4ULSA.qr.view.QrScannerView(navController)
+                }
+                composable(
+                    route = "HomeDetailsRoute/{exerciseId}",
+                    arguments = listOf(navArgument("exerciseId") { type = NavType.IntType })
+                ) { backStackEntry ->
+                    val exerciseId = backStackEntry.arguments?.getInt("exerciseId") ?: 0
+                    val homeViewModel: HomeViewModel = viewModel()
+                    val exercise = homeViewModel.exercisesForSelectedRoutine.find { it.id == exerciseId }
+
+                    exercise?.let {
+                        HomeDetailsView(exercise = it)
+                    }
                 }
             }
         }

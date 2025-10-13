@@ -19,3 +19,4 @@ fun HomeDetailsView(exercise: Exercise, modifier: Modifier = Modifier) {
         Text(text = "Categoría: ${exercise.categoria}")
     }
 }
+
