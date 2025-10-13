@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Gym4ULSA</string>
-    
+
     <!-- Onboarding -->
     <string name="onboarding_title_1">¡Tu mejor versión empieza hoy!</string>
     <string name="onboarding_description_1">No esperes el momento perfecto, empieza y haz que suceda.</string>
@@ -8,7 +8,7 @@
     <string name="onboarding_description_2">Cada repetición es un paso más hacia tu meta.</string>
     <string name="onboarding_title_3">¡El progreso se construye con constancia!</string>
     <string name="onboarding_description_3">La disciplina de hoy es el resultado de mañana.</string>
-    
+
     <!-- Onboarding Navigation -->
     <string name="onboarding_previous">Anterior</string>
     <string name="onboarding_next">Siguiente</string>
@@ -16,13 +16,13 @@
     <string name="onboarding_finished">¡Onboarding completado!</string>
     <string name="onboarding_swipe_hint">← Desliza para continuar →</string>
     <string name="onboarding_understood">¡Entendido!</string>
-    
+
     <!-- Login -->
     <string name="login_image_desc">Imagen de Login</string>
     <string name="email_label">Correo electrónico</string>
     <string name="password_label">Contraseña</string>
     <string name="login_button">Iniciar sesión</string>
-    
+
     <!-- Login toasts (default: English) -->
     <string name="login_required_fields">Email and password are required</string>
     <string name="login_success_welcome">Login successful. Welcome %1$s</string>
@@ -42,7 +42,7 @@
     <string name="remember_message">¿Deseas que recordemos tu correo para iniciar sesión más rápido la próxima vez?</string>
     <string name="remember_yes">Guardar</string>
     <string name="remember_no">Ahora no</string>
-    
+
     <!-- IMC Calculator -->
     <string name="enter_weight">Ingresa el peso (kg)</string>
     <string name="enter_height">Ingresa la altura (m)</string>
@@ -52,12 +52,12 @@
     <string name="title_imc_calculator">Calculadora de Índice de Masa Corporal</string>
     <string name="error_invalid_input">Por favor ingresa valores numéricos válidos</string>
     <string name="imc_label">IMC:</string>
-    
+
     <!-- Temperature Calculator -->
     <string name="temp_label">Calculadora de Celsius a Fahrenheit</string>
     <string name="enter_cel">Celsius (C°)</string>
     <string name="calculate_temp">Calcular C° a F°</string>
-    
+
     <!-- Nutrition -->
     <string name="nutrition_title">Your Daily Balance</string>
     <string name="nutrition_subtitle">Energy consumed</string>
@@ -73,7 +73,7 @@
     <string name="nutrition_loading">Loading data…</string>
     <string name="nutrition_error_title">An error occurred</string>
     <string name="nutrition_retry">Retry</string>
-    
+
     <!-- QR Scanner -->
     <string name="qr_title">Scan QR</string>
     <string name="qr_back">Back</string>
@@ -84,4 +84,9 @@
     <string name="qr_scan_again">Scan another code</string>
     <string name="qr_close">Close</string>
     <string name="qr_instruction">Point the camera at the QR code</string>
+
+    <!-- Home -->
+    <string name="home_routines_title">Workout Routines</string>
+    <string name="home_see_exercises">See exercises</string>
+    <string name="home_exercises_title">Available Exercises</string>
 </resources>

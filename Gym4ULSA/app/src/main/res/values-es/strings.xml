@@ -72,4 +72,9 @@
     <string name="qr_scan_again">Escanear otro código</string>
     <string name="qr_close">Cerrar</string>
     <string name="qr_instruction">Apunta la cámara al código QR</string>
+
+    <!-- Home -->
+    <string name="home_routines_title">Rutinas de Ejercicios</string>
+    <string name="home_see_exercises">Ver ejercicios</string>
+    <string name="home_exercises_title">Ejercicios Disponibles</string>
 </resources>

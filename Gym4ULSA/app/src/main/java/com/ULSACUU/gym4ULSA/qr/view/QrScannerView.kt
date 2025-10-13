@@ -192,7 +192,7 @@ private fun ScanResultContent(
             onClick = onClose,
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.outlinedButtonColors(
-                contentColor = Color.White
+                contentColor = Color.Black
             ),
             shape = RoundedCornerShape(12.dp)
         ) {

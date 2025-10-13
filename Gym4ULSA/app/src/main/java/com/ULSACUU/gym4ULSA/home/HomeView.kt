@@ -1,6 +1,7 @@
 package com.ULSACUU.gym4ULSA.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -16,12 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.ULSACUU.gym4ULSA.R
 
 @Composable
 fun HomeView(
@@ -32,11 +35,13 @@ fun HomeView(
     val selectedRoutine = viewModel.selectedRoutine
     val exercises = viewModel.exercisesForSelectedRoutine
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(bottom = 8.dp)) {
 
         // 🔹 Encabezado de rutinas
         Text(
-            text = "Rutinas de Ejercicios",
+            text = stringResource(id = R.string.home_routines_title),
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
             color = Color.Black,
@@ -52,14 +57,19 @@ fun HomeView(
         ) {
             items(routines) { routine ->
                 Card(
+                    onClick = { viewModel.selectRoutine(routine) },
                     colors = CardDefaults.cardColors(
-                        containerColor = if (routine == selectedRoutine) Color(0xFFD0E8FF)
-                        else Color.White
+                        containerColor = Color.White
                     ),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
                     modifier = Modifier
                         .width(180.dp)
                         .padding(bottom = 4.dp)
+                        .then(
+                            if (routine == selectedRoutine)
+                                Modifier.border(2.dp, Color.Black, RoundedCornerShape(12.dp))
+                            else Modifier
+                        )
                 ) {
                     Column(modifier = Modifier.padding(8.dp)) {
                         // Imagen
@@ -81,11 +91,9 @@ fun HomeView(
                         Spacer(modifier = Modifier.height(8.dp))
                         Button(
                             onClick = { viewModel.selectRoutine(routine) },
-                            colors = if (routine == selectedRoutine)
-                                ButtonDefaults.buttonColors(containerColor = Color.Blue)
-                            else ButtonDefaults.buttonColors()
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Black, contentColor = Color.White)
                         ) {
-                            Text("Ver ejercicios")
+                            Text(stringResource(id = R.string.home_see_exercises))
                         }
                     }
                 }
@@ -94,7 +102,7 @@ fun HomeView(
 
         // 🔹 Encabezado de ejercicios
         Text(
-            text = "Ejercicios Disponibles",
+            text = stringResource(id = R.string.home_exercises_title),
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
             color = Color.Black,
@@ -113,7 +121,8 @@ fun HomeView(
                     onClick = {
                         navController.navigate("HomeDetailsRoute/${exercise.id}")
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black, contentColor = Color.White)
                 ) {
                     Text(exercise.nombre)
                 }

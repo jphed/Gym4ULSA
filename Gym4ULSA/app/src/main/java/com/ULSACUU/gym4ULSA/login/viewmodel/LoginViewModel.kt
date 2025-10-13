@@ -86,7 +86,6 @@ class LoginViewModel(private val repo: AuthRepository) : ViewModel() {
             viewModelScope.launch { _toastEvents.send(ToastMessage(R.string.login_required_fields)) }
             return
         }
-
         _ui.value = _ui.value.copy(isLoading = true)
 
         viewModelScope.launch {
@@ -98,12 +97,12 @@ class LoginViewModel(private val repo: AuthRepository) : ViewModel() {
                     _navEvents.send(LoginNavEvent.GoHome)
                 } else {
                     val msg = res.message.lowercase()
-                    val errorMsg = when {
-                        "correo" in msg || "email" in msg -> null to R.string.login_error_wrong_email
-                        "contraseña" in msg || "password" in msg -> null to R.string.login_error_wrong_password
-                        else -> null to R.string.login_failed
+                    val resId = when {
+                        "correo" in msg || "email" in msg -> R.string.login_error_wrong_email
+                        "contraseña" in msg || "password" in msg -> R.string.login_error_wrong_password
+                        else -> R.string.login_failed
                     }
-                    _toastEvents.send(ToastMessage(errorMsg.second))
+                    _toastEvents.send(ToastMessage(resId))
                 }
             } catch (e: Exception) {
                 _toastEvents.send(ToastMessage(R.string.network_error))
