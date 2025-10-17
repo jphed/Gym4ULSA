@@ -61,3 +61,28 @@ class DataStoreManager(private val context: Context) {
         }
     }
 }
+
+
+class UserPreferencesDataStore(private val context: Context) {
+
+    companion object {
+        val THEME_DARK = booleanPreferencesKey("theme_dark")
+        val LANGUAGE = stringPreferencesKey("language")
+    }
+
+    val isDarkTheme: Flow<Boolean> = context.dataStore.data.map {
+        it[THEME_DARK] ?: false
+    }
+
+    val language: Flow<String> = context.dataStore.data.map {
+        it[LANGUAGE] ?: "es"
+    }
+
+    suspend fun setDarkTheme(enabled: Boolean) {
+        context.dataStore.edit { it[THEME_DARK] = enabled }
+    }
+
+    suspend fun setLanguage(lang: String) {
+        context.dataStore.edit { it[LANGUAGE] = lang }
+    }
+}

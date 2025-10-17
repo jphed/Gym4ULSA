@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="15d28ab0-a55b-4a95-9303-6d8dfca2bd3b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ULSACUU/gym4ULSA/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ULSACUU/gym4ULSA/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ULSACUU/gym4ULSA/navigation/TabBarNavigationView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ULSACUU/gym4ULSA/navigation/TabBarNavigationView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ULSACUU/gym4ULSA/settings/AjustesView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ULSACUU/gym4ULSA/settings/AjustesView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ULSACUU/gym4ULSA/utils/DataStoreManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ULSACUU/gym4ULSA/utils/DataStoreManager.kt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="34CXEHlE94OtPUQqlVxayIDGA2N" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "android.gradle.sync.needed": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "feat/settings",
+    "last_opened_file_path": "C:/Users/payan/Desktop/Gym4ULSA/Gym4ULSA/app"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="15d28ab0-a55b-4a95-9303-6d8dfca2bd3b" name="Changes" comment="" />
+      <created>1760718414259</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1760718414259</updated>
+    </task>
+    <servers />
+  </component>
+</project>

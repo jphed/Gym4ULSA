@@ -36,10 +36,16 @@ import com.ULSACUU.gym4ULSA.home.HomeView
 import com.ULSACUU.gym4ULSA.home.HomeViewModel
 import com.ULSACUU.gym4ULSA.settings.AjustesView
 import com.ULSACUU.gym4ULSA.nutrition.view.NutritionView
+import com.ULSACUU.gym4ULSA.settings.viewmodel.SettingsViewModel
+import com.ULSACUU.gym4ULSA.settings.viewmodel.SettingsViewModelFactory
+import com.ULSACUU.gym4ULSA.utils.UserPreferencesDataStore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TabBarNavigationView(navController: NavHostController = rememberNavController()) {
+fun TabBarNavigationView(
+    navController: NavHostController = rememberNavController(),
+    settingsViewModel: SettingsViewModel
+) {
     val items = listOf(
         ScreenNavigation.Home,           // Home
         ScreenNavigation.Rutina,  // Routine
@@ -209,7 +215,11 @@ fun TabBarNavigationView(navController: NavHostController = rememberNavControlle
                 composable(ScreenNavigation.Home.route) { HomeView(navController) }
                 composable(ScreenNavigation.Rutina.route) { RutinaView() }
                 composable(ScreenNavigation.Perfil.route) { PerfilView(navController) }
-                composable(ScreenNavigation.Ajustes.route) { AjustesView(navController) }
+                composable(ScreenNavigation.Ajustes.route) {
+                    AjustesView(navController, settingsViewModel)
+                }
+
+
 
                 // Rutas internas
                 composable(ScreenNavigation.Login.route) { LoginView(navController) }
