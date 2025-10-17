@@ -10,12 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="130154ec-2441-48f2-adc1-a5ab9d41fc25" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeDetailsView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeDetailsView.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeView.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gym4ULSA/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/navigation/TabBarNavigationView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/navigation/TabBarNavigationView.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,7 +23,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=ZY22H65ZWN)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=38251FDJH00EKT)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/Gym4ULSA">
       <ProjectState />
@@ -76,13 +73,14 @@
     "Application.Unnamed.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "feat/home",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/DELL/Desktop/Tareas/7mo/MobilesEquipo/Gym4ULSA/Gym4ULSA/settings.gradle.kts",
+    "last_opened_file_path": "C:/Users/payan/Desktop/Gym4ULSA",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.2"
@@ -106,6 +104,7 @@
       <option name="MODE" value="default_activity" />
       <option name="RESTORE_ENABLED" value="false" />
       <option name="RESTORE_FILE" value="" />
+      <option name="RESTORE_FRESH_INSTALL_ONLY" value="false" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
@@ -176,6 +175,7 @@
       <option name="MODE" value="default_activity" />
       <option name="RESTORE_ENABLED" value="false" />
       <option name="RESTORE_FILE" value="" />
+      <option name="RESTORE_FRESH_INSTALL_ONLY" value="false" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
