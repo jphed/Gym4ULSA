@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
@@ -30,18 +29,12 @@ import java.util.Locale
 
 class MainActivity : ComponentActivity() {
 
-    // 1. Instanciamos UserPreferencesDataStore para pasárselo al ViewModel
-    private val userPreferences by lazy { UserPreferencesDataStore(this) }
-
-    // 2. Creamos el ViewModel como una propiedad de la Activity para poder usarlo en `attachBaseContext`
-    private val settingsViewModel: SettingsViewModel by viewModels {
-        SettingsViewModelFactory(userPreferences)
-    }
-
-    // 👈 AÑADIDO: Lógica para aplicar el idioma ANTES de que la UI se cree
+    // ✅ configura el idioma ANTES de crear la UI.
+    // Leemos el valor directamente de DataStore porque el ViewModel aún no existe en este punto.
     override fun attachBaseContext(newBase: Context) {
-        // Leemos el idioma guardado y lo aplicamos
-        val lang = runBlocking { settingsViewModel.language.first() }
+        val userPreferences = UserPreferencesDataStore(newBase)
+        // Usamos runBlocking para leer el valor de forma síncrona, es seguro hacerlo aquí.
+        val lang = runBlocking { userPreferences.language.first() }
         val context = LocaleHelper.setLocale(newBase, lang)
         super.attachBaseContext(context)
     }
@@ -50,33 +43,32 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Mantenemos tu instancia de DataStoreManager para el onboarding
         val dsManager = DataStoreManager(this)
 
         setContent {
-            // Recolectamos los estados del ViewModel (esta parte ya la tenías bien)
+            // ✅ Creamos el ViewModel y sus dependencias aquí, de forma segura.
+            val userPreferences = remember { UserPreferencesDataStore(this) }
+            val settingsViewModel: SettingsViewModel = viewModel(
+                factory = SettingsViewModelFactory(userPreferences)
+            )
+
             val isDarkTheme by settingsViewModel.isDarkTheme.collectAsStateWithLifecycle()
-
-            // 👈 AÑADIDO: Recolectamos el estado del idioma
             val currentLanguage by settingsViewModel.language.collectAsStateWithLifecycle()
-
-            // 👈 AÑADIDO: Efecto que recrea la Activity cuando el idioma cambia
+            
+            // Detecta el cambio y recrea la Activity para aplicar los nuevos recursos de idioma.
             LaunchedEffect(currentLanguage) {
                 val contextLanguage = this@MainActivity.resources.configuration.locales[0].language
                 if (currentLanguage != contextLanguage) {
-                    recreate() // Esto fuerza la recarga de los strings.xml
+                    recreate()
                 }
             }
 
-            // Tu lógica del tema (¡perfecta!)
             AndroidClassMP1Theme(darkTheme = isDarkTheme) {
                 val scope = rememberCoroutineScope()
-
-                // Tu lógica de onboarding (sin cambios)
                 val onboardingDone: Boolean? by dsManager.onboardingDoneFlow.collectAsState(initial = null)
 
                 when (onboardingDone) {
-                    null -> SplashLoader()
+                    null -> SplashLoader() // Muestra un loader mientras se lee el estado de onboarding
                     false -> {
                         val vm: OnboardingViewModel = viewModel()
                         OnboardingView(
@@ -93,7 +85,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// 헬 Helper para el idioma (puedes ponerlo en un archivo /util/LocaleHelper.kt)
+// Objeto Helper para cambiar el idioma de la app (sin cambios)
 object LocaleHelper {
     fun setLocale(context: Context, languageCode: String): ContextWrapper {
         val locale = Locale(languageCode)
@@ -104,7 +96,6 @@ object LocaleHelper {
         return ContextWrapper(newContext)
     }
 }
-
 
 @Composable
 private fun SplashLoader() {
