@@ -11,6 +11,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -44,7 +45,6 @@ fun HomeView(
             text = stringResource(id = R.string.home_routines_title),
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
-            color = Color.Black,
             modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 8.dp)
         )
 
@@ -59,7 +59,7 @@ fun HomeView(
                 Card(
                     onClick = { viewModel.selectRoutine(routine) },
                     colors = CardDefaults.cardColors(
-                        containerColor = Color.White
+                        containerColor = MaterialTheme.colorScheme.surface
                     ),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
                     modifier = Modifier
@@ -67,7 +67,7 @@ fun HomeView(
                         .padding(bottom = 4.dp)
                         .then(
                             if (routine == selectedRoutine)
-                                Modifier.border(2.dp, Color.Black, RoundedCornerShape(12.dp))
+                                Modifier.border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(12.dp))
                             else Modifier
                         )
                 ) {
@@ -75,7 +75,7 @@ fun HomeView(
                         // Imagen
                         Image(
                             painter = rememberAsyncImagePainter(routine.imagen),
-                            contentDescription = routine.nombre,
+                            contentDescription = getTranslatedData(routine.nombre),
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -84,14 +84,19 @@ fun HomeView(
                         )
 
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = routine.nombre, color = Color.Black, fontWeight = FontWeight.Bold)
-                        Text(text = routine.musculo, color = Color.Gray)
-                        Text(text = routine.duracion, color = Color.DarkGray)
+                        Text(text = getTranslatedData(routine.nombre), fontWeight = FontWeight.Bold)
+                        Text(
+                            text = getTranslatedData(routine.musculo),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = routine.duracion,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
 
                         Spacer(modifier = Modifier.height(8.dp))
                         Button(
-                            onClick = { viewModel.selectRoutine(routine) },
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.Black, contentColor = Color.White)
+                            onClick = { viewModel.selectRoutine(routine) }
                         ) {
                             Text(stringResource(id = R.string.home_see_exercises))
                         }
@@ -105,7 +110,6 @@ fun HomeView(
             text = stringResource(id = R.string.home_exercises_title),
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
-            color = Color.Black,
             modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp)
         )
 
@@ -121,12 +125,57 @@ fun HomeView(
                     onClick = {
                         navController.navigate("HomeDetailsRoute/${exercise.id}")
                     },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black, contentColor = Color.White)
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(exercise.nombre)
+                    Text(getTranslatedData(exercise.nombre))
                 }
             }
         }
+    }
+}
+
+/**
+ * Función de mapeo para traducir los datos del Gist
+ * Traduce un texto que viene del Gist a su ID de recurso de string correspondiente.
+ * Si no encuentra una traducción, devuelve el texto original.
+ */
+@Composable
+private fun getTranslatedData(dataFromGist: String): String {
+    // Busca el ID del string basándose en el texto en español del Gist
+    val resourceId = when (dataFromGist) {
+        // Rutinas
+        "Rutina Pecho" -> R.string.routine_chest_name
+        "Rutina Piernas" -> R.string.routine_legs_name
+        "Rutina Espalda" -> R.string.routine_back_name
+
+        // Descripciones
+        "Ejercicios para pecho" -> R.string.routine_chest_desc
+        "Ejercicios para piernas" -> R.string.routine_legs_desc
+        "Ejercicios para espalda" -> R.string.routine_back_desc
+
+        // Músculos / Categorías
+        "Pecho" -> R.string.muscle_chest
+        "Piernas" -> R.string.muscle_legs
+        "Espalda" -> R.string.muscle_back
+        "Brazos" -> R.string.muscle_arms
+        "Hombros" -> R.string.muscle_shoulders
+
+        // Ejercicios
+        "Press banca" -> R.string.exercise_bench_press
+        "Sentadilla" -> R.string.exercise_squat
+        "Dominadas" -> R.string.exercise_pullups
+        "Desplantes" -> R.string.exercise_lunges
+        "Curl biceps" -> R.string.exercise_bicep_curl
+        "Elevaciones laterales" -> R.string.exercise_lat_raises
+
+        // Si no se encuentra, no hagas nada
+        else -> null
+    }
+
+    // Devuelve el texto traducido si se encontró, o el original si no
+    return if (resourceId != null) {
+        stringResource(resourceId)
+    } else {
+        dataFromGist
     }
 }

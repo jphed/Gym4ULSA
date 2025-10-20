@@ -50,4 +50,38 @@
     <string name="temp_label">Calculator of Celsius to Fahrenheit</string>
     <string name="enter_cel">Celsius (C°)</string>
     <string name="calculate_temp">Calculate C° to F°</string>
+
+    <!-- Home View -->
+    <string name="routine_chest_name">Chest Routine</string>
+    <string name="routine_legs_name">Legs Routine</string>
+    <string name="routine_back_name">Back Routine</string>
+    <string name="routine_chest_desc">Exercises for chest</string>
+    <string name="routine_legs_desc">Exercises for legs</string>
+    <string name="routine_back_desc">Exercises for back</string>
+    <string name="muscle_chest">Chest</string>
+    <string name="muscle_legs">Legs</string>
+    <string name="muscle_back">Back</string>
+    <string name="muscle_arms">Arms</string>
+    <string name="muscle_shoulders">Shoulders</string>
+    <string name="exercise_bench_press">Bench press</string>
+    <string name="exercise_squat">Squat</string>
+    <string name="exercise_pullups">Pull-ups</string>
+    <string name="exercise_lunges">Lunges</string>
+    <string name="exercise_bicep_curl">Bicep curl</string>
+    <string name="exercise_lat_raises">Lateral raises</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_dark_theme">Dark theme</string>
+    <string name="settings_language">Language</string>
+    <string name="language_es">Spanish</string>
+    <string name="language_en">English</string>
+    <string name="settings_section_appearance">Appearance</string>
+    <string name="settings_section_account">Account</string>
+    <string name="settings_section_about">About</string>
+    <string name="settings_edit_profile">Edit Profile</string>
+    <string name="settings_notifications">Workout reminders</string>
+    <string name="settings_privacy_policy">Privacy Policy</string>
+    <string name="settings_logout">Log Out</string>
+    <string name="settings_delete_account">Delete Account</string>
 </resources>
