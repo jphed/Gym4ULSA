@@ -84,4 +84,7 @@
     <string name="settings_privacy_policy">Privacy Policy</string>
     <string name="settings_logout">Log Out</string>
     <string name="settings_delete_account">Delete Account</string>
+
+    <string name="details_repetitions">Repetitions: %1$s</string>
+    <string name="details_category">Category: %1$s</string>
 </resources>

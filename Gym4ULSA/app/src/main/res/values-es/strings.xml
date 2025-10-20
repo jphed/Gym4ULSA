@@ -110,4 +110,7 @@
     <string name="settings_privacy_policy">Política de Privacidad</string>
     <string name="settings_logout">Cerrar Sesión</string>
     <string name="settings_delete_account">Eliminar Cuenta</string>
+
+    <string name="details_repetitions">Repeticiones: %1$s</string>
+    <string name="details_category">Categoría: %1$s</string>
 </resources>
