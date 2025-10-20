@@ -89,4 +89,36 @@
     <string name="home_routines_title">Workout Routines</string>
     <string name="home_see_exercises">See exercises</string>
     <string name="home_exercises_title">Available Exercises</string>
+    <string name="routine_chest_name">Rutina Pecho</string>
+    <string name="routine_legs_name">Rutina Piernas</string>
+    <string name="routine_back_name">Rutina Espalda</string>
+    <string name="routine_chest_desc">Ejercicios para pecho</string>
+    <string name="routine_legs_desc">Ejercicios para piernas</string>
+    <string name="routine_back_desc">Ejercicios para espalda</string>
+    <string name="muscle_chest">Pecho</string>
+    <string name="muscle_legs">Piernas</string>
+    <string name="muscle_back">Espalda</string>
+    <string name="muscle_arms">Brazos</string>
+    <string name="muscle_shoulders">Hombros</string>
+    <string name="exercise_bench_press">Press banca</string>
+    <string name="exercise_squat">Sentadilla</string>
+    <string name="exercise_pullups">Dominadas</string>
+    <string name="exercise_lunges">Desplantes</string>
+    <string name="exercise_bicep_curl">Curl biceps</string>
+    <string name="exercise_lat_raises">Elevaciones laterales</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Ajustes</string>
+    <string name="settings_dark_theme">Tema oscuro</string>
+    <string name="settings_language">Idioma</string>
+    <string name="language_es">Español</string>
+    <string name="language_en">Inglés</string>
+    <string name="settings_section_appearance">Apariencia</string>
+    <string name="settings_section_account">Cuenta</string>
+    <string name="settings_section_about">Acerca de</string>
+    <string name="settings_edit_profile">Editar Perfil</string>
+    <string name="settings_notifications">Recordatorios de rutina</string>
+    <string name="settings_privacy_policy">Política de Privacidad</string>
+    <string name="settings_logout">Cerrar Sesión</string>
+    <string name="settings_delete_account">Eliminar Cuenta</string>
 </resources>

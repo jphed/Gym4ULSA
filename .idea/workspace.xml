@@ -10,10 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="130154ec-2441-48f2-adc1-a5ab9d41fc25" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gym4ULSA/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/navigation/TabBarNavigationView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/navigation/TabBarNavigationView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/home/HomeView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/settings/AjustesView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/java/com/ULSACUU/gym4ULSA/settings/AjustesView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/res/values-en/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/res/values-en/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/res/values-es/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/res/values-es/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gym4ULSA/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Gym4ULSA/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,5 +259,21 @@
       <updated>1757627338249</updated>
     </task>
     <servers />
+  </component>
+  <component name="play_dynamic_filters_status">
+    <option name="appIdToCheckInfo">
+      <map>
+        <entry key="com.ULSACUU.gym4ULSA">
+          <value>
+            <CheckInfo lastCheckTimestamp="1760923241812" />
+          </value>
+        </entry>
+        <entry key="com.ULSACUU.gym4ULSA.test">
+          <value>
+            <CheckInfo lastCheckTimestamp="1760923241810" />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
