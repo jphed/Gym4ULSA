@@ -1,56 +1,178 @@
 package com.ULSACUU.gym4ULSA.profile
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import android.content.Intent
+import android.graphics.BitmapFactory
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.ULSACUU.gym4ULSA.home.HomeViewModel
 import com.ULSACUU.gym4ULSA.navigation.ScreenNavigation
 import com.ULSACUU.gym4ULSA.utils.CredentialsStore
 import com.ULSACUU.gym4ULSA.utils.DataStoreManager
 import kotlinx.coroutines.launch
+import com.ULSACUU.gym4ULSA.R
 
 @Composable
 fun PerfilView(navController: NavController) {
     val scope = rememberCoroutineScope()
-    val ds = remember { DataStoreManager(navController.context) }
-    val creds = remember { CredentialsStore(navController.context) }
+    val context = LocalContext.current
+    val ds = remember { DataStoreManager(context) }
+    val creds = remember { CredentialsStore(context) }
+
+    val name = ds.userNameFlow.collectAsState(initial = "").value
+    val email = ds.userEmailFlow.collectAsState(initial = "").value
+    val createdAt = ds.accountCreatedAtFlow.collectAsState(initial = "").value
+    val photoUri = ds.userPhotoUriFlow.collectAsState(initial = "").value
+
+    val homeVm: HomeViewModel = viewModel()
+    val routineType = homeVm.selectedRoutine?.musculo ?: ""
+
+    // Selector de imagen con persistencia de permisos
+    val pickImageLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            try {
+                context.contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            } catch (_: Exception) { }
+            scope.launch {
+                ds.setUserPhotoUri(uri.toString())
+            }
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.White)
             .padding(16.dp),
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(Modifier.height(12.dp))
+
+        // 🧩 Avatar seguro
+        val bmp = remember(photoUri) {
+            runCatching {
+                if (photoUri.isNotBlank()) {
+                    val uri = Uri.parse(photoUri)
+                    context.contentResolver.openInputStream(uri)?.use { ins ->
+                        BitmapFactory.decodeStream(ins)
+                    }
+                } else null
+            }.getOrElse { null }
+        }
+
+        Image(
+            bitmap = bmp?.asImageBitmap()
+                ?: BitmapFactory.decodeResource(
+                    navController.context.resources,
+                    R.drawable.ic_default_profile
+                ).asImageBitmap(),
+            contentDescription = "Foto de perfil",
+            modifier = Modifier
+                .size(120.dp)
+                .clip(CircleShape)
+                .clickable { pickImageLauncher.launch("image/*") }
+        )
+
+        Spacer(Modifier.height(12.dp))
+
         Text(
-            text = "PERFIL",
-            fontSize = 24.sp,
+            text = if (name.isNotBlank()) name else "Tu nombre",
+            fontSize = 22.sp,
+            color = Color.Black,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
 
+        if (email.isNotBlank()) {
+            Text(
+                text = email,
+                fontSize = 14.sp,
+                color = Color(0xFF444444),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
+        Spacer(Modifier.height(16.dp))
+
+        if (routineType.isNotBlank()) {
+            Text(
+                text = "Tipo de rutina",
+                fontSize = 12.sp,
+                color = Color(0xFF888888),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Start
+            )
+            Text(
+                text = routineType,
+                fontSize = 18.sp,
+                color = Color.Black,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 2.dp)
+            )
+        }
+
+        if (createdAt.isNotBlank()) {
+            Spacer(Modifier.height(12.dp))
+            Text(
+                text = "Cuenta creada",
+                fontSize = 12.sp,
+                color = Color(0xFF888888),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Start
+            )
+            Text(
+                text = createdAt,
+                fontSize = 16.sp,
+                color = Color.Black,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 2.dp)
+            )
+        }
+
+        Spacer(Modifier.height(24.dp))
+
         Button(
             onClick = {
                 scope.launch {
-                    // Clear remembered flags and credentials
                     ds.setRememberCredentials(false)
-                    val email = creds.getSavedEmail() ?: ""
-                    if (email.isNotBlank()) {
+                    val savedEmail = creds.getSavedEmail() ?: ""
+                    if (savedEmail.isNotBlank()) {
                         ds.setSavedEmail("")
-                        creds.clearCredentials(email)
+                        creds.clearCredentials(savedEmail)
                     }
                 }
-                // Navigate back to Login and clear back stack
                 navController.navigate(ScreenNavigation.Login.route) {
                     popUpTo(navController.graph.startDestinationId) { inclusive = true }
                     launchSingleTop = true
@@ -59,9 +181,12 @@ fun PerfilView(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 24.dp),
-            colors = ButtonDefaults.buttonColors()
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Black,
+                contentColor = Color.White
+            )
         ) {
-            Text(text = "Log out")
+            Text(text = "Log out", color = Color.White)
         }
     }
 }

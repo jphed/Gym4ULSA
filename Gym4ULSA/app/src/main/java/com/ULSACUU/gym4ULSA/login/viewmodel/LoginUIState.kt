@@ -1,5 +1,7 @@
 package com.ULSACUU.gym4ULSA.login.viewmodel
 
+import com.ULSACUU.gym4ULSA.login.model.dto.User
+
 /*
  LoginUiState
 
@@ -12,6 +14,7 @@ package com.ULSACUU.gym4ULSA.login.viewmodel
  - password: el texto que el usuario escribe en el campo de contraseña.
  - isLoading: indica si la app está esperando la respuesta del servidor
    (true = se muestra un loading/spinner, false = se muestran los botones).
+ - currentUser: usuario autenticado más reciente (si el login fue exitoso).
 
  Ventaja:
  Al ser un objeto inmutable, cada cambio genera una nueva copia con los
@@ -20,5 +23,6 @@ package com.ULSACUU.gym4ULSA.login.viewmodel
 data class LoginUiState(
     val email: String = "",
     val password: String = "",
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val currentUser: User? = null
 )

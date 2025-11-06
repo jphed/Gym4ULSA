@@ -1,6 +1,5 @@
 package com.ULSACUU.gym4ULSA.routine.onboarding.views
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -13,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.ULSACUU.gym4ULSA.onboarding.viewmodel.OnboardingViewModel
 
@@ -30,7 +28,6 @@ fun OnboardingView(
         pageCount = { pages.size }
     )
     val scope = rememberCoroutineScope()
-    val context = LocalContext.current
 
     // Sync VM <-> Pager
     LaunchedEffect(pagerState.currentPage) {
@@ -70,7 +67,6 @@ fun OnboardingView(
             isLastPage = viewModel.isLastPage(),
             onFinish = {
                 onFinish()
-                Toast.makeText(context, "Onboarding terminado", Toast.LENGTH_SHORT).show()
             },
             modifier = Modifier.align(Alignment.BottomCenter)
         )

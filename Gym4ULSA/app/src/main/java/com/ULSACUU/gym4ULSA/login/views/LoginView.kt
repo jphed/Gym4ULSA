@@ -1,8 +1,5 @@
 package com.ULSACUU.gym4ULSA.login.views
 
-import android.os.Handler
-import android.os.Looper
-import android.widget.Toast
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -56,6 +53,9 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 private enum class BiometricModality { FACE, FINGERPRINT, NONE }
 
@@ -93,6 +93,7 @@ fun LoginView(navController: NavController) {
     val rememberCreds by ds.rememberCredentialsFlow.collectAsState(initial = false)
     val savedEmail by ds.savedEmailFlow.collectAsState(initial = "")
     val promptedEmails by ds.promptedEmailsFlow.collectAsState(initial = emptySet())
+    val accountCreatedAt by ds.accountCreatedAtFlow.collectAsState(initial = "")
     var passwordVisible by remember { mutableStateOf(false) }
     var showRememberDialog by remember { mutableStateOf(false) }
 
@@ -132,28 +133,7 @@ fun LoginView(navController: NavController) {
             .build()
     }
 
-    // Función para mostrar Toast seguro
-    fun showToastSafe(text: String) {
-        if (Looper.myLooper() == Looper.getMainLooper()) {
-            Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-        } else {
-            Handler(Looper.getMainLooper()).post {
-                Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    // Escucha los mensajes de toast (i18n via resource IDs)
-    LaunchedEffect(vm) {
-        vm.toastEvents.collectLatest { tm ->
-            val text = if (tm.args.isEmpty()) {
-                context.getString(tm.resId)
-            } else {
-                context.getString(tm.resId, *tm.args.toTypedArray())
-            }
-            showToastSafe(text)
-        }
-    }
+    // Se eliminan todos los Toasts: no se muestran mensajes emergentes
 
     // Prefill saved email and password if user opted to remember and fields are empty
     LaunchedEffect(rememberCreds, savedEmail) {
@@ -174,6 +154,17 @@ fun LoginView(navController: NavController) {
                 is LoginViewModel.LoginNavEvent.GoHome -> {
                     val emailNow = ui.email
                     val wasPrompted = promptedEmails.contains(emailNow)
+                    // Persist user profile basics on first navigation after successful login
+                    scope.launch {
+                        val name = ui.currentUser?.name ?: ""
+                        val email = ui.currentUser?.email ?: emailNow
+                        ds.setUserName(name)
+                        ds.setUserEmail(email)
+                        if (accountCreatedAt.isBlank()) {
+                            val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                            ds.setAccountCreatedAt(sdf.format(Date()))
+                        }
+                    }
                     if (!wasPrompted) {
                         // Show dialog only the first time we see this email
                         showRememberDialog = true
@@ -382,7 +373,7 @@ fun LoginView(navController: NavController) {
                     if (biometricAvailable && biometricPrompt != null) {
                         biometricPrompt.authenticate(promptInfo)
                     } else {
-                        showToastSafe("Biometric not available")
+                        // No-op: sin toast
                     }
                 },
                 enabled = !ui.isLoading && biometricAvailable,

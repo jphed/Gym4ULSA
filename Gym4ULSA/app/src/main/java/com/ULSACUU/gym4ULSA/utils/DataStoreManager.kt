@@ -19,8 +19,13 @@ class DataStoreManager(private val context: Context) {
         val REMEMBER_CREDENTIALS = booleanPreferencesKey("remember_credentials")
         val SAVED_EMAIL = stringPreferencesKey("saved_email")
         val PROMPTED_EMAILS = stringSetPreferencesKey("prompted_emails")
+        val USER_NAME = stringPreferencesKey("user_name")
+        val USER_EMAIL = stringPreferencesKey("user_email")
+        val ACCOUNT_CREATED_AT = stringPreferencesKey("account_created_at")
+        val USER_PHOTO_URI = stringPreferencesKey("user_photo_uri")
     }
 
+    // Onboarding
     val onboardingDoneFlow: Flow<Boolean> =
         context.dataStore.data.map { prefs -> prefs[Keys.ONBOARDING_DONE] ?: false }
 
@@ -40,7 +45,7 @@ class DataStoreManager(private val context: Context) {
         }
     }
 
-    // Saved email (we avoid storing password for security)
+    // Saved email
     val savedEmailFlow: Flow<String> =
         context.dataStore.data.map { prefs -> prefs[Keys.SAVED_EMAIL] ?: "" }
 
@@ -50,7 +55,7 @@ class DataStoreManager(private val context: Context) {
         }
     }
 
-    // Track which emails have already seen the remember dialog
+    // Prompted emails
     val promptedEmailsFlow: Flow<Set<String>> =
         context.dataStore.data.map { prefs -> prefs[Keys.PROMPTED_EMAILS] ?: emptySet() }
 
@@ -60,8 +65,44 @@ class DataStoreManager(private val context: Context) {
             prefs[Keys.PROMPTED_EMAILS] = current + email
         }
     }
-}
 
+    // User profile fields
+    val userNameFlow: Flow<String> =
+        context.dataStore.data.map { prefs -> prefs[Keys.USER_NAME] ?: "" }
+
+    val userEmailFlow: Flow<String> =
+        context.dataStore.data.map { prefs -> prefs[Keys.USER_EMAIL] ?: "" }
+
+    val accountCreatedAtFlow: Flow<String> =
+        context.dataStore.data.map { prefs -> prefs[Keys.ACCOUNT_CREATED_AT] ?: "" }
+
+    val userPhotoUriFlow: Flow<String> =
+        context.dataStore.data.map { prefs -> prefs[Keys.USER_PHOTO_URI] ?: "" }
+
+    suspend fun setUserName(name: String) {
+        context.dataStore.edit { prefs ->
+            prefs[Keys.USER_NAME] = name
+        }
+    }
+
+    suspend fun setUserEmail(email: String) {
+        context.dataStore.edit { prefs ->
+            prefs[Keys.USER_EMAIL] = email
+        }
+    }
+
+    suspend fun setAccountCreatedAt(date: String) {
+        context.dataStore.edit { prefs ->
+            prefs[Keys.ACCOUNT_CREATED_AT] = date
+        }
+    }
+
+    suspend fun setUserPhotoUri(uri: String) {
+        context.dataStore.edit { prefs ->
+            prefs[Keys.USER_PHOTO_URI] = uri
+        }
+    }
+}
 
 class UserPreferencesDataStore(private val context: Context) {
 
@@ -86,3 +127,4 @@ class UserPreferencesDataStore(private val context: Context) {
         context.dataStore.edit { it[LANGUAGE] = lang }
     }
 }
+

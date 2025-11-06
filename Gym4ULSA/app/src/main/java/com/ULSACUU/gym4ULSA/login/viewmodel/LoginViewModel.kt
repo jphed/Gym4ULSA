@@ -92,6 +92,7 @@ class LoginViewModel(private val repo: AuthRepository) : ViewModel() {
             try {
                 val res = repo.login(email, password)
                 if (res.success) {
+                    _ui.value = _ui.value.copy(currentUser = res.user)
                     _toastEvents.send(ToastMessage(R.string.login_success_welcome, listOf(res.user?.name ?: "")))
                     delay(500)
                     _navEvents.send(LoginNavEvent.GoHome)
