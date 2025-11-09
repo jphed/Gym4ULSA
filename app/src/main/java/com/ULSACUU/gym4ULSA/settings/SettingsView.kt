@@ -17,7 +17,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -37,16 +37,26 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.ULSACUU.gym4ULSA.R
 import com.ULSACUU.gym4ULSA.settings.viewmodel.SettingsViewModel
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
+import com.ULSACUU.gym4ULSA.navigation.ScreenNavigation
+import com.ULSACUU.gym4ULSA.utils.CredentialsStore
+import com.ULSACUU.gym4ULSA.utils.DataStoreManager
+import kotlinx.coroutines.launch
 
 
 @Composable
-fun AjustesView(
+fun SettingsView(
     navController: NavHostController,
     viewModel: SettingsViewModel,
     modifier: Modifier = Modifier
 ) {
     val isDarkTheme by viewModel.isDarkTheme.collectAsState()
     val language by viewModel.language.collectAsState()
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val ds = remember { DataStoreManager(context) }
+    val creds = remember { CredentialsStore(context) }
 
     // Hacemos la columna "scrollable"
     Column(
@@ -94,7 +104,7 @@ fun AjustesView(
                 )
             }
 
-            Divider(modifier = Modifier.padding(horizontal = 16.dp))
+            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
 
             // Idioma
             Row(
@@ -135,7 +145,7 @@ fun AjustesView(
                 onClick = { /* TODO: Navegar a pantalla de perfil */ }
             )
 
-            Divider(modifier = Modifier.padding(horizontal = 16.dp))
+            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
 
             // Botón Notificaciones
             SettingSwitchRow(
@@ -172,7 +182,20 @@ fun AjustesView(
 
         // Botón Cerrar Sesión
         Button(
-            onClick = { /* TODO: Mostrar diálogo de confirmación */ },
+            onClick = {
+                scope.launch {
+                    ds.setRememberCredentials(false)
+                    val savedEmail = creds.getSavedEmail() ?: ""
+                    if (savedEmail.isNotBlank()) {
+                        ds.setSavedEmail("")
+                        creds.clearCredentials(savedEmail)
+                    }
+                }
+                navController.navigate(ScreenNavigation.Login.route) {
+                    popUpTo(navController.graph.startDestinationId) { inclusive = true }
+                    launchSingleTop = true
+                }
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 contentColor = MaterialTheme.colorScheme.onSecondaryContainer

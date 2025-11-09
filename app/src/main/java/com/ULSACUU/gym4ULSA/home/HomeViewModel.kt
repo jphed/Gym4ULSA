@@ -1,7 +1,7 @@
 package com.ULSACUU.gym4ULSA.home
 
-import Exercise
-import Routine
+import com.ULSACUU.gym4ULSA.home.Exercise
+import com.ULSACUU.gym4ULSA.home.Routine
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue

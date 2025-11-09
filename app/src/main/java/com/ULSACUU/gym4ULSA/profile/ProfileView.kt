@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,7 +37,7 @@ import kotlinx.coroutines.launch
 import com.ULSACUU.gym4ULSA.R
 
 @Composable
-fun PerfilView(navController: NavController) {
+fun ProfileView(navController: NavController) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val ds = remember { DataStoreManager(context) }
@@ -95,7 +96,7 @@ fun PerfilView(navController: NavController) {
                     navController.context.resources,
                     R.drawable.ic_default_profile
                 ).asImageBitmap(),
-            contentDescription = "Foto de perfil",
+            contentDescription = stringResource(id = R.string.profile_photo_desc),
             modifier = Modifier
                 .size(120.dp)
                 .clip(CircleShape)
@@ -105,7 +106,7 @@ fun PerfilView(navController: NavController) {
         Spacer(Modifier.height(12.dp))
 
         Text(
-            text = if (name.isNotBlank()) name else "Tu nombre",
+            text = if (name.isNotBlank()) name else stringResource(id = R.string.profile_name_placeholder),
             fontSize = 22.sp,
             color = Color.Black,
             textAlign = TextAlign.Center,
@@ -126,7 +127,7 @@ fun PerfilView(navController: NavController) {
 
         if (routineType.isNotBlank()) {
             Text(
-                text = "Tipo de rutina",
+                text = stringResource(id = R.string.profile_routine_type),
                 fontSize = 12.sp,
                 color = Color(0xFF888888),
                 modifier = Modifier.fillMaxWidth(),
@@ -145,7 +146,7 @@ fun PerfilView(navController: NavController) {
         if (createdAt.isNotBlank()) {
             Spacer(Modifier.height(12.dp))
             Text(
-                text = "Cuenta creada",
+                text = stringResource(id = R.string.profile_account_created),
                 fontSize = 12.sp,
                 color = Color(0xFF888888),
                 modifier = Modifier.fillMaxWidth(),
@@ -186,7 +187,7 @@ fun PerfilView(navController: NavController) {
                 contentColor = Color.White
             )
         ) {
-            Text(text = "Log out", color = Color.White)
+            Text(text = stringResource(id = R.string.settings_logout), color = Color.White)
         }
     }
 }

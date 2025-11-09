@@ -36,99 +36,42 @@ GYM4ULSA is a multi-functional Android application that combines fitness trackin
 ## Technical Specifications
 
 ### Development Environment
-
-- **Platform**: Android
-- **Minimum SDK**: API 24 (Android 7.0)
-- **Target SDK**: API 35 (Android 15)
 - **Language**: Kotlin
-- **UI Framework**: Jetpack Compose
-- **Architecture**: MVVM (Model-View-ViewModel)
+- **UI**: Jetpack Compose, Material 3
+- **Architecture**: MVVM
+- **Navigation**: Navigation Compose
+- **Data**: DataStore (preferences)
+- **Network**: Retrofit (Auth API)
+- **Min/Target SDK**: 24 / 35
 
-### Dependencies
-
-- **Jetpack Compose BOM**: 2024.04.01
-- **Navigation Compose**: 2.7.7
-- **DataStore Preferences**: 1.1.1
-- **Lifecycle ViewModel Compose**: 2.8.4
-- **Retrofit**: 2.9.0 (for networking)
-- **Material Icons Extended**: Latest
-
-### Key Technologies
-
-- **Jetpack Compose**: Modern declarative UI toolkit
-- **Navigation Component**: Type-safe navigation between screens
-- **DataStore**: Modern data storage solution
-- **Material Design 3**: Latest design system implementation
-- **Kotlin Coroutines**: Asynchronous programming
-
-## Project Structure
-
+## Project structure (high level)
 ```
 app/
-├── src/main/
-│   ├── java/com/jorgeromo/androidClassMp1/
-│   │   ├── firstpartial/          # Onboarding and main features
-│   │   │   └── onboarding/        # Onboarding screens and logic
-│   │   ├── ids/                   # Utility features
-│   │   │   ├── imc/              # BMI calculator
-│   │   │   ├── temperature/       # Temperature converter
-│   │   │   ├── student/          # Student management
-│   │   │   ├── location/         # Location services
-│   │   │   ├── login/            # Authentication
-│   │   │   └── sum/              # Mathematical calculator
-│   │   ├── navigation/            # Navigation components
-│   │   ├── ui/theme/             # App theming and colors
-│   │   └── utils/                # Utility classes
-│   └── res/
-│       ├── values/               # Spanish strings (default)
-│       ├── values-en/            # English strings
-│       ├── values-es/            # Spanish strings
-│       └── drawable/             # Images and icons
+  src/main/
+    java/com/ULSACUU/gym4ULSA/
+      navigation/            # NavHost, routes, bottom bar
+      login/                 # Login screen + ViewModel
+      home/                  # Home and exercise details
+      nutrition/             # Nutrition view
+      profile/               # ProfileView (formerly Perfil)
+      routine/               # Routine view (Rutina)
+      settings/              # SettingsView (formerly Ajustes)
+      onboarding/            # Onboarding flow
+      qr/                    # QR scanner
+      utils/                 # DataStore, credentials, splash, etc.
+    res/
+      values/                # Default strings (ES)
+      values-en/             # English strings
+      values-es/             # Spanish strings
 ```
 
-## Installation
+## Getting started
+1. Install Android Studio (Hedgehog or later) and Android SDK (API 24+).
+2. Open the project folder `Gym4ULSA` in Android Studio.
+3. Let Gradle sync. Use JDK 17 (bundled is fine).
+4. Run on an emulator or device.
 
-### Prerequisites
-
-- Android Studio Hedgehog or later
-- JDK 11 or later
-- Android SDK with API 24+ installed
-- Git
-
-### Build Instructions
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/jphed/Gym4ULSA.git
-   cd Gym4ULSA
-   ```
-
-2. Open the project in Android Studio
-
-3. Sync the project with Gradle files
-
-4. Build the project:
-   ```bash
-   ./gradlew assembleDebug
-   ```
-
-5. Install on device or emulator:
-   ```bash
-   ./gradlew installDebug
-   ```
-
-## Usage
-
-### Getting Started
-
-1. Launch the application
-2. Complete the interactive onboarding by swiping through the screens
-3. Navigate through the main interface using the bottom navigation bar
-4. Access various tools and calculators from the main menu
-
-### Main Features
-
-- **Home**: Access to all utility tools and calculators
+Command line builds:
 - **Routine**: Fitness and workout related features
 - **Profile**: User profile and settings
 - **Settings**: Application configuration and preferences

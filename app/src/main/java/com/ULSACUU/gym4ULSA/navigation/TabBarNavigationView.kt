@@ -29,11 +29,11 @@ import com.ULSACUU.gym4ULSA.home.HomeViewModel
 import com.ULSACUU.gym4ULSA.login.views.LoginView
 import com.ULSACUU.gym4ULSA.nutrition.view.NutritionView
 import com.ULSACUU.gym4ULSA.onboarding.viewmodel.OnboardingViewModel
-import com.ULSACUU.gym4ULSA.profile.PerfilView
+import com.ULSACUU.gym4ULSA.profile.ProfileView
 import com.ULSACUU.gym4ULSA.qr.view.QrScannerView
-import com.ULSACUU.gym4ULSA.routine.RutinaView
+import com.ULSACUU.gym4ULSA.routine.RoutineView
 import com.ULSACUU.gym4ULSA.routine.onboarding.views.OnboardingView
-import com.ULSACUU.gym4ULSA.settings.AjustesView
+import com.ULSACUU.gym4ULSA.settings.SettingsView
 import com.ULSACUU.gym4ULSA.settings.viewmodel.SettingsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,9 +44,9 @@ fun TabBarNavigationView(
 ) {
     val items = listOf(
         ScreenNavigation.Home,
-        ScreenNavigation.Rutina,
+        ScreenNavigation.Routine,
         ScreenNavigation.Nutrition,
-        ScreenNavigation.Ajustes
+        ScreenNavigation.Settings
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -58,20 +58,20 @@ fun TabBarNavigationView(
         topBar = {
             if (currentRoute != ScreenNavigation.Login.route && currentRoute != ScreenNavigation.Onboarding.route) {
                 CenterAlignedTopAppBar(
-                    title = { Text(text = "Gym4ULSA") },
+                    title = { Text(text = stringResource(id = R.string.app_name)) },
                     navigationIcon = {
                         IconButton(onClick = { navController.navigate(ScreenNavigation.QrScanner.route) }) {
                             Icon(
                                 imageVector = Icons.Outlined.QrCodeScanner,
-                                contentDescription = "Escanear QR"
+                                contentDescription = stringResource(id = R.string.action_scan_qr)
                             )
                         }
                     },
                     actions = {
-                        IconButton(onClick = { navController.navigate(ScreenNavigation.Perfil.route) }) {
+                        IconButton(onClick = { navController.navigate(ScreenNavigation.Profile.route) }) {
                             Icon(
                                 imageVector = Icons.Outlined.Person,
-                                contentDescription = "Perfil"
+                                contentDescription = stringResource(id = R.string.action_profile)
                             )
                         }
                     }
@@ -89,7 +89,7 @@ fun TabBarNavigationView(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Add,
-                        contentDescription = "Add"
+                        contentDescription = stringResource(id = R.string.action_add)
                     )
                 }
             }
@@ -113,10 +113,10 @@ fun TabBarNavigationView(
                 modifier = Modifier
             ) {
                 composable(ScreenNavigation.Home.route) { HomeView(navController) }
-                composable(ScreenNavigation.Rutina.route) { RutinaView() }
-                composable(ScreenNavigation.Perfil.route) { PerfilView(navController) }
-                composable(ScreenNavigation.Ajustes.route) {
-                    AjustesView(navController, settingsViewModel)
+                composable(ScreenNavigation.Routine.route) { RoutineView() }
+                composable(ScreenNavigation.Profile.route) { ProfileView(navController) }
+                composable(ScreenNavigation.Settings.route) {
+                    SettingsView(navController, settingsViewModel)
                 }
                 composable(ScreenNavigation.Login.route) { LoginView(navController) }
                 composable(ScreenNavigation.Nutrition.route) {
@@ -195,14 +195,14 @@ private fun RowScope.AddItemToNavBar(
     val selected = currentRoute == screen.route
     val labelId = when (screen) {
         ScreenNavigation.Home -> R.string.bottom_home
-        ScreenNavigation.Rutina -> R.string.bottom_routine
+        ScreenNavigation.Routine -> R.string.bottom_routine
         ScreenNavigation.Nutrition -> R.string.bottom_nutrition
-        ScreenNavigation.Ajustes -> R.string.bottom_settings
+        ScreenNavigation.Settings -> R.string.bottom_settings
         else -> R.string.bottom_home // Default
     }
 
     NavigationBarItem(
-        icon = { Icon(screen.icon, contentDescription = screen.label) },
+        icon = { Icon(screen.icon, contentDescription = stringResource(labelId)) },
         label = { Text(stringResource(labelId)) },
         selected = selected,
         onClick = {

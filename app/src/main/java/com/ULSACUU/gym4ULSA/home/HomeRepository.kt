@@ -1,6 +1,6 @@
 package com.ULSACUU.gym4ULSA.home
 
-import RoutinesResponse
+import com.ULSACUU.gym4ULSA.home.RoutinesResponse
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET

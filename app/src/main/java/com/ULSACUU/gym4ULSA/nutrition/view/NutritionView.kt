@@ -161,7 +161,7 @@ private fun NutritionContent(state: NutritionUiState.Success) {
                         Spacer(Modifier.width(12.dp))
                         Column(Modifier.weight(1f)) {
                             Text(sp.name.get(locale), style = MaterialTheme.typography.titleMedium)
-                            val brand = sp.brand?.get(locale) ?: if (locale == "es") "Genérico" else "Generic"
+                            val brand = sp.brand?.get(locale) ?: stringResource(id = R.string.generic_brand)
                             val price = sp.price?.value?.let { "$${"%.0f".format(it)} ${sp.price.currency ?: "MXN"}" } ?: ""
                             Text("$brand  •  $price", color = Color.Gray)
                         }

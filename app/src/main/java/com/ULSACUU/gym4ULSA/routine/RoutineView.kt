@@ -7,9 +7,11 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.ULSACUU.gym4ULSA.R
 
 @Composable
-fun RutinaView() {
+fun RoutineView() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -17,7 +19,7 @@ fun RutinaView() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "RUTINA",
+            text = stringResource(id = R.string.routine_title),
             fontSize = 24.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()

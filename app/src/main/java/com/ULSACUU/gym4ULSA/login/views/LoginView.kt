@@ -117,17 +117,17 @@ fun LoginView(navController: NavController) {
             }
         )
     }
-    val promptInfo = remember(modality) {
+    val promptInfo = remember(modality, context) {
         val title = when (modality) {
-            BiometricModality.FACE -> "Unlock with Face"
-            BiometricModality.FINGERPRINT -> "Unlock with Fingerprint"
-            else -> "Biometric unlock"
+            BiometricModality.FACE -> context.getString(R.string.biometric_unlock_title_face)
+            BiometricModality.FINGERPRINT -> context.getString(R.string.biometric_unlock_title_fingerprint)
+            else -> context.getString(R.string.biometric_unlock_title_generic)
         }
         BiometricPrompt.PromptInfo.Builder()
             .setTitle(title)
-            .setSubtitle("Quickly sign in")
+            .setSubtitle(context.getString(R.string.biometric_unlock_subtitle))
             .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
-            .setNegativeButtonText("Cancel")
+            .setNegativeButtonText(context.getString(R.string.biometric_cancel))
             .build()
     }
 
@@ -260,7 +260,7 @@ fun LoginView(navController: NavController) {
 
             Spacer(Modifier.height(16.dp))
             Text(
-                text = "Sign in",
+                text = stringResource(id = R.string.login_sign_in_title),
                 style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.SemiBold,
                     color = Color.Black
@@ -314,7 +314,7 @@ fun LoginView(navController: NavController) {
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
                         Icon(
                             imageVector = icon,
-                            contentDescription = "Toggle password visibility",
+                            contentDescription = stringResource(id = R.string.toggle_password_visibility),
                             tint = Color.Black
                         )
                     }
@@ -354,7 +354,7 @@ fun LoginView(navController: NavController) {
                         color = Color.White
                     )
                     Spacer(Modifier.width(8.dp))
-                    Text("Signing in…")
+                    Text(stringResource(id = R.string.login_signing_in))
                 } else {
                     Text(stringResource(R.string.login_button))
                 }
@@ -379,7 +379,7 @@ fun LoginView(navController: NavController) {
                 shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
             ) {
                 val icon = if (modality == BiometricModality.FACE) Icons.Default.Face else Icons.Default.Fingerprint
-                val label = if (modality == BiometricModality.FACE) "Face ID" else "Fingerprint"
+                val label = if (modality == BiometricModality.FACE) stringResource(id = R.string.biometric_face) else stringResource(id = R.string.biometric_fingerprint)
                 Icon(icon, contentDescription = label, modifier = Modifier.size(20.dp), tint = Color.Black)
                 Spacer(Modifier.width(8.dp))
                 Text(label)
@@ -388,7 +388,7 @@ fun LoginView(navController: NavController) {
             Spacer(Modifier.height(48.dp))
 
             Text(
-                text = "Gym4ULSA",
+                text = stringResource(id = R.string.app_name),
                 style = MaterialTheme.typography.labelMedium.copy(color = Color.Gray)
             )
 

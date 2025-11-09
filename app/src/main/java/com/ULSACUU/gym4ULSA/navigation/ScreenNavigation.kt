@@ -6,13 +6,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class ScreenNavigation(val route: String, val label: String, val icon: ImageVector) {
     object Home : ScreenNavigation("HomeRoute", "Home", Icons.Default.Home)
-    object Rutina : ScreenNavigation("RutinaRoute", "Routine", Icons.Default.FitnessCenter)
-    object Perfil : ScreenNavigation("PerfilRoute", "Perfil", Icons.Default.Person)
-    object Ajustes : ScreenNavigation("AjustesRoute", "Settings", Icons.Default.Settings)
+    object Routine : ScreenNavigation("RoutineRoute", "Routine", Icons.Default.FitnessCenter)
+    object Profile : ScreenNavigation("ProfileRoute", "Profile", Icons.Default.Person)
+    object Settings : ScreenNavigation("SettingsRoute", "Settings", Icons.Default.Settings)
     object Login : ScreenNavigation("LoginRoute", "Login", Icons.Default.Event)
     object Onboarding : ScreenNavigation("OnboardingRoute", "Onboarding", Icons.Default.Info)
     object Nutrition : ScreenNavigation("NutritionRoute", "Nutrition", Icons.Default.Restaurant)
     object QrScanner : ScreenNavigation("QrScannerRoute", "QR Scanner", Icons.Default.QrCodeScanner)
-    object HomeDetails : ScreenNavigation("HomeDetailsRoute/{exerciseId}","Detalle Ejercicio", Icons.Default.FitnessCenter)
+    object HomeDetails : ScreenNavigation("HomeDetailsRoute/{exerciseId}","Exercise Detail", Icons.Default.FitnessCenter)
 
 }

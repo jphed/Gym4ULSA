@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Gym4ULSA</string>
-    
+    <string name="action_scan_qr">Scan QR</string>
+    <string name="action_profile">Profile</string>
+    <string name="action_add">Add</string>
     <!-- Onboarding -->
     <string name="onboarding_title_1">Your best version starts today!</string>
     <string name="onboarding_description_1">Don\'t wait for the perfect moment, start and make it happen.</string>
@@ -23,6 +25,9 @@
     <string name="email_label">Email</string>
     <string name="password_label">Password</string>
     <string name="login_button">Login</string>
+    <string name="login_sign_in_title">Sign in</string>
+    <string name="login_signing_in">Signing in…</string>
+    <string name="toggle_password_visibility">Toggle password visibility</string>
 
     <!-- Bottom Bar -->
     <string name="bottom_home">Home</string>
@@ -70,6 +75,20 @@
     <string name="exercise_bicep_curl">Bicep curl</string>
     <string name="exercise_lat_raises">Lateral raises</string>
 
+    <!-- Routine screen -->
+    <string name="routine_title">Routine</string>
+
+    <!-- Home details labels -->
+    <string name="home_repetitions">Repetitions: %1$d</string>
+    <string name="home_category">Category: %1$s</string>
+
+    <!-- Splash -->
+    <string name="splash_logo_desc">ULSA logo</string>
+    <string name="splash_university_name">Universidad La Salle</string>
+
+    <!-- Generic brand name fallback -->
+    <string name="generic_brand">Generic</string>
+
     <!-- Settings -->
     <string name="settings_title">Settings</string>
     <string name="settings_dark_theme">Dark theme</string>
@@ -84,4 +103,19 @@
     <string name="settings_privacy_policy">Privacy Policy</string>
     <string name="settings_logout">Log Out</string>
     <string name="settings_delete_account">Delete Account</string>
+    
+    <!-- Profile -->
+    <string name="profile_photo_desc">Profile photo</string>
+    <string name="profile_name_placeholder">Your name</string>
+    <string name="profile_routine_type">Routine type</string>
+    <string name="profile_account_created">Account created</string>
+
+    <!-- Biometrics -->
+    <string name="biometric_unlock_title_face">Unlock with Face</string>
+    <string name="biometric_unlock_title_fingerprint">Unlock with Fingerprint</string>
+    <string name="biometric_unlock_title_generic">Biometric unlock</string>
+    <string name="biometric_unlock_subtitle">Quickly sign in</string>
+    <string name="biometric_cancel">Cancel</string>
+    <string name="biometric_face">Face ID</string>
+    <string name="biometric_fingerprint">Fingerprint</string>
 </resources>

@@ -1,3 +1,5 @@
+package com.ULSACUU.gym4ULSA.home
+
 import kotlinx.serialization.Serializable
 import com.google.gson.annotations.SerializedName
 
