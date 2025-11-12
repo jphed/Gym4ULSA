@@ -31,7 +31,7 @@
 
     <!-- Bottom Bar -->
     <string name="bottom_home">Home</string>
-    <string name="bottom_routine">Routine</string>
+    <string name="bottom_routine">Chat</string>
     <string name="bottom_nutrition">Nutrition</string>
     <string name="bottom_settings">Settings</string>
 

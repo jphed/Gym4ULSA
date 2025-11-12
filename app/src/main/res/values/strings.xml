@@ -36,7 +36,7 @@
 
     <!-- Bottom Bar -->
     <string name="bottom_home">Inicio</string>
-    <string name="bottom_routine">Rutina</string>
+    <string name="bottom_routine">Chat</string>
     <string name="bottom_nutrition">Nutrición</string>
     <string name="bottom_settings">Ajustes</string>
 

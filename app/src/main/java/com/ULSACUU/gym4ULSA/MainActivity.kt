@@ -16,7 +16,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ULSACUU.gym4ULSA.navigation.TabBarNavigationView
 import com.ULSACUU.gym4ULSA.onboarding.viewmodel.OnboardingViewModel
-import com.ULSACUU.gym4ULSA.routine.onboarding.views.OnboardingView
+import com.ULSACUU.gym4ULSA.chat.onboarding.views.OnboardingView
 import com.ULSACUU.gym4ULSA.settings.viewmodel.SettingsViewModel
 import com.ULSACUU.gym4ULSA.settings.viewmodel.SettingsViewModelFactory
 import com.ULSACUU.gym4ULSA.ui.theme.AndroidClassMP1Theme
@@ -29,11 +29,11 @@ import java.util.Locale
 
 class MainActivity : ComponentActivity() {
 
-    // ✅ configura el idioma ANTES de crear la UI.
-    // Leemos el valor directamente de DataStore porque el ViewModel aún no existe en este punto.
+    // configura el idioma ANTES de crear la UI.
+    // Leemos el valor directamente de DataStore.
     override fun attachBaseContext(newBase: Context) {
         val userPreferences = UserPreferencesDataStore(newBase)
-        // Usamos runBlocking para leer el valor de forma síncrona, es seguro hacerlo aquí.
+        // Usamos runBlocking para leer el valor de forma síncrona.
         val lang = runBlocking { userPreferences.language.first() }
         val context = LocaleHelper.setLocale(newBase, lang)
         super.attachBaseContext(context)
@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
         val dsManager = DataStoreManager(this)
 
         setContent {
-            // ✅ Creamos el ViewModel y sus dependencias aquí, de forma segura.
+            // Creamos el ViewModel y sus dependencias aquí.
             val userPreferences = remember { UserPreferencesDataStore(this) }
             val settingsViewModel: SettingsViewModel = viewModel(
                 factory = SettingsViewModelFactory(userPreferences)
@@ -85,7 +85,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// Objeto Helper para cambiar el idioma de la app (sin cambios)
+// Objeto Helper para cambiar el idioma de la app
 object LocaleHelper {
     fun setLocale(context: Context, languageCode: String): ContextWrapper {
         val locale = Locale(languageCode)

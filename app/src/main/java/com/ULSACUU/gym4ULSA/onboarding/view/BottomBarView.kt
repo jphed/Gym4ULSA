@@ -1,4 +1,4 @@
-package com.ULSACUU.gym4ULSA.routine.onboarding.views
+package com.ULSACUU.gym4ULSA.chat.onboarding.views
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth

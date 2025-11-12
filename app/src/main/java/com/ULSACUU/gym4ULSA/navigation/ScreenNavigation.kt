@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class ScreenNavigation(val route: String, val label: String, val icon: ImageVector) {
     object Home : ScreenNavigation("HomeRoute", "Home", Icons.Default.Home)
-    object Routine : ScreenNavigation("RoutineRoute", "Routine", Icons.Default.FitnessCenter)
+    object Routine : ScreenNavigation("RoutineRoute", "Routine", Icons.Default.Chat)
     object Profile : ScreenNavigation("ProfileRoute", "Profile", Icons.Default.Person)
     object Settings : ScreenNavigation("SettingsRoute", "Settings", Icons.Default.Settings)
     object Login : ScreenNavigation("LoginRoute", "Login", Icons.Default.Event)
