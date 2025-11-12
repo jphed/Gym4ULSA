@@ -31,8 +31,8 @@ import com.ULSACUU.gym4ULSA.nutrition.view.NutritionView
 import com.ULSACUU.gym4ULSA.onboarding.viewmodel.OnboardingViewModel
 import com.ULSACUU.gym4ULSA.profile.ProfileView
 import com.ULSACUU.gym4ULSA.qr.view.QrScannerView
-import com.ULSACUU.gym4ULSA.routine.RoutineView
-import com.ULSACUU.gym4ULSA.routine.onboarding.views.OnboardingView
+import com.ULSACUU.gym4ULSA.chat.ChatView
+import com.ULSACUU.gym4ULSA.chat.onboarding.views.OnboardingView
 import com.ULSACUU.gym4ULSA.settings.SettingsView
 import com.ULSACUU.gym4ULSA.settings.viewmodel.SettingsViewModel
 
@@ -97,7 +97,6 @@ fun TabBarNavigationView(
         floatingActionButtonPosition = FabPosition.Center,
         bottomBar = {
             if (currentRoute != ScreenNavigation.Login.route && currentRoute != ScreenNavigation.Onboarding.route) {
-                // ✨ MEJORA: Se extrajo la lógica a un Composable más limpio
                 AppBottomBar(
                     items = items,
                     currentRoute = currentRoute,
@@ -113,7 +112,7 @@ fun TabBarNavigationView(
                 modifier = Modifier
             ) {
                 composable(ScreenNavigation.Home.route) { HomeView(navController) }
-                composable(ScreenNavigation.Routine.route) { RoutineView() }
+                composable(ScreenNavigation.Routine.route) { ChatView() }
                 composable(ScreenNavigation.Profile.route) { ProfileView(navController) }
                 composable(ScreenNavigation.Settings.route) {
                     SettingsView(navController, settingsViewModel)
