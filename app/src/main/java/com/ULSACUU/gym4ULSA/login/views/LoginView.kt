@@ -59,6 +59,7 @@ import androidx.fragment.app.FragmentActivity
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import android.widget.Toast
 
 private enum class BiometricModality { FACE, FINGERPRINT, NONE }
 
@@ -171,6 +172,17 @@ fun LoginView(navController: NavController) {
                     }
                 }
             }
+        }
+    }
+
+    LaunchedEffect(vm) {
+        vm.toastEvents.collectLatest { msg ->
+            val text = if (msg.args.isEmpty()) {
+                context.getString(msg.resId)
+            } else {
+                context.getString(msg.resId, *msg.args.toTypedArray())
+            }
+            Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
         }
     }
 
