@@ -49,7 +49,7 @@ fun ProfileView(navController: NavController) {
     val photoUri = ds.userPhotoUriFlow.collectAsState(initial = "").value
 
     val homeVm: HomeViewModel = viewModel()
-    val routineType = homeVm.selectedRoutine?.musculo ?: ""
+    val routineType = homeVm.selectedGistRoutine?.musculo ?: ""
 
     // Selector de imagen con persistencia de permisos
     val pickImageLauncher = rememberLauncherForActivityResult(

@@ -33,6 +33,7 @@ import com.ULSACUU.gym4ULSA.profile.ProfileView
 import com.ULSACUU.gym4ULSA.qr.view.QrScannerView
 import com.ULSACUU.gym4ULSA.chat.ChatView
 import com.ULSACUU.gym4ULSA.chat.onboarding.views.OnboardingView
+import com.ULSACUU.gym4ULSA.create_routine.view.CreateRoutineScreen
 import com.ULSACUU.gym4ULSA.settings.SettingsView
 import com.ULSACUU.gym4ULSA.settings.viewmodel.SettingsViewModel
 
@@ -81,7 +82,9 @@ fun TabBarNavigationView(
         floatingActionButton = {
             if (currentRoute != ScreenNavigation.Login.route && currentRoute != ScreenNavigation.Onboarding.route) {
                 FloatingActionButton(
-                    onClick = { /* TODO: Asignar una acción */ },
+                    onClick = {
+                        navController.navigate("create_routine")
+                    },
                     shape = RoundedCornerShape(24.dp),
                     modifier = Modifier
                         .size(84.dp)
@@ -111,6 +114,9 @@ fun TabBarNavigationView(
                 startDestination = ScreenNavigation.Login.route,
                 modifier = Modifier
             ) {
+                composable("create_routine") {
+                    CreateRoutineScreen(navController = navController)
+                }
                 composable(ScreenNavigation.Home.route) { HomeView(navController) }
                 composable(ScreenNavigation.Routine.route) { ChatView() }
                 composable(ScreenNavigation.Profile.route) { ProfileView(navController) }
@@ -141,8 +147,7 @@ fun TabBarNavigationView(
                 ) { backStackEntry ->
                     val exerciseId = backStackEntry.arguments?.getInt("exerciseId") ?: 0
                     val homeViewModel: HomeViewModel = viewModel()
-                    val exercise =
-                        homeViewModel.exercisesForSelectedRoutine.find { it.id == exerciseId }
+                    val exercise = homeViewModel.allExercises.find { it.id == exerciseId }
 
                     exercise?.let {
                         HomeDetailsView(exercise = it)

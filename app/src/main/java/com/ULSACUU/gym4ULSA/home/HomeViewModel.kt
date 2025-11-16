@@ -1,75 +1,100 @@
 package com.ULSACUU.gym4ULSA.home
 
-import com.ULSACUU.gym4ULSA.home.Exercise
-import com.ULSACUU.gym4ULSA.home.Routine
+import android.app.Application
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.ULSACUU.gym4ULSA.persistence.CustomRoutine
+import com.ULSACUU.gym4ULSA.persistence.CustomRoutineRepository
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+// Cambia a AndroidViewModel para tener el Contexto
+class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
-    var routines by mutableStateOf<List<Routine>>(emptyList())
+    // Repositorios
+    private val gistRepository = RoutinesRepository
+    private val customRoutineRepository =
+        CustomRoutineRepository(application) //  Instancia el repo de Room
+
+    // Estados del Gist
+    var gistRoutines by mutableStateOf<List<Routine>>(emptyList())
+        private set
+    var exercisesForSelectedGistRoutine by mutableStateOf<List<Exercise>>(emptyList())
+        private set
+    var selectedGistRoutine by mutableStateOf<Routine?>(null)
         private set
 
-    var selectedRoutine by mutableStateOf<Routine?>(null)
+    // Estados de Rutinas Personalizadas (Room)
+    var customRoutines by mutableStateOf<List<CustomRoutine>>(emptyList())
+        private set
+    var exercisesForSelectedCustomRoutine by mutableStateOf<List<Exercise>>(emptyList())
+        private set
+    var selectedCustomRoutine by mutableStateOf<CustomRoutine?>(null)
         private set
 
-    var selectedExercise by mutableStateOf<Exercise?>(null)
+    //Estado de Todos los Ejercicios
+    var allExercises by mutableStateOf<List<Exercise>>(emptyList())
         private set
-
-    var exercisesForSelectedRoutine by mutableStateOf<List<Exercise>>(emptyList())
-        private set
-
     init {
-        fetchRoutines()
+        // Carga too al iniciar
+        loadAllData()
     }
 
-    private fun fetchRoutines() {
+    private fun loadAllData() {
         viewModelScope.launch {
             try {
-                val response = RoutinesRepository.fetchRoutines()
+                // Carga los datos del Gist (rutinas y ejercicios)
+                val response = gistRepository.fetchRoutines()
+                allExercises = response.ejercicios
+                gistRoutines = response.rutinas
 
-                routines = response.rutinas
-                // Guardamos todos los ejercicios para filtrar después
-                setAllExercises(response.ejercicios)
+                // Selecciona la primera rutina del Gist por defecto
+                selectGistRoutine(gistRoutines.firstOrNull())
 
-                selectedRoutine = routines.firstOrNull()
-                updateExercisesForSelectedRoutine()
+                // Escucha los cambios de las rutinas personalizadas (Flow)
+                customRoutineRepository.allCustomRoutines.collect { routinesFromDb ->
+                    customRoutines = routinesFromDb
+                }
 
             } catch (e: Exception) {
                 e.printStackTrace()
+                // Maneja el error
             }
         }
     }
 
-    // Guardar todos los ejercicios para filtrarlos
-    private var routinesExercises: List<Exercise> = emptyList()
-        set(value) {
-            field = value
-            updateExercisesForSelectedRoutine()
-        }
+    //Función para seleccionar una rutina del GIST
+    fun selectGistRoutine(routine: Routine?) {
+        selectedGistRoutine = routine
+        selectedCustomRoutine = null
 
-    fun setAllExercises(exercises: List<Exercise>) {
-        routinesExercises = exercises
-    }
-
-    private fun updateExercisesForSelectedRoutine() {
-        exercisesForSelectedRoutine = selectedRoutine?.let { routine ->
-            routinesExercises.filter { it.categoria.equals(routine.musculo, ignoreCase = true) }
+        // Actualiza la lista de ejercicios
+        exercisesForSelectedGistRoutine = routine?.let {
+            allExercises.filter { ex -> ex.categoria.equals(it.musculo, ignoreCase = true) }
         } ?: emptyList()
 
-        selectedExercise = exercisesForSelectedRoutine.firstOrNull()
+        // Limpia la otra lista
+        exercisesForSelectedCustomRoutine = emptyList()
     }
 
-    fun selectRoutine(routine: Routine) {
-        selectedRoutine = routine
-        updateExercisesForSelectedRoutine()
+    // Función para seleccionar una rutina PERSONALIZADA
+    fun selectCustomRoutine(routine: CustomRoutine?) {
+        selectedCustomRoutine = routine
+        selectedGistRoutine = null
+
+        // Actualiza la lista de ejercicios filtrando por los IDs guardados
+        exercisesForSelectedCustomRoutine = routine?.let {
+            allExercises.filter { ex -> ex.id in it.exerciseIds }
+        } ?: emptyList()
+
+        // Limpiamos la otra lista
+        exercisesForSelectedGistRoutine = emptyList()
     }
 
-    fun selectExercise(exercise: Exercise) {
-        selectedExercise = exercise
-    }
+    //fun selectExercise(exercise: Exercise) {
+    //    selectedExercise = exercise
+   // }
 }
