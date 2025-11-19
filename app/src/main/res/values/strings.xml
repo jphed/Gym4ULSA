@@ -156,4 +156,8 @@
     <string name="biometric_cancel">Cancelar</string>
     <string name="biometric_face">Face ID</string>
     <string name="biometric_fingerprint">Huella</string>
+    <string name="terms_and_conditions_title">Términos y Condiciones</string>
+    <string name="back_button">Regresar</string>
+
+
 </resources>
