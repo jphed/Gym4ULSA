@@ -47,7 +47,8 @@ fun TabBarNavigationView(
         ScreenNavigation.Home,
         ScreenNavigation.Routine,
         ScreenNavigation.Nutrition,
-        ScreenNavigation.Settings
+        ScreenNavigation.Settings,
+        ScreenNavigation.HomeDetails
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -142,11 +143,24 @@ fun TabBarNavigationView(
                     QrScannerView(navController)
                 }
                 composable(
-                    route = "HomeDetailsRoute/{exerciseId}",
-                    arguments = listOf(navArgument("exerciseId") { type = NavType.IntType })
+                    // 💡 CAMBIAR la ruta para que el argumento sea opcional con '?'
+                    route = "HomeDetailsRoute/{exerciseId}?",
+                    arguments = listOf(
+                        navArgument("exerciseId") {
+                            type = NavType.StringType
+                            nullable = true // Permitir que sea null
+                            defaultValue = "-1" // Establecer un valor por defecto seguro (un String que luego convertiremos a Int)
+                        }
+                    )
                 ) { backStackEntry ->
-                    val exerciseId = backStackEntry.arguments?.getInt("exerciseId") ?: 0
+                    // Obtener el ID de forma segura
+                    val exerciseIdString = backStackEntry.arguments?.getString("exerciseId")
+
+                    // Convertir a Int (usando -1 si es nulo o si no se puede parsear)
+                    val exerciseId = exerciseIdString?.toIntOrNull() ?: -1
+
                     val homeViewModel: HomeViewModel = viewModel()
+                    // Buscar el ejercicio usando el ID, usando el -1 como valor que no coincidirá con ningún ejercicio real.
                     val exercise = homeViewModel.allExercises.find { it.id == exerciseId }
 
                     exercise?.let {

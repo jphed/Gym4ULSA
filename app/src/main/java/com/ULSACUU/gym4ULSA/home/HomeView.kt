@@ -165,10 +165,6 @@ fun CustomRoutineCard(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
-            //Spacer(modifier = Modifier.height(8.dp))
-            //Button(onClick = onClick) {
-             //   Text(stringResource(id = R.string.home_see_exercises))
-           // }
         }
     }
 }
