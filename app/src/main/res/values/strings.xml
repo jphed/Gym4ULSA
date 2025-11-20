@@ -117,7 +117,7 @@
     <string name="routine_title">Rutina</string>
 
     <!-- Home details labels -->
-    <string name="home_repetitions">Repeticiones: %1$d</string>
+    <string name="home_repetitions">Repeticiones: %1$s</string>
     <string name="home_category">Categoría: %1$s</string>
 
     <!-- Splash -->
