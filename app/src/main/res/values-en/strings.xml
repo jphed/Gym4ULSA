@@ -79,7 +79,7 @@
     <string name="routine_title">Routine</string>
 
     <!-- Home details labels -->
-    <string name="home_repetitions">Repetitions: %1$d</string>
+    <string name="home_repetitions">Repetitions: %1$s</string>
     <string name="home_category">Category: %1$s</string>
 
     <!-- Splash -->
