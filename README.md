@@ -1,139 +1,140 @@
 # GYM4ULSA
 
-A comprehensive fitness and utility application designed for the Universidad La Salle (ULSA) community, built with modern Android development practices using Jetpack Compose.
+Apliación integral de fitness y utilidades diseñada para la comunidad de la Universidad La Salle (ULSA), construida con prácticas modernas de desarrollo Android usando Jetpack Compose.
 
-## Overview
+## Descripción general
 
-GYM4ULSA is a multi-functional Android application that combines fitness tracking, health calculators, and educational utilities in a single, user-friendly interface. The app features a modern, internationalized design with support for both Spanish and English languages.
+GYM4ULSA es una aplicación Android multifuncional que combina seguimiento de actividad física, calculadoras de salud y utilidades educativas en una sola interfaz fácil de usar. La app cuenta con un diseño moderno e internacionalizado con soporte para idiomas español e inglés.
 
-## Features
+## Características
 
-### Core Functionality
+### Funcionalidad principal
 
-- **Interactive Onboarding**: Modern swipe-based onboarding experience with full-screen background images and gradient overlays
-- **Multi-language Support**: Complete internationalization with Spanish (default) and English language support
-- **Modern UI/UX**: Futuristic design with animated elements, gradient effects, and Material Design 3 components
+- **Onboarding interactivo**: Experiencia moderna de introducción basada en deslizamientos, con imágenes de fondo a pantalla completa y superposiciones en degradado
+- **Soporte multiidioma**: Internacionalización completa con soporte para español (predeterminado) e inglés
+- **UI/UX moderna**: Diseño futurista con elementos animados, efectos de degradado y componentes de Material Design 3
 
-### Health & Fitness Tools
+### Herramientas de salud y fitness
 
-- **BMI Calculator**: Calculate Body Mass Index with weight and height inputs
-- **Temperature Converter**: Convert between Celsius and Fahrenheit temperatures
-- **Mathematical Calculator**: Basic arithmetic operations and calculations
+- **Calculadora de IMC**: Calcula el Índice de Masa Corporal a partir del peso y la estatura
+- **Convertidor de temperatura**: Conversión entre grados Celsius y Fahrenheit
+- **Calculadora matemática**: Operaciones aritméticas básicas y cálculos generales
 
-### Educational Features
+### Funcionalidades educativas
 
-- **Student Management**: Track and manage student information
-- **Location Services**: View and manage location data
-- **Login System**: Secure user authentication
+- **Gestión de estudiantes**: Registro y administración de información de estudiantes
+- **Servicios de localización**: Visualización y gestión de datos de ubicación
+- **Sistema de login**: Autenticación segura de usuarios
 
-### Technical Features
+### Características técnicas
 
-- **Swipe Navigation**: Intuitive gesture-based navigation throughout the app
-- **Data Persistence**: Local data storage using DataStore preferences
-- **Modern Architecture**: MVVM pattern with ViewModels and Compose state management
-- **Responsive Design**: Optimized for various screen sizes and orientations
+- **Navegación por gestos (swipe)**: Navegación intuitiva basada en gestos en toda la aplicación
+- **Persistencia de datos**: Almacenamiento local mediante DataStore (preferencias)
+- **Arquitectura moderna**: Patrón MVVM con ViewModels y manejo de estado en Compose
+- **Diseño responsivo**: Optimizada para diferentes tamaños y orientaciones de pantalla
 
-## Technical Specifications
+## Especificaciones técnicas
 
-### Development Environment
-- **Language**: Kotlin
+### Entorno de desarrollo
+- **Lenguaje**: Kotlin
 - **UI**: Jetpack Compose, Material 3
-- **Architecture**: MVVM
-- **Navigation**: Navigation Compose
-- **Data**: DataStore (preferences)
-- **Network**: Retrofit (Auth API)
+- **Arquitectura**: MVVM
+- **Navegación**: Navigation Compose
+- **Datos**: DataStore (preferencias)
+- **Red**: Retrofit (API de autenticación)
 - **Min/Target SDK**: 24 / 35
 
-## Project structure (high level)
+## Estructura del proyecto (alto nivel)
 ```
 app/
   src/main/
     java/com/ULSACUU/gym4ULSA/
-      navigation/            # NavHost, routes, bottom bar
-      login/                 # Login screen + ViewModel
-      home/                  # Home and exercise details
-      nutrition/             # Nutrition view
-      profile/               # ProfileView (formerly Perfil)
-      routine/               # Routine view (Rutina)
-      settings/              # SettingsView (formerly Ajustes)
-      onboarding/            # Onboarding flow
-      qr/                    # QR scanner
-      utils/                 # DataStore, credentials, splash, etc.
+      navigation/            # NavHost, rutas, bottom bar
+      login/                 # Pantalla de login + ViewModel
+      home/                  # Pantalla principal y detalle de ejercicios
+      nutrition/             # Vista de nutrición
+      profile/               # ProfileView (antes Perfil)
+      routine/               # Vista de rutina (Rutina)
+      settings/              # SettingsView (antes Ajustes)
+      onboarding/            # Flujo de onboarding
+      qr/                    # Lector de códigos QR
+      utils/                 # DataStore, credenciales, splash, etc.
     res/
-      values/                # Default strings (ES)
-      values-en/             # English strings
-      values-es/             # Spanish strings
+      values/                # Strings por defecto (ES)
+      values-en/             # Strings en inglés
+      values-es/             # Strings en español
 ```
 
-## Getting started
-1. Install Android Studio (Hedgehog or later) and Android SDK (API 24+).
-2. Open the project folder `Gym4ULSA` in Android Studio.
-3. Let Gradle sync. Use JDK 17 (bundled is fine).
-4. Run on an emulator or device.
+## Primeros pasos
+1. Instala Android Studio (Hedgehog o superior) y el Android SDK (API 24+).
+2. Abre la carpeta del proyecto `Gym4ULSA` en Android Studio.
+3. Espera a que Gradle sincronice. Usa JDK 17 (el incluido en Android Studio es suficiente).
+4. Ejecuta la app en un emulador o dispositivo físico.
 
-Command line builds:
-- **Routine**: Fitness and workout related features
-- **Profile**: User profile and settings
-- **Settings**: Application configuration and preferences
+Compilación por línea de comandos:
+- **Routine**: Funcionalidades relacionadas con fitness y rutinas de ejercicio
+- **Profile**: Perfil de usuario y ajustes relacionados
+- **Settings**: Configuración general de la aplicación y preferencias
 
-### Language Support
+### Soporte de idiomas
 
-The application automatically detects the device language and displays content in Spanish (default) or English. Language can be changed through the device settings.
+La aplicación detecta automáticamente el idioma del dispositivo y muestra el contenido en español (predeterminado) o inglés. El idioma puede modificarse desde la configuración del dispositivo.
 
-## Development
+## Desarrollo
 
-### Code Style
+### Estilo de código
 
-- Follow Kotlin coding conventions
-- Use meaningful variable and function names
-- Implement proper error handling
-- Maintain consistent code formatting
+- Sigue las convenciones oficiales de Kotlin
+- Utiliza nombres significativos para variables y funciones
+- Implementa un manejo adecuado de errores
+- Mantén un formato de código consistente
 
-### Architecture Guidelines
+### Guías de arquitectura
 
-- Use MVVM pattern for screen components
-- Implement proper separation of concerns
-- Use Compose state management best practices
-- Follow Material Design guidelines
+- Utiliza el patrón MVVM para los componentes de pantalla
+- Mantén una adecuada separación de responsabilidades (separation of concerns)
+- Usa buenas prácticas de manejo de estado en Compose
+- Sigue las guías de diseño de Material Design
 
-### Testing
+### Pruebas
 
-Run the test suite:
+Para ejecutar el conjunto de pruebas:
 ```bash
 ./gradlew test
 ```
 
-Run instrumented tests:
+Para ejecutar pruebas instrumentadas en dispositivo/emulador:
 ```bash
 ./gradlew connectedAndroidTest
 ```
 
-## Contributing
+## Contribuciones
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Haz un fork del repositorio
+2. Crea una rama de funcionalidad (`git checkout -b feature/nueva-funcionalidad`)
+3. Realiza tus cambios y haz commit (`git commit -m 'Agregar nueva funcionalidad'`)
+4. Haz push a la rama (`git push origin feature/nueva-funcionalidad`)
+5. Abre un Pull Request
 
-## Version History
+## Historial de versiones
 
-### Version 1.0
-- Initial release
-- Complete onboarding system with internationalization
-- BMI calculator and temperature converter
-- Student management and location services
-- Modern UI with Material Design 3
-- Swipe-based navigation
+### Versión 1.0
+- Versión inicial
+- Sistema de onboarding completo con internacionalización
+- Calculadora de IMC y conversor de temperatura
+- Gestión de estudiantes y servicios de localización
+- Interfaz moderna con Material Design 3
+- Navegación basada en gestos (swipe)
 
-## License
+## Licencia
 
-This project is developed for educational purposes at Universidad La Salle (ULSA). All rights reserved.
+Este proyecto se desarrolla con fines educativos en la Universidad La Salle (ULSA). Todos los derechos reservados.
 
-## Contact
+## Contacto
 
-For questions or support regarding this application, please contact the development team.
+Para dudas o soporte relacionado con esta aplicación, por favor contacta al equipo de desarrollo.
 
 ---
 
-**GYM4ULSA** - Empowering fitness and education through technology
+**GYM4ULSA** - Potenciando el fitness y la educación a través de la tecnología
+
