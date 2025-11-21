@@ -35,6 +35,7 @@ import com.ULSACUU.gym4ULSA.chat.ChatView
 import com.ULSACUU.gym4ULSA.chat.onboarding.views.OnboardingView
 import com.ULSACUU.gym4ULSA.create_routine.view.CreateRoutineScreen
 import com.ULSACUU.gym4ULSA.settings.SettingsView
+import com.ULSACUU.gym4ULSA.settings.TermsAndConditionsView
 import com.ULSACUU.gym4ULSA.settings.viewmodel.SettingsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -141,6 +142,9 @@ fun TabBarNavigationView(
                 }
                 composable(ScreenNavigation.QrScanner.route) {
                     QrScannerView(navController)
+                }
+                composable(ScreenNavigation.TermsAndConditions.route) {
+                    TermsAndConditionsView(navController)
                 }
                 composable(
                     // 💡 CAMBIAR la ruta para que el argumento sea opcional con '?'

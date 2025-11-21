@@ -156,6 +156,7 @@
     <string name="biometric_cancel">Cancelar</string>
     <string name="biometric_face">Face ID</string>
     <string name="biometric_fingerprint">Huella</string>
+<<<<<<< HEAD
 
     <!-- Create Routine -->
         <string name="create_routine_title">Crear Nueva Rutina</string>
@@ -175,5 +176,10 @@
         <string name="specialty_weights_coach">Coach de Pesas</string>
         <string name="specialty_nutrition_cardio">Nutrición y Cardio</string>
         <string name="specialty_general_help">Ayuda General</string>
+=======
+    <string name="terms_and_conditions_title">Términos y Condiciones</string>
+    <string name="back_button">Regresar</string>
+
+>>>>>>> 283466ee1a86cbf035981b47b90acb02056950ca
 
 </resources>

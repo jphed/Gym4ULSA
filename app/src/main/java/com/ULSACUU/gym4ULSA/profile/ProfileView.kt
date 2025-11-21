@@ -20,7 +20,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -71,7 +71,7 @@ fun ProfileView(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
             .padding(16.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -108,7 +108,7 @@ fun ProfileView(navController: NavController) {
         Text(
             text = if (name.isNotBlank()) name else stringResource(id = R.string.profile_name_placeholder),
             fontSize = 22.sp,
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
@@ -117,7 +117,7 @@ fun ProfileView(navController: NavController) {
             Text(
                 text = email,
                 fontSize = 14.sp,
-                color = Color(0xFF444444),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -129,14 +129,14 @@ fun ProfileView(navController: NavController) {
             Text(
                 text = stringResource(id = R.string.profile_routine_type),
                 fontSize = 12.sp,
-                color = Color(0xFF888888),
+                color = MaterialTheme.colorScheme.outline,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Start
             )
             Text(
                 text = routineType,
                 fontSize = 18.sp,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 2.dp)
@@ -148,14 +148,14 @@ fun ProfileView(navController: NavController) {
             Text(
                 text = stringResource(id = R.string.profile_account_created),
                 fontSize = 12.sp,
-                color = Color(0xFF888888),
+                color = MaterialTheme.colorScheme.outline,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Start
             )
             Text(
                 text = createdAt,
                 fontSize = 16.sp,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 2.dp)
@@ -183,11 +183,11 @@ fun ProfileView(navController: NavController) {
                 .fillMaxWidth()
                 .padding(top = 24.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Black,
-                contentColor = Color.White
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
             )
         ) {
-            Text(text = stringResource(id = R.string.settings_logout), color = Color.White)
+            Text(text = stringResource(id = R.string.settings_logout), color = MaterialTheme.colorScheme.onPrimary)
         }
     }
 }

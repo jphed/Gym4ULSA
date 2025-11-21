@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.DeleteForever
+import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Shield
@@ -29,19 +30,20 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.ULSACUU.gym4ULSA.R
 import com.ULSACUU.gym4ULSA.settings.viewmodel.SettingsViewModel
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalContext
 import com.ULSACUU.gym4ULSA.navigation.ScreenNavigation
 import com.ULSACUU.gym4ULSA.utils.CredentialsStore
 import com.ULSACUU.gym4ULSA.utils.DataStoreManager
+import com.ULSACUU.gym4ULSA.settings.TermsAndConditionsView
 import kotlinx.coroutines.launch
 
 
@@ -142,7 +144,7 @@ fun SettingsView(
             SettingButtonRow(
                 text = stringResource(R.string.settings_edit_profile),
                 icon = Icons.Default.Person,
-                onClick = { /* TODO: Navegar a pantalla de perfil */ }
+                onClick = { navController.navigate(ScreenNavigation.Profile.route) }
             )
 
             HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -169,6 +171,15 @@ fun SettingsView(
             shape = RoundedCornerShape(16.dp),
             elevation = CardDefaults.cardElevation(4.dp)
         ) {
+            // Botón Términos y Condiciones
+            SettingButtonRow(
+                text = stringResource(R.string.terms_and_conditions_title),
+                icon = Icons.Default.Description,
+                onClick = { navController.navigate(ScreenNavigation.TermsAndConditions.route) }
+            )
+
+            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+
             // Botón Política de Privacidad
             SettingButtonRow(
                 text = stringResource(R.string.settings_privacy_policy),
