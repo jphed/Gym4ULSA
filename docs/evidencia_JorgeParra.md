@@ -24,7 +24,7 @@ Relacionado con lo anterior, una de las principales dificultades fue la falta de
 
 ## Buenas prácticas de Git aplicadas (ejemplos concretos)
 
-Principalmente, el uso de ramas para evitar afectar la rama `main` y la creación de pull requests para integrar cambios. Aunque a veces se nos olvida —a mí incluido— crear una rama para cada tarea, en general hacemos un buen uso de esta práctica.
+Principalmente, el uso de ramas para evitar afectar la rama "main" y la creación de pull requests para integrar cambios. Aunque a veces se nos olvida a mí incluido crear una rama para cada tarea, en general hacemos un buen uso de esta práctica.
 
 ## Compromisos para la entrega final del proyecto
 
