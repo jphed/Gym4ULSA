@@ -17,13 +17,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ULSACUU.gym4ULSA.R
 import androidx.compose.ui.unit.sp
 
 
 // --- FUNCIÓN DE AYUDA PARA WHATSAPP ---
 fun launchWhatsApp(context: Context, phoneNumber: String) {
-    val message = "Hola, soy usuario de Gym4ULSA y necesito asesoría."
+    val message = context.getString(R.string.whatsapp_default_message)
+
     val url = "https://api.whatsapp.com/send?phone=$phoneNumber&text=${Uri.encode(message)}"
     val intent = Intent(Intent.ACTION_VIEW).apply {
         Log.d("La url es ", url)
@@ -32,11 +35,12 @@ fun launchWhatsApp(context: Context, phoneNumber: String) {
     try {
         context.startActivity(intent)
     } catch (e: ActivityNotFoundException) {
-        Toast.makeText(context, "No se pudo abrir WhatsApp.", Toast.LENGTH_SHORT).show()
+        val errorMessage = context.getString(R.string.error_whatsapp_not_found)
+        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
     }
 }
 
-// --- LA PANTALLA VISUAL ---
+// --- PANTALLA VISUAL ---
 @Composable
 fun ChatView() {
     val context = LocalContext.current
@@ -44,7 +48,7 @@ fun ChatView() {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
         Text(
-            text = "Elige a tu Coach",
+            text = stringResource(R.string.chat_title_select_coach),
             fontSize = 24.sp,
             modifier = Modifier.padding(bottom = 16.dp)
         )
@@ -59,7 +63,7 @@ fun ChatView() {
     }
 }
 
-// --- COMPONENTE PARA CADA FILA (TARJETA) ---
+// --- COMPONENTE PARA CADA TARJETA ---
 @Composable
 fun CoachItemCard(coach: Coach, onClick: () -> Unit) {
     Card(
@@ -81,7 +85,11 @@ fun CoachItemCard(coach: Coach, onClick: () -> Unit) {
             Spacer(modifier = Modifier.width(16.dp))
             Column {
                 Text(text = coach.name, fontSize = 18.sp)
-                Text(text = coach.specialty, fontSize = 14.sp, color = MaterialTheme.colorScheme.secondary)
+                Text(
+                    text = stringResource(coach.specialtyResId),
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.secondary
+                )
             }
         }
     }

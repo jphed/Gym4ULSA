@@ -118,4 +118,24 @@
     <string name="biometric_cancel">Cancel</string>
     <string name="biometric_face">Face ID</string>
     <string name="biometric_fingerprint">Fingerprint</string>
+
+    <!-- Create Routine -->
+        <string name="create_routine_title">Create New Routine</string>
+        <string name="create_routine_name_label">Routine Name</string>
+        <string name="create_routine_exercises_added">Added Exercises:</string>
+        <string name="create_routine_add_button">Add Exercise from List</string>
+        <string name="create_routine_select_exercise">Select an Exercise</string>
+
+        <string name="action_save">Save</string>
+        <string name="content_description_back">Go back</string>
+        <string name="content_description_remove">Remove</string>
+
+    <!-- Chat Coach -->
+    <string name="chat_title_select_coach">Choose your Coach</string>
+    <string name="whatsapp_default_message">Hello, I am a Gym4ULSA user and I need advice.</string>
+    <string name="error_whatsapp_not_found">Could not open WhatsApp.</string>
+    <string name="specialty_weights_coach">Weights Coach</string>
+    <string name="specialty_nutrition_cardio">Nutrition and Cardio</string>
+    <string name="specialty_general_help">General Help</string>
+    
 </resources>
