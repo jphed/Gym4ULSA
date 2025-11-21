@@ -1,10 +1,10 @@
 # GYM4ULSA
 
-Apliación integral de fitness y utilidades diseñada para la comunidad de la Universidad La Salle (ULSA), construida con prácticas modernas de desarrollo Android usando Jetpack Compose.
+Apliación de fitness diseñada para la comunidad de la Universidad La Salle (ULSA), construida con prácticas modernas de desarrollo Android usando Jetpack Compose.
 
 ## Descripción general
 
-GYM4ULSA es una aplicación Android multifuncional que combina seguimiento de actividad física, calculadoras de salud y utilidades educativas en una sola interfaz fácil de usar. La app cuenta con un diseño moderno e internacionalizado con soporte para idiomas español e inglés.
+GYM4ULSA es una aplicación Android enfocada en el entrenamiento físico y el bienestar. Permite a los usuarios consultar y gestionar rutinas de ejercicio, revisar información de apoyo para nutrición, administrar su perfil y acceder de forma sencilla al gimnasio mediante códigos QR. La app cuenta con un diseño moderno e internacionalizado con soporte para idiomas español e inglés.
 
 ## Características
 
@@ -13,18 +13,17 @@ GYM4ULSA es una aplicación Android multifuncional que combina seguimiento de ac
 - **Onboarding interactivo**: Experiencia moderna de introducción basada en deslizamientos, con imágenes de fondo a pantalla completa y superposiciones en degradado
 - **Soporte multiidioma**: Internacionalización completa con soporte para español (predeterminado) e inglés
 - **UI/UX moderna**: Diseño futurista con elementos animados, efectos de degradado y componentes de Material Design 3
+- **Sistema de login**: Autenticación segura de usuarios para acceso a la app
 
-### Herramientas de salud y fitness
+### Módulos de la app de fitness
 
-- **Calculadora de IMC**: Calcula el Índice de Masa Corporal a partir del peso y la estatura
-- **Convertidor de temperatura**: Conversión entre grados Celsius y Fahrenheit
-- **Calculadora matemática**: Operaciones aritméticas básicas y cálculos generales
-
-### Funcionalidades educativas
-
-- **Gestión de estudiantes**: Registro y administración de información de estudiantes
-- **Servicios de localización**: Visualización y gestión de datos de ubicación
-- **Sistema de login**: Autenticación segura de usuarios
+- **Home**: Pantalla principal que muestra accesos rápidos a las secciones clave de la app
+- **Rutinas (Routine)**: Visualización y navegación de rutinas de ejercicio, organizadas por tipo de entrenamiento
+- **Nutrición (Nutrition)**: Pantalla con información y accesos relacionados con nutrición y hábitos saludables
+- **Perfil (Profile)**: Gestión del perfil del usuario, incluyendo datos básicos y opciones relacionadas con su experiencia de uso
+- **Ajustes (Settings)**: Configuración de la app, idioma y otras preferencias
+- **Onboarding**: Flujo inicial que presenta las principales funciones de la app al nuevo usuario
+- **QR**: Módulo para escanear códigos QR, pensado para facilitar accesos o registros relacionados con el gimnasio
 
 ### Características técnicas
 
@@ -95,36 +94,6 @@ La aplicación detecta automáticamente el idioma del dispositivo y muestra el c
 - Mantén una adecuada separación de responsabilidades (separation of concerns)
 - Usa buenas prácticas de manejo de estado en Compose
 - Sigue las guías de diseño de Material Design
-
-### Pruebas
-
-Para ejecutar el conjunto de pruebas:
-```bash
-./gradlew test
-```
-
-Para ejecutar pruebas instrumentadas en dispositivo/emulador:
-```bash
-./gradlew connectedAndroidTest
-```
-
-## Contribuciones
-
-1. Haz un fork del repositorio
-2. Crea una rama de funcionalidad (`git checkout -b feature/nueva-funcionalidad`)
-3. Realiza tus cambios y haz commit (`git commit -m 'Agregar nueva funcionalidad'`)
-4. Haz push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Abre un Pull Request
-
-## Historial de versiones
-
-### Versión 1.0
-- Versión inicial
-- Sistema de onboarding completo con internacionalización
-- Calculadora de IMC y conversor de temperatura
-- Gestión de estudiantes y servicios de localización
-- Interfaz moderna con Material Design 3
-- Navegación basada en gestos (swipe)
 
 ## Licencia
 
