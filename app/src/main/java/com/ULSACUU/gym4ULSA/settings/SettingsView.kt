@@ -88,7 +88,7 @@ fun SettingsView(
             shape = RoundedCornerShape(16.dp),
             elevation = CardDefaults.cardElevation(4.dp)
         ) {
-            // Tema oscuro (Tu código original)
+            // Tema oscuro
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

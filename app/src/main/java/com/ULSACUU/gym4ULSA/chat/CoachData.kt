@@ -1,8 +1,10 @@
 package com.ULSACUU.gym4ULSA.chat
 
+import com.ULSACUU.gym4ULSA.R
+
 data class Coach(
     val name: String,
-    val specialty: String,
+    val specialtyResId: Int,
     val phoneNumber: String
 )
 
@@ -10,17 +12,17 @@ data class Coach(
 val coachList = listOf(
     Coach(
         name = "Jose Holguin",
-        specialty = "Coach de Pesas",
+        specialtyResId = R.string.specialty_weights_coach,
         phoneNumber = "5216145218022"
     ),
     Coach(
         name = "Yajahira Payan",
-        specialty = "Nutrición y Cardio",
+        specialtyResId = R.string.specialty_nutrition_cardio,
         phoneNumber = "5216145952333"
     ),
     Coach(
         name = "Jorge Parra",
-        specialty = "Ayuda General",
+        specialtyResId = R.string.specialty_general_help,
         phoneNumber = "5216141224058"
     )
 )

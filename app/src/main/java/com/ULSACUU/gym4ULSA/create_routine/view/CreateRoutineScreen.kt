@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,6 +21,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.ULSACUU.gym4ULSA.create_routine.viewmodel.CreateRoutineViewModel
 import com.ULSACUU.gym4ULSA.home.Exercise
+import com.ULSACUU.gym4ULSA.R
 import com.ULSACUU.gym4ULSA.home.getTranslatedData
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,23 +35,26 @@ fun CreateRoutineScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Crear Nueva Rutina") },
+                title = { Text(stringResource(R.string.create_routine_title)) }, // INTERNACIONALIZADO
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
+                        Icon(
+                            Icons.Default.ArrowBack,
+                            contentDescription = stringResource(R.string.content_description_back) // INTERNACIONALIZADO
+                        )
                     }
                 },
                 actions = {
                     Button(
                         onClick = {
                             viewModel.saveRoutine {
-                                navController.popBackStack() // Vuelve al Home
+                                navController.popBackStack()
                             }
                         },
                         // Se activa solo si el nombre no está vacío y hay ejercicios
                         enabled = viewModel.routineName.isNotBlank() && viewModel.addedExercises.isNotEmpty()
                     ) {
-                        Text("Guardar")
+                        Text(stringResource(R.string.action_save)) // INTERNACIONALIZADO
                     }
                 }
             )
@@ -65,7 +70,7 @@ fun CreateRoutineScreen(
             OutlinedTextField(
                 value = viewModel.routineName,
                 onValueChange = { viewModel.routineName = it },
-                label = { Text("Nombre de la Rutina") },
+                label = { Text(stringResource(R.string.create_routine_name_label)) }, // INTERNACIONALIZADO
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -73,7 +78,7 @@ fun CreateRoutineScreen(
 
             // --- Lista de Ejercicios Añadidos ---
             Text(
-                text = "Ejercicios Añadidos:",
+                text = stringResource(R.string.create_routine_exercises_added),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -96,7 +101,7 @@ fun CreateRoutineScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(Icons.Default.Add, contentDescription = null)
-                Text(" Añadir Ejercicio de la Lista")
+                Text(stringResource(R.string.create_routine_add_button))
             }
         }
     }
@@ -114,7 +119,7 @@ fun CreateRoutineScreen(
             ) {
                 item {
                     Text(
-                        "Selecciona un Ejercicio",
+                        stringResource(R.string.create_routine_select_exercise),
                         style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.padding(16.dp)
                     )
@@ -130,7 +135,7 @@ fun CreateRoutineScreen(
     }
 }
 
-// --- Componentes de la lista ---
+// --- Componente de la lista modificado ---
 
 @Composable
 fun AddedExerciseItem(exercise: Exercise, onRemove: () -> Unit) {
@@ -152,7 +157,10 @@ fun AddedExerciseItem(exercise: Exercise, onRemove: () -> Unit) {
                 modifier = Modifier.weight(1f)
             )
             IconButton(onClick = onRemove) {
-                Icon(Icons.Default.Close, contentDescription = "Quitar")
+                Icon(
+                    Icons.Default.Close,
+                    contentDescription = stringResource(R.string.content_description_remove)
+                )
             }
         }
     }

@@ -110,4 +110,24 @@
     <string name="settings_privacy_policy">Política de Privacidad</string>
     <string name="settings_logout">Cerrar Sesión</string>
     <string name="settings_delete_account">Eliminar Cuenta</string>
+
+    <!-- Create Routine -->
+    <string name="create_routine_title">Crear Nueva Rutina</string>
+    <string name="create_routine_name_label">Nombre de la Rutina</string>
+    <string name="create_routine_exercises_added">Ejercicios Añadidos:</string>
+    <string name="create_routine_add_button">Añadir Ejercicio de la Lista</string>
+    <string name="create_routine_select_exercise">Selecciona un Ejercicio</string>
+
+    <string name="action_save">Guardar</string>
+    <string name="content_description_back">Volver</string>
+    <string name="content_description_remove">Quitar</string>
+
+    <!-- Chat Coach -->
+    <string name="chat_title_select_coach">Elige a tu Coach</string>
+    <string name="whatsapp_default_message">Hola, soy usuario de Gym4ULSA y necesito asesoría.</string>
+    <string name="error_whatsapp_not_found">No se pudo abrir WhatsApp.</string>
+    <string name="specialty_weights_coach">Coach de Pesas</string>
+    <string name="specialty_nutrition_cardio">Nutrición y Cardio</string>
+    <string name="specialty_general_help">Ayuda General</string>
+
 </resources>
