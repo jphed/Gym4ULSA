@@ -177,6 +177,28 @@
     <string name="terms_and_conditions_title">Términos y Condiciones</string>
     <string name="back_button">Regresar</string>
 
+    <!-- Terms&Conditions  -->
+    <string name="terms_and_conditions_last_update">Última actualización: 19 de noviembre de 2023</string>
+    <string name="terms_and_conditions_section_1">1. Aceptación de los Términos</string>
+    <string name="terms_and_conditions_text_1">
+    Al acceder y utilizar la aplicación Gym4ULSA, aceptas cumplir con estos términos y condiciones.
+    Si no estás de acuerdo con alguna parte de estos términos, por favor no utilices nuestra aplicación.</string>
+    <string name="terms_and_conditions_section_2">2. Uso de la Aplicación</string>
+    <string name="terms_and_conditions_text_2">
+    2.1. La aplicación está diseñada para uso personal y no comercial de los miembros de la comunidad ULSA.
+    2.2. Eres responsable de mantener la confidencialidad de tu cuenta y contraseña.
+    2.3. No debes utilizar la aplicación para ningún propósito ilegal o no autorizado.</string>
+    <string name="terms_and_conditions_section_3">3. Privacidad</string>
+    <string name="terms_and_conditions_text_3">
+    Tu privacidad es importante para nosotros. Por favor, revisa nuestra Política de Privacidad para entender
+    cómo recopilamos, usamos y protegemos tu información personal.</string>
+    <string name="terms_and_conditions_section_4">4. Modificaciones</string>
+    <string name="terms_and_conditions_text_4">
+    Nos reservamos el derecho de modificar estos términos en cualquier momento. Te notificaremos sobre
+    cambios significativos a través de la aplicación o por correo electrónico.</string>
+    <string name="terms_and_conditions_section_5">5. Contacto</string>
+    <string name="terms_and_conditions_text_5">
+    Si tienes alguna pregunta sobre estos Términos y Condiciones, por favor contáctanos a soporte@gym4ulsa.com</string>
 
 
 </resources>

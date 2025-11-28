@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ULSACUU.gym4ULSA.R
 
@@ -21,11 +20,11 @@ fun TermsAndConditionsView(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { 
+                title = {
                     Text(
                         text = stringResource(R.string.terms_and_conditions_title),
                         style = MaterialTheme.typography.titleLarge
-                    ) 
+                    )
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
@@ -45,71 +44,76 @@ fun TermsAndConditionsView(navController: NavController) {
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
+
+            // Última actualización
             Text(
-                text = "Última actualización: 19 de noviembre de 2023",
+                text = stringResource(R.string.terms_and_conditions_last_update),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
+            // Sección 1
             Text(
-                text = "1. Aceptación de los Términos",
+                text = stringResource(R.string.terms_and_conditions_section_1),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
             Text(
-                text = "Al acceder y utilizar la aplicación Gym4ULSA, aceptas cumplir con estos términos y condiciones. Si no estás de acuerdo con alguna parte de estos términos, por favor no utilices nuestra aplicación.",
+                text = stringResource(R.string.terms_and_conditions_text_1),
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
+            // Sección 2
             Text(
-                text = "2. Uso de la Aplicación",
+                text = stringResource(R.string.terms_and_conditions_section_2),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
             Text(
-                text = "2.1. La aplicación está diseñada para uso personal y no comercial de los miembros de la comunidad ULSA." +
-                        "\n\n2.2. Eres responsable de mantener la confidencialidad de tu cuenta y contraseña." +
-                        "\n\n2.3. No debes utilizar la aplicación para ningún propósito ilegal o no autorizado.",
+                text = stringResource(R.string.terms_and_conditions_text_2),
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
+            // Sección 3
             Text(
-                text = "3. Privacidad",
+                text = stringResource(R.string.terms_and_conditions_section_3),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
             Text(
-                text = "Tu privacidad es importante para nosotros. Por favor, revisa nuestra Política de Privacidad para entender cómo recopilamos, usamos y protegemos tu información personal.",
+                text = stringResource(R.string.terms_and_conditions_text_3),
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
+            // Sección 4
             Text(
-                text = "4. Modificaciones",
+                text = stringResource(R.string.terms_and_conditions_section_4),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
             Text(
-                text = "Nos reservamos el derecho de modificar estos términos en cualquier momento. Te notificaremos sobre cambios significativos a través de la aplicación o por correo electrónico.",
+                text = stringResource(R.string.terms_and_conditions_text_4),
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
+            // Sección 5
             Text(
-                text = "5. Contacto",
+                text = stringResource(R.string.terms_and_conditions_section_5),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
             Text(
-                text = "Si tienes alguna pregunta sobre estos Términos y Condiciones, por favor contáctanos a soporte@gym4ulsa.com",
+                text = stringResource(R.string.terms_and_conditions_text_5),
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
