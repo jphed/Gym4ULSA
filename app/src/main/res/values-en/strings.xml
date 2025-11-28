@@ -28,6 +28,13 @@
     <string name="login_sign_in_title">Sign in</string>
     <string name="login_signing_in">Signing in…</string>
     <string name="toggle_password_visibility">Toggle password visibility</string>
+    <string name="login_required_fields">Email and password are required</string>
+    <string name="login_success_welcome">Successful login. Welcome %1$s</string>
+    <string name="login_error_wrong_email">Incorrect email</string>
+    <string name="login_error_wrong_password">Invalid password</string>
+    <string name="login_failed">Login failed</string>
+    <string name="network_error">Network/server error</string>
+
 
     <!-- Bottom Bar -->
     <string name="bottom_home">Home</string>
@@ -74,6 +81,10 @@
     <string name="exercise_lunges">Lunges</string>
     <string name="exercise_bicep_curl">Bicep curl</string>
     <string name="exercise_lat_raises">Lateral raises</string>
+    <string name="home_routines_title">Workout Routines</string>
+    <string name="home_see_exercises">See exercises</string>
+    <string name="home_exercises_title">Available Exercises</string>
+
 
     <!-- Routine screen -->
     <string name="routine_title">Routine</string>
@@ -118,4 +129,44 @@
     <string name="biometric_cancel">Cancel</string>
     <string name="biometric_face">Face ID</string>
     <string name="biometric_fingerprint">Fingerprint</string>
+
+    <!-- Terms&Conditions  -->
+    <string name="terms_and_conditions_title">Terms and Conditions</string>
+    <string name="back_button">Back</string>
+    <string name="terms_content"> These are the Terms and Conditions of the Gym4ULSA mobile application.
+    By using this app, you agree to comply with the rules and responsibilities described below.</string>
+    <string name="terms_and_conditions_last_update">Last updated: November 19, 2023</string>
+
+    <string name="terms_and_conditions_section_1">1. Acceptance of Terms</string>
+    <string name="terms_and_conditions_text_1">
+    By accessing and using the Gym4ULSA application, you agree to comply with these terms and conditions.
+    If you do not agree with any part of these terms, please do not use our application.
+</string>
+
+    <string name="terms_and_conditions_section_2">2. Use of the Application</string>
+    <string name="terms_and_conditions_text_2">
+    2.1. The application is intended for personal and non-commercial use by members of the ULSA community.
+
+    2.2. You are responsible for maintaining the confidentiality of your account and password.
+
+    2.3. You must not use the application for any illegal or unauthorized purpose.
+</string>
+
+    <string name="terms_and_conditions_section_3">3. Privacy</string>
+    <string name="terms_and_conditions_text_3">
+    Your privacy is important to us. Please review our Privacy Policy to understand how we collect, use,
+    and protect your personal information.
+</string>
+
+    <string name="terms_and_conditions_section_4">4. Modifications</string>
+    <string name="terms_and_conditions_text_4">
+    We reserve the right to modify these terms at any time. We will notify you of significant changes
+    through the app or via email.
+</string>
+
+    <string name="terms_and_conditions_section_5">5. Contact</string>
+    <string name="terms_and_conditions_text_5">
+    If you have any questions about these Terms and Conditions, please contact us at soporte@gym4ulsa.com
+</string>
+
 </resources>
