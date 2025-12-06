@@ -44,8 +44,7 @@ fun TabBarNavigationView(
         ScreenNavigation.Routine,
         ScreenNavigation.Nutrition,
         ScreenNavigation.Settings,
-        ScreenNavigation.HomeDetails,
-        ScreenNavigation.SignUp
+        ScreenNavigation.HomeDetails
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
