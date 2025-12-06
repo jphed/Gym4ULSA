@@ -249,9 +249,9 @@ fun LoginView(navController: NavController) {
                 .fillMaxSize()
                 .padding(padding)
                 .padding(horizontal = 24.dp)
-                .imePadding() // 👈 mueve contenido cuando aparece el teclado
+                .imePadding() //  mueve contenido cuando aparece el teclado
                 .navigationBarsPadding()
-                .verticalScroll(scrollState) // 👈 permite hacer scroll
+                .verticalScroll(scrollState) // permite hacer scroll
                 .clickable(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }
@@ -395,6 +395,19 @@ fun LoginView(navController: NavController) {
                 Icon(icon, contentDescription = label, modifier = Modifier.size(20.dp), tint = Color.Black)
                 Spacer(Modifier.width(8.dp))
                 Text(label)
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            TextButton(
+                onClick = {
+                    navController.navigate(ScreenNavigation.SignUp.route)
+                }
+            ) {
+                Text(
+                    text = "¿No tienes cuenta? Regístrate aquí",
+                    color = Color.Black
+                )
             }
 
             Spacer(Modifier.height(48.dp))
