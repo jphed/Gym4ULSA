@@ -15,5 +15,6 @@ sealed class ScreenNavigation(val route: String, val label: String, val icon: Im
     object QrScanner : ScreenNavigation("QrScannerRoute", "QR Scanner", Icons.Default.QrCodeScanner)
     object HomeDetails : ScreenNavigation("HomeDetailsRoute/{exerciseId}","Exercise Detail", Icons.Default.FitnessCenter)
     object TermsAndConditions : ScreenNavigation("TermsAndConditionsRoute", "Terms & Conditions", Icons.Default.Info)
+    object SignUp : ScreenNavigation("SignUpRoute", "Registro", Icons.Default.PersonAdd)
 
 }

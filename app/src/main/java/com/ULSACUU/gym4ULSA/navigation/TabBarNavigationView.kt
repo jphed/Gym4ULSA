@@ -1,19 +1,13 @@
 package com.ULSACUU.gym4ULSA.navigation
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.QrCodeScanner
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -23,20 +17,21 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.ULSACUU.gym4ULSA.R
-import com.ULSACUU.gym4ULSA.home.HomeDetailsView
 import com.ULSACUU.gym4ULSA.home.HomeView
 import com.ULSACUU.gym4ULSA.home.HomeViewModel
-import com.ULSACUU.gym4ULSA.login.views.LoginView
-import com.ULSACUU.gym4ULSA.nutrition.view.NutritionView
-import com.ULSACUU.gym4ULSA.onboarding.viewmodel.OnboardingViewModel
-import com.ULSACUU.gym4ULSA.profile.ProfileView
-import com.ULSACUU.gym4ULSA.qr.view.QrScannerView
+import com.ULSACUU.gym4ULSA.home.HomeDetailsView
 import com.ULSACUU.gym4ULSA.chat.ChatView
 import com.ULSACUU.gym4ULSA.chat.onboarding.views.OnboardingView
-import com.ULSACUU.gym4ULSA.create_routine.view.CreateRoutineScreen
+import com.ULSACUU.gym4ULSA.profile.ProfileView
 import com.ULSACUU.gym4ULSA.settings.SettingsView
+import com.ULSACUU.gym4ULSA.login.views.LoginView
+import com.ULSACUU.gym4ULSA.create_routine.view.CreateRoutineScreen
+import com.ULSACUU.gym4ULSA.nutrition.view.NutritionView
+import com.ULSACUU.gym4ULSA.onboarding.viewmodel.OnboardingViewModel
+import com.ULSACUU.gym4ULSA.qr.view.QrScannerView
 import com.ULSACUU.gym4ULSA.settings.TermsAndConditionsView
 import com.ULSACUU.gym4ULSA.settings.viewmodel.SettingsViewModel
+import com.ULSACUU.gym4ULSA.sign_up.view.RegistroScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,17 +44,22 @@ fun TabBarNavigationView(
         ScreenNavigation.Routine,
         ScreenNavigation.Nutrition,
         ScreenNavigation.Settings,
-        ScreenNavigation.HomeDetails
+        ScreenNavigation.HomeDetails,
+        ScreenNavigation.SignUp
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
+    val showBars = currentRoute != ScreenNavigation.Login.route &&
+            currentRoute != ScreenNavigation.Onboarding.route &&
+            currentRoute != ScreenNavigation.SignUp.route
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         contentWindowInsets = WindowInsets(0),
         topBar = {
-            if (currentRoute != ScreenNavigation.Login.route && currentRoute != ScreenNavigation.Onboarding.route) {
+            if (showBars) {
                 CenterAlignedTopAppBar(
                     title = { Text(text = stringResource(id = R.string.app_name)) },
                     navigationIcon = {
@@ -82,7 +82,7 @@ fun TabBarNavigationView(
             }
         },
         floatingActionButton = {
-            if (currentRoute != ScreenNavigation.Login.route && currentRoute != ScreenNavigation.Onboarding.route) {
+            if (showBars) {
                 FloatingActionButton(
                     onClick = {
                         navController.navigate("create_routine")
@@ -101,7 +101,7 @@ fun TabBarNavigationView(
         },
         floatingActionButtonPosition = FabPosition.Center,
         bottomBar = {
-            if (currentRoute != ScreenNavigation.Login.route && currentRoute != ScreenNavigation.Onboarding.route) {
+            if (showBars) {
                 AppBottomBar(
                     items = items,
                     currentRoute = currentRoute,
@@ -116,6 +116,7 @@ fun TabBarNavigationView(
                 startDestination = ScreenNavigation.Login.route,
                 modifier = Modifier
             ) {
+
                 composable("create_routine") {
                     CreateRoutineScreen(navController = navController)
                 }
@@ -125,10 +126,24 @@ fun TabBarNavigationView(
                 composable(ScreenNavigation.Settings.route) {
                     SettingsView(navController, settingsViewModel)
                 }
-                composable(ScreenNavigation.Login.route) { LoginView(navController) }
-                composable(ScreenNavigation.Nutrition.route) {
-                    NutritionView(navController)
+
+                composable(ScreenNavigation.Login.route) {
+                    LoginView(
+                        navController = navController
+                    )
                 }
+
+                composable(ScreenNavigation.SignUp.route) {
+                    RegistroScreen(
+                        onRegistroExitoso = {
+                            navController.navigate(ScreenNavigation.Home.route) {
+                                popUpTo(ScreenNavigation.Login.route) { inclusive = true }
+                            }
+                        }
+                    )
+                }
+
+                // Onboarding
                 composable(ScreenNavigation.Onboarding.route) {
                     val vm: OnboardingViewModel = viewModel()
                     OnboardingView(
@@ -140,31 +155,31 @@ fun TabBarNavigationView(
                         }
                     )
                 }
+
+                composable(ScreenNavigation.Nutrition.route) {
+                    NutritionView(navController)
+                }
                 composable(ScreenNavigation.QrScanner.route) {
                     QrScannerView(navController)
                 }
                 composable(ScreenNavigation.TermsAndConditions.route) {
                     TermsAndConditionsView(navController)
                 }
+
                 composable(
-                    // 💡 CAMBIAR la ruta para que el argumento sea opcional con '?'
                     route = "HomeDetailsRoute/{exerciseId}?",
                     arguments = listOf(
                         navArgument("exerciseId") {
                             type = NavType.StringType
-                            nullable = true // Permitir que sea null
-                            defaultValue = "-1" // Establecer un valor por defecto seguro (un String que luego convertiremos a Int)
+                            nullable = true
+                            defaultValue = "-1"
                         }
                     )
                 ) { backStackEntry ->
-                    // Obtener el ID de forma segura
                     val exerciseIdString = backStackEntry.arguments?.getString("exerciseId")
-
-                    // Convertir a Int (usando -1 si es nulo o si no se puede parsear)
                     val exerciseId = exerciseIdString?.toIntOrNull() ?: -1
 
                     val homeViewModel: HomeViewModel = viewModel()
-                    // Buscar el ejercicio usando el ID, usando el -1 como valor que no coincidirá con ningún ejercicio real.
                     val exercise = homeViewModel.allExercises.find { it.id == exerciseId }
 
                     exercise?.let {
@@ -176,7 +191,6 @@ fun TabBarNavigationView(
     }
 }
 
-
 @Composable
 private fun AppBottomBar(
     items: List<ScreenNavigation>,
@@ -184,7 +198,7 @@ private fun AppBottomBar(
     navController: NavHostController
 ) {
     NavigationBar {
-        val navItems = items.chunked(items.size / 2) // Divide los items en [izq], [der]
+        val navItems = items.chunked(items.size / 2)
 
         // Renderiza los items de la izquierda
         navItems[0].forEach { screen ->
@@ -206,7 +220,6 @@ private fun AppBottomBar(
         }
     }
 }
-
 
 @Composable
 private fun RowScope.AddItemToNavBar(
