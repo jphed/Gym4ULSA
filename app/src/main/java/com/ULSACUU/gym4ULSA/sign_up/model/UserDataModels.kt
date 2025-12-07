@@ -20,9 +20,11 @@ enum class Genero(val label: String) {
 
 // Estado del formulario para el ViewModel
 data class RegistroState(
+    val name: String = "",
     val email: String = "",
     val password: String = "",
     val edad: String = "",
+
     val pesoActual: String = "",
     val altura: String = "",
     val metaPeso: String = "",
@@ -31,5 +33,6 @@ data class RegistroState(
     val genero: Genero? = null,
     val terminosAceptados: Boolean = false,
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val successMessage: String? = null
 )

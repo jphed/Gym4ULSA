@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory
    que contiene los endpoints definidos para autenticación.
 */
 object RetrofitProvider {
-    private const val BASE_URL = "https://eleventenbackend.onrender.com"
+    private const val BASE_URL = "http://10.0.2.2:4001"
 
     // Interceptor para loguear requests/responses HTTP
     private val logging = HttpLoggingInterceptor().apply {

@@ -135,8 +135,9 @@ fun TabBarNavigationView(
                 composable(ScreenNavigation.SignUp.route) {
                     RegistroScreen(
                         onRegistroExitoso = {
-                            navController.navigate(ScreenNavigation.Home.route) {
+                            navController.navigate(ScreenNavigation.Login.route) {
                                 popUpTo(ScreenNavigation.Login.route) { inclusive = true }
+                                launchSingleTop = true
                             }
                         }
                     )

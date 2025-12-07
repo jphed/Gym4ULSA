@@ -1,3 +1,4 @@
+
 # GYM4ULSA
 
 Apliación de fitness diseñada para la comunidad de la Universidad La Salle (ULSA), construida con prácticas modernas de desarrollo Android usando Jetpack Compose.

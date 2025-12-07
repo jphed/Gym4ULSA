@@ -72,11 +72,13 @@ class LoginViewModel(private val repo: AuthRepository) : ViewModel() {
      - Valida que email y password no estén vacíos.
      - Cambia el estado a isLoading = true mientras espera la respuesta.
      - Llama al repositorio para hacer la petición de login.
-     - Según el resultado:
-       * success = true → muestra "Login exitoso. Bienvenido <nombre>"
-       * success = false → muestra el mensaje que viene del servidor
-         o "Login fallido" si está vacío.
-     - Si ocurre una excepción de red → muestra "Error de red/servidor".
+     - Si el login es exitoso:
+       * Guarda la respuesta con token y usuario en el estado
+       * Muestra "Login exitoso. Bienvenido"
+       * Navega a la pantalla principal
+     - Si ocurre una excepción:
+       * Parsea el mensaje de error del servidor
+       * Muestra el mensaje apropiado según el tipo de error
      - Al terminar (éxito o error) → regresa isLoading = false.
     */
     fun login() {
@@ -90,23 +92,20 @@ class LoginViewModel(private val repo: AuthRepository) : ViewModel() {
 
         viewModelScope.launch {
             try {
-                val res = repo.login(email, password)
-                if (res.success) {
-                    _ui.value = _ui.value.copy(currentUser = res.user)
-                    _toastEvents.send(ToastMessage(R.string.login_success_welcome, listOf(res.user?.name ?: "")))
-                    delay(500)
-                    _navEvents.send(LoginNavEvent.GoHome)
-                } else {
-                    val msg = res.message.lowercase()
-                    val resId = when {
-                        "correo" in msg || "email" in msg -> R.string.login_error_wrong_email
-                        "contraseña" in msg || "password" in msg -> R.string.login_error_wrong_password
-                        else -> R.string.login_failed
-                    }
-                    _toastEvents.send(ToastMessage(resId))
-                }
+                val response = repo.login(email, password)
+                _ui.value = _ui.value.copy(currentUser = response)
+                _toastEvents.send(ToastMessage(R.string.login_success_welcome, listOf("Usuario")))
+                delay(500)
+                _navEvents.send(LoginNavEvent.GoHome)
             } catch (e: Exception) {
-                _toastEvents.send(ToastMessage(R.string.network_error))
+                val msg = e.message?.lowercase() ?: ""
+                val resId = when {
+                    "correo" in msg || "email" in msg -> R.string.login_error_wrong_email
+                    "contraseña" in msg || "password" in msg -> R.string.login_error_wrong_password
+                    "red" in msg || "conexión" in msg -> R.string.network_error
+                    else -> R.string.login_failed
+                }
+                _toastEvents.send(ToastMessage(resId))
             } finally {
                 _ui.value = _ui.value.copy(isLoading = false)
             }

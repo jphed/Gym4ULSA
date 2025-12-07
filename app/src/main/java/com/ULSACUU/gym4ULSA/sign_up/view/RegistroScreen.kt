@@ -10,13 +10,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ULSACUU.gym4ULSA.sign_up.model.Genero
 import com.ULSACUU.gym4ULSA.sign_up.model.NivelExperiencia
 import com.ULSACUU.gym4ULSA.sign_up.model.ObjetivoFitness
 import com.ULSACUU.gym4ULSA.sign_up.viewmodel.RegistroEvent
 import com.ULSACUU.gym4ULSA.sign_up.viewmodel.RegistroViewModel
+import com.ULSACUU.gym4ULSA.utils.CredentialsStore
+import com.ULSACUU.gym4ULSA.utils.DataStoreManager
 
 
 @Composable
@@ -26,6 +30,10 @@ fun RegistroScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
+    val dataStore = remember { DataStoreManager(context) }
+    val credentialsStore = remember { CredentialsStore(context) }
+    val savedEmail by dataStore.savedEmailFlow.collectAsState(initial = "")
 
     Column(
         modifier = Modifier
@@ -58,6 +66,14 @@ fun RegistroScreen(
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+        )
+
+        OutlinedTextField(
+            value = state.name,
+            onValueChange = { viewModel.onEvent(RegistroEvent.EnteredName(it)) },
+            label = { Text("Nombre completo") },
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
 
         // --- Datos Biométricos (Fila 1) ---
@@ -98,6 +114,18 @@ fun RegistroScreen(
 
         Divider()
 
+        // --- Género ---
+        Text("Género", modifier = Modifier.align(Alignment.Start))
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+            Genero.values().forEach { genero ->
+                FilterChip(
+                    selected = state.genero == genero,
+                    onClick = { viewModel.onEvent(RegistroEvent.SelectedGenero(genero)) },
+                    label = { Text(genero.label) }
+                )
+            }
+        }
+
         // --- Selectores (ENUMS) ---
 
         Text("Nivel de Experiencia", modifier = Modifier.align(Alignment.Start))
@@ -133,6 +161,21 @@ fun RegistroScreen(
 
         if (state.error != null) {
             Text(state.error!!, color = Color.Red, fontSize = 12.sp)
+        }
+        state.successMessage?.let { message ->
+            Text(message, color = Color(0xFF2E7D32), fontSize = 14.sp)
+            LaunchedEffect(message) {
+                dataStore.setRememberCredentials(false)
+                dataStore.setUserName("")
+                dataStore.setUserEmail("")
+                dataStore.setAccountCreatedAt("")
+                dataStore.setSavedEmail("")
+                val storedEmail = savedEmail.ifBlank { credentialsStore.getSavedEmail().orEmpty() }
+                if (storedEmail.isNotBlank()) {
+                    credentialsStore.clearCredentials(storedEmail)
+                }
+                onRegistroExitoso()
+            }
         }
 
         Button(

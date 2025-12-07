@@ -1,6 +1,6 @@
 package com.ULSACUU.gym4ULSA.login.viewmodel
 
-import com.ULSACUU.gym4ULSA.login.model.dto.User
+import com.ULSACUU.gym4ULSA.login.model.dto.LoginResponse
 
 /*
  LoginUiState
@@ -24,5 +24,5 @@ data class LoginUiState(
     val email: String = "",
     val password: String = "",
     val isLoading: Boolean = false,
-    val currentUser: User? = null
+    val currentUser: LoginResponse? = null
 )
