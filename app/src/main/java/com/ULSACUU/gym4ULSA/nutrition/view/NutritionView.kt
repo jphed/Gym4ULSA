@@ -1,5 +1,6 @@
 package com.ULSACUU.gym4ULSA.nutrition.view
 
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,6 +16,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
@@ -43,14 +45,114 @@ import com.ULSACUU.gym4ULSA.nutrition.viewmodel.NutritionViewModel
 import kotlin.math.max
 import kotlin.math.min
 import java.util.Locale
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CameraAlt
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.launch
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.CircularProgressIndicator
+import com.ULSACUU.gym4ULSA.nutrition.viewmodel.AnalysisState
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
 
 @Composable
 fun NutritionView(navController: NavController, vm: NutritionViewModel = viewModel()) {
     val state by vm.uiState.collectAsState()
-    when (val s = state) {
-        is NutritionUiState.Loading -> LoadingSection()
-        is NutritionUiState.Error -> ErrorSection(message = s.message, onRetry = vm::refresh)
-        is NutritionUiState.Success -> NutritionContent(s)
+    val analysisState by vm.analysisState.collectAsState()
+
+    val context = LocalContext.current
+
+    val cameraLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicturePreview()
+    ) { bitmap ->
+        if (bitmap != null) {
+            vm.analyzeFoodImage(bitmap)
+        }
+    }
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            cameraLauncher.launch(null)
+        } else {
+        }
+    }
+
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    val permissionStatus = ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.CAMERA
+                    )
+
+                    if (permissionStatus == PackageManager.PERMISSION_GRANTED) {
+                        cameraLauncher.launch(null)
+                    } else {
+                        permissionLauncher.launch(Manifest.permission.CAMERA)
+                    }
+                },
+                containerColor = Color(0xFF0A84FF),
+                contentColor = Color.White
+            ) {
+                Icon(Icons.Default.CameraAlt, contentDescription = "Escanear comida")
+            }
+        }
+    ) { paddingValues ->
+        // Contenedor principal con padding del Scaffold
+        Box(modifier = Modifier.padding(paddingValues)) {
+            when (val s = state) {
+                is NutritionUiState.Loading -> LoadingSection()
+                is NutritionUiState.Error -> ErrorSection(message = s.message, onRetry = vm::refresh)
+                is NutritionUiState.Success -> NutritionContent(s)
+            }
+        }
+    }
+
+    // --- Manejo de Diálogos y Estados de IA ---
+
+    when (val anaState = analysisState) {
+        is AnalysisState.Loading -> {
+            AlertDialog(
+                onDismissRequest = { },
+                title = { Text("Consultando a la IA...") },
+                text = {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+                        CircularProgressIndicator()
+                        Spacer(Modifier.height(16.dp))
+                        Text("Analizando imagen...")
+                    }
+                },
+                confirmButton = {}
+            )
+        }
+        is AnalysisState.Error -> {
+            AlertDialog(
+                onDismissRequest = { vm.resetAnalysisState() },
+                title = { Text("Ups!") },
+                text = { Text(anaState.message) },
+                confirmButton = {
+                    TextButton(onClick = { vm.resetAnalysisState() }) { Text("Cerrar") }
+                }
+            )
+        }
+        is AnalysisState.Success -> {
+            // Este es el "Resumen" del diagrama
+            FoodConfirmationDialog(
+                result = anaState.result,
+                onConfirm = {
+                    vm.saveFoodToDatabase(anaState.result)
+                },
+                onDismiss = { vm.resetAnalysisState() }
+            )
+        }
+        else -> {}
     }
 }
 
@@ -397,5 +499,55 @@ private fun TagChip(text: String) {
             .padding(horizontal = 10.dp, vertical = 6.dp)
     ) {
         Text(text, style = MaterialTheme.typography.bodySmall, color = Color.White)
+    }
+}
+
+@Composable
+private fun FoodConfirmationDialog(
+    result: com.ULSACUU.gym4ULSA.nutrition.viewmodel.AIAnalysisResult, // Ajusta el import según tu package
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Resultado del Análisis") },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(
+                    text = result.foodName,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(result.summary, style = MaterialTheme.typography.bodySmall, color = Color.Gray)
+
+                Divider(Modifier.padding(vertical = 8.dp))
+
+                // Resumen de Macros rápido
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    MacroItemValue("Kcal", "${result.calories}")
+                    MacroItemValue("Prot", "${result.protein}g", Color(0xFF34C759))
+                    MacroItemValue("Carb", "${result.carbs}g", Color(0xFF0A84FF))
+                    MacroItemValue("Grasa", "${result.fat}g", Color(0xFFFF9F0A))
+                }
+            }
+        },
+        confirmButton = {
+            Button(onClick = onConfirm) {
+                Text("Aceptar y Guardar")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancelar")
+            }
+        }
+    )
+}
+
+@Composable
+fun MacroItemValue(label: String, value: String, color: Color = Color.White) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(label, style = MaterialTheme.typography.bodySmall, color = Color.Gray)
+        Text(value, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold, color = color)
     }
 }

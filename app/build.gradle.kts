@@ -101,5 +101,11 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
+    // Gemini SDK
+    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+   // implementation("com.google.ai.client.generativeai:client-android:0.9.0")
+    // Iconos extendidos para la cámara/comida
+    implementation("androidx.compose.material:material-icons-extended:1.5.4")
+
 
 }
