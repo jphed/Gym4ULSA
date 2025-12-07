@@ -153,8 +153,8 @@ fun LoginView(navController: NavController) {
                     val emailNow = ui.email
                     val wasPrompted = promptedEmails.contains(emailNow)
                     scope.launch {
-                        val name = ui.currentUser?.name ?: ""
-                        val email = ui.currentUser?.email ?: emailNow
+                        val name = "Usuario"  // El backend no devuelve el nombre en el login
+                        val email = emailNow  // Usamos el email del formulario
                         ds.setUserName(name)
                         ds.setUserEmail(email)
                         if (accountCreatedAt.isBlank()) {
