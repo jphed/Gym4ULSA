@@ -5,14 +5,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ULSACUU.gym4ULSA.nutrition.data.NutritionNetwork
 import com.ULSACUU.gym4ULSA.nutrition.data.NutritionRepository
+import com.ULSACUU.gym4ULSA.nutrition.model.Food
 import com.ULSACUU.gym4ULSA.nutrition.model.RootNutrition
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.util.Locale
+import kotlin.math.roundToInt
 
 // Flujo de IA ---
 
@@ -23,6 +27,15 @@ data class AIAnalysisResult(
     val carbs: Int,
     val fat: Int,
     val summary: String
+)
+
+data class TrackedFoodEntry(
+    val id: String,
+    val foodName: String,
+    val calories: Int,
+    val protein: Int,
+    val carbs: Int,
+    val fat: Int
 )
 
 sealed class AnalysisState {
@@ -49,6 +62,10 @@ class NutritionViewModel : ViewModel() {
     // Proceso de IA
     private val _analysisState = MutableStateFlow<AnalysisState>(AnalysisState.Idle)
     val analysisState: StateFlow<AnalysisState> = _analysisState.asStateFlow()
+
+    // Consumo diario manual
+    private val _trackedFoods = MutableStateFlow<List<TrackedFoodEntry>>(emptyList())
+    val trackedFoods: StateFlow<List<TrackedFoodEntry>> = _trackedFoods.asStateFlow()
 
     // Configuración de Gemini
     val generativeModel = GenerativeModel(
@@ -148,5 +165,28 @@ class NutritionViewModel : ViewModel() {
                 // Manejar error de guardado
             }
         }
+    }
+
+    fun addFoodToDashboard(food: Food) {
+        val per100g = food.per_100g
+        val locale = Locale.getDefault().language
+        val entry = TrackedFoodEntry(
+            id = java.util.UUID.randomUUID().toString(),
+            foodName = food.name.get(locale),
+            calories = per100g.energy_kcal?.roundToInt() ?: 0,
+            protein = per100g.protein_g?.roundToInt() ?: 0,
+            carbs = per100g.carbs_g?.roundToInt() ?: 0,
+            fat = per100g.fat_g?.roundToInt() ?: 0
+        )
+
+        _trackedFoods.update { it + entry }
+    }
+
+    fun removeTrackedFood(entryId: String) {
+        _trackedFoods.update { list -> list.filterNot { it.id == entryId } }
+    }
+
+    fun resetTrackedFoods() {
+        _trackedFoods.value = emptyList()
     }
 }
