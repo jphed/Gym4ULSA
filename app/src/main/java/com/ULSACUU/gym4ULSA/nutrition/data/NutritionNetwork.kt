@@ -6,6 +6,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import com.google.gson.reflect.TypeToken
+import com.ULSACUU.gym4ULSA.nutrition.model.Meal
 
 object NutritionNetwork {
     private val logging = HttpLoggingInterceptor().apply {
@@ -16,7 +18,12 @@ object NutritionNetwork {
         .addInterceptor(logging)
         .build()
 
-    private val gson = GsonBuilder().create()
+    private val gson = GsonBuilder()
+        .registerTypeAdapter(
+            TypeToken.getParameterized(List::class.java, Meal::class.java).type,
+            MealListAdapter()
+        )
+        .create()
 
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(NutritionApi.BASE_URL)

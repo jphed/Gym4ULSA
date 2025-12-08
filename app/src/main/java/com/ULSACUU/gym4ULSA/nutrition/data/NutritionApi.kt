@@ -1,17 +1,24 @@
 package com.ULSACUU.gym4ULSA.nutrition.data
 
+import com.ULSACUU.gym4ULSA.nutrition.model.Food
 import retrofit2.http.GET
 
 /**
- * Retrofit API to fetch the Nutrition JSON from the provided Gist (raw).
- * We return raw String and parse manually to be tolerant to non-JSON wrappers.
+ * Retrofit API that points to the local backend (10.0.2.2) instead of Gists.
+ * Each collection is exposed via the generic CRUD route documented by el backend.
  */
 interface NutritionApi {
-    // Fetch the exact raw file to ensure pure JSON (no HTML/JS wrappers)
-    @GET("jphed/6d69347246db844f40cc68bc32e595e8/raw/gistfile1.txt")
-    suspend fun getNutritionRaw(): String
+
+    @GET("api/crud/nutrition_settings")
+    suspend fun getNutritionSettings(): List<NutritionSettingsDocument>
+
+    @GET("api/crud/foods")
+    suspend fun getFoods(): List<Food>
+
+    @GET("api/crud/meals")
+    suspend fun getMeals(): List<MealDocument>
 
     companion object {
-        const val BASE_URL = "https://gist.githubusercontent.com/"
+        const val BASE_URL = "http://10.0.2.2:4001/"
     }
 }
