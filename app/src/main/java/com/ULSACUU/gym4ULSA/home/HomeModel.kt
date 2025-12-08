@@ -30,6 +30,13 @@ data class Exercise(
     val nombre: String,
     @SerializedName("repeticiones")
     val repeticiones: String,
+    // NUEVOS CAMPOS DEL GIST
+    @SerializedName("sets")
+    val sets: Int = 3, // Valor por defecto
     @SerializedName("categoria")
-    val categoria: String? = null
+    val categoria: String? = null,
+    @SerializedName("descripcion")
+    val descripcion: String = "",
+    @SerializedName("imagen")
+    val imagen: String? = null
 )
