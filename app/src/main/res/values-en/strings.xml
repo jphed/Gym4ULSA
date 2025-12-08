@@ -57,23 +57,42 @@
     <string name="calculate_temp">Calculate C° to F°</string>
 
     <!-- Home View -->
+    <string name="home_routines_title">Workout Routines</string>
+    <string name="home_see_exercises">See exercises</string>
+    <string name="home_exercises_title">Available Exercises</string>
+
+    <string name="sets_label">Sets</string>
     <string name="routine_chest_name">Chest Routine</string>
     <string name="routine_legs_name">Legs Routine</string>
     <string name="routine_back_name">Back Routine</string>
-    <string name="routine_chest_desc">Exercises for chest</string>
-    <string name="routine_legs_desc">Exercises for legs</string>
-    <string name="routine_back_desc">Exercises for back</string>
+
+    <string name="routine_chest_desc">Focus on pectorals and triceps to gain volume.</string>
+    <string name="routine_legs_desc">Intense training for quads, hamstrings, and glutes.</string>
+    <string name="routine_back_desc">Exercises for back width and density.</string>
+
     <string name="muscle_chest">Chest</string>
     <string name="muscle_legs">Legs</string>
     <string name="muscle_back">Back</string>
     <string name="muscle_arms">Arms</string>
     <string name="muscle_shoulders">Shoulders</string>
-    <string name="exercise_bench_press">Bench press</string>
+
+    <string name="exercise_bench_press">Bench Press</string>
+    <string name="exercise_incline_press">Incline Press</string>
+    <string name="exercise_flys">Chest Flys</string>
+    <string name="exercise_dips">Dips</string>
+
     <string name="exercise_squat">Squat</string>
-    <string name="exercise_pullups">Pull-ups</string>
     <string name="exercise_lunges">Lunges</string>
-    <string name="exercise_bicep_curl">Bicep curl</string>
-    <string name="exercise_lat_raises">Lateral raises</string>
+    <string name="exercise_leg_press">Leg Press</string>
+    <string name="exercise_rdl">Romanian Deadlift</string>
+
+    <string name="exercise_pullups">Pull-ups</string>
+    <string name="exercise_barbell_row">Barbell Row</string>
+    <string name="exercise_lat_pulldown">Lat Pulldown</string>
+    <string name="exercise_seated_row">Seated Cable Row</string>
+
+    <string name="exercise_bicep_curl">Bicep Curl</string>
+    <string name="exercise_lat_raises">Lateral Raises</string>
 
     <!-- Routine screen -->
     <string name="routine_title">Routine</string>
@@ -81,6 +100,8 @@
     <!-- Home details labels -->
     <string name="home_repetitions">Repetitions: %1$d</string>
     <string name="home_category">Category: %1$s</string>
+    <string name="reps_label">Reps</string>
+    <string name="instructions_title">Instructions</string>
 
     <!-- Splash -->
     <string name="splash_logo_desc">ULSA logo</string>

@@ -74,26 +74,42 @@
     <string name="qr_instruction">Apunta la cámara al código QR</string>
 
     <!-- Home -->
-    <string name="home_routines_title">Rutinas de Ejercicios</string>
+    <string name="home_routines_title">Rutinas de Entrenamiento</string>
     <string name="home_see_exercises">Ver ejercicios</string>
     <string name="home_exercises_title">Ejercicios Disponibles</string>
+
+    <string name="sets_label">Series</string>
     <string name="routine_chest_name">Rutina Pecho</string>
     <string name="routine_legs_name">Rutina Piernas</string>
     <string name="routine_back_name">Rutina Espalda</string>
-    <string name="routine_chest_desc">Ejercicios para pecho</string>
-    <string name="routine_legs_desc">Ejercicios para piernas</string>
-    <string name="routine_back_desc">Ejercicios para espalda</string>
+
+    <string name="routine_chest_desc">Enfoque en pectorales y tríceps para ganar volumen.</string>
+    <string name="routine_legs_desc">Entrenamiento intenso de cuádriceps, femorales y glúteos.</string>
+    <string name="routine_back_desc">Ejercicios para amplitud y densidad de espalda.</string>
+
     <string name="muscle_chest">Pecho</string>
     <string name="muscle_legs">Piernas</string>
     <string name="muscle_back">Espalda</string>
     <string name="muscle_arms">Brazos</string>
     <string name="muscle_shoulders">Hombros</string>
-    <string name="exercise_bench_press">Press banca</string>
-    <string name="exercise_squat">Sentadilla</string>
-    <string name="exercise_pullups">Dominadas</string>
+
+    <string name="exercise_bench_press">Press de Banca</string>
+    <string name="exercise_incline_press">Press Inclinado</string>
+    <string name="exercise_flys">Aperturas (Cristos)</string>
+    <string name="exercise_dips">Fondos en Paralelas</string>
+
+    <string name="exercise_squat">Sentadilla Libre</string>
     <string name="exercise_lunges">Desplantes</string>
-    <string name="exercise_bicep_curl">Curl biceps</string>
-    <string name="exercise_lat_raises">Elevaciones laterales</string>
+    <string name="exercise_leg_press">Prensa de Piernas</string>
+    <string name="exercise_rdl">Peso Muerto Rumano</string>
+
+    <string name="exercise_pullups">Dominadas</string>
+    <string name="exercise_barbell_row">Remo con Barra</string>
+    <string name="exercise_lat_pulldown">Jalón al Pecho</string>
+    <string name="exercise_seated_row">Remo en Polea Baja</string>
+
+    <string name="exercise_bicep_curl">Curl de Bíceps</string>
+    <string name="exercise_lat_raises">Elevaciones Laterales</string>
 
 
     <!-- Settings -->

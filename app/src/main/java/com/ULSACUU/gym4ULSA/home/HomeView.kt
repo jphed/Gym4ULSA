@@ -37,15 +37,10 @@ fun HomeView(
     navController: NavController,
     viewModel: HomeViewModel = viewModel()
 ) {
-    // Obtenemos ambas listas de rutinas
     val gistRoutines = viewModel.gistRoutines
     val customRoutines = viewModel.customRoutines
-
-    // Obtenemos las selecciones
     val selectedGistRoutine = viewModel.selectedGistRoutine
     val selectedCustomRoutine = viewModel.selectedCustomRoutine
-
-    //Combinamos las listas de ejercicios
     val exercises = viewModel.exercisesForSelectedGistRoutine + viewModel.exercisesForSelectedCustomRoutine
 
     Column(
@@ -60,14 +55,12 @@ fun HomeView(
             modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 8.dp)
         )
 
-        //Barra horizontal de rutinas
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            //Mostramos primero las rutinas personalizadas
             items(customRoutines) { routine ->
                 CustomRoutineCard(
                     routine = routine,
@@ -76,7 +69,6 @@ fun HomeView(
                 )
             }
 
-            //Luego, mostramos las rutinas del Gist
             items(gistRoutines) { routine ->
                 GistRoutineCard(
                     routine = routine,
@@ -86,7 +78,6 @@ fun HomeView(
             }
         }
 
-        // Lista de Ejercicios
         Text(
             text = stringResource(id = R.string.home_exercises_title),
             fontWeight = FontWeight.Bold,
@@ -113,10 +104,6 @@ fun HomeView(
         }
     }
 }
-
-
-
-  //Card para las rutinas personalizadas (locales)
 
 @Composable
 fun CustomRoutineCard(
@@ -153,24 +140,13 @@ fun CustomRoutineCard(
                     modifier = Modifier.size(48.dp)
                 )
             }
-
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = routine.name, fontWeight = FontWeight.Bold)
-            Text(
-                text = "Personalizada",
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Text(
-                text = "${routine.exerciseCount} ejercicios",
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-
+            Text(text = "Personalizada", color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(text = "${routine.exerciseCount} ejercicios", color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
-
-
-//Card para las rutinas del Gist
 
 @Composable
 fun GistRoutineCard(
@@ -192,6 +168,7 @@ fun GistRoutineCard(
             )
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
+            // Nota: Coil cargará la imagen desde la URL del JSON
             Image(
                 painter = rememberAsyncImagePainter(routine.imagen),
                 contentDescription = getTranslatedData(routine.nombre),
@@ -201,31 +178,14 @@ fun GistRoutineCard(
                     .height(100.dp)
                     .clip(RoundedCornerShape(8.dp))
             )
-
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = getTranslatedData(routine.nombre), fontWeight = FontWeight.Bold)
-            Text(
-                text = getTranslatedData(routine.musculo),
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Text(
-                text = routine.duracion,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-
-            //Spacer(modifier = Modifier.height(8.dp))
-            //Button(onClick = onClick) {
-             //   Text(stringResource(id = R.string.home_see_exercises))
-            //}
+            Text(text = getTranslatedData(routine.musculo), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(text = routine.duracion, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
 
-/**
- * Función de mapeo para traducir los datos del Gist
- * Traduce un texto que viene del Gist a su ID de recurso de string correspondiente.
- * Si no encuentra una traducción, devuelve el texto original.
- */
 @Composable
 fun getTranslatedData(dataFromGist: String): String {
     // Busca el ID del string basándose en el texto en español del Gist
@@ -235,10 +195,10 @@ fun getTranslatedData(dataFromGist: String): String {
         "Rutina Piernas" -> R.string.routine_legs_name
         "Rutina Espalda" -> R.string.routine_back_name
 
-        // Descripciones
-        "Ejercicios para pecho" -> R.string.routine_chest_desc
-        "Ejercicios para piernas" -> R.string.routine_legs_desc
-        "Ejercicios para espalda" -> R.string.routine_back_desc
+        // Descripciones Rutinas
+        "Enfoque en pectorales y tríceps para ganar volumen." -> R.string.routine_chest_desc
+        "Entrenamiento intenso de cuádriceps, femorales y glúteos." -> R.string.routine_legs_desc
+        "Ejercicios para amplitud y densidad de espalda." -> R.string.routine_back_desc
 
         // Músculos / Categorías
         "Pecho" -> R.string.muscle_chest
@@ -247,15 +207,16 @@ fun getTranslatedData(dataFromGist: String): String {
         "Brazos" -> R.string.muscle_arms
         "Hombros" -> R.string.muscle_shoulders
 
-        // Ejercicios
-        "Press banca" -> R.string.exercise_bench_press
-        "Sentadilla" -> R.string.exercise_squat
+        // EJERCICIOS
+        "Press de Banca" -> R.string.exercise_bench_press
+        "Sentadilla Libre" -> R.string.exercise_squat
         "Dominadas" -> R.string.exercise_pullups
-        "Desplantes" -> R.string.exercise_lunges
-        "Curl biceps" -> R.string.exercise_bicep_curl
-        "Elevaciones laterales" -> R.string.exercise_lat_raises
+        "Desplantes (Lunges)" -> R.string.exercise_lunges // Actualizado
+        "Desplantes" -> R.string.exercise_lunges // Por si acaso
+        "Curl de Bíceps" -> R.string.exercise_bicep_curl
+        "Elevaciones Laterales" -> R.string.exercise_lat_raises
 
-        // Si no se encuentra, no hagas nada
+        // Si no se encuentra traducción, devuelve null
         else -> null
     }
 
