@@ -1,33 +1,50 @@
 package com.ULSACUU.gym4ULSA.nutrition.view
 
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CameraAlt
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ProgressIndicatorDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -35,34 +52,22 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import com.ULSACUU.gym4ULSA.R
 import com.ULSACUU.gym4ULSA.nutrition.model.Food
+import com.ULSACUU.gym4ULSA.nutrition.viewmodel.AnalysisState
 import com.ULSACUU.gym4ULSA.nutrition.viewmodel.NutritionUiState
 import com.ULSACUU.gym4ULSA.nutrition.viewmodel.NutritionViewModel
+import com.ULSACUU.gym4ULSA.nutrition.viewmodel.TrackedFoodEntry
 import kotlin.math.max
 import kotlin.math.min
 import java.util.Locale
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CameraAlt
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.launch
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.CircularProgressIndicator
-import com.ULSACUU.gym4ULSA.nutrition.viewmodel.AnalysisState
-import android.Manifest
-import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 
 @Composable
 fun NutritionView(navController: NavController, vm: NutritionViewModel = viewModel()) {
     val state by vm.uiState.collectAsState()
     val analysisState by vm.analysisState.collectAsState()
+    val trackedFoods by vm.trackedFoods.collectAsState()
 
     val context = LocalContext.current
 
@@ -110,7 +115,12 @@ fun NutritionView(navController: NavController, vm: NutritionViewModel = viewMod
             when (val s = state) {
                 is NutritionUiState.Loading -> LoadingSection()
                 is NutritionUiState.Error -> ErrorSection(message = s.message, onRetry = vm::refresh)
-                is NutritionUiState.Success -> NutritionContent(s)
+                is NutritionUiState.Success -> NutritionContent(
+                    state = s,
+                    trackedFoods = trackedFoods,
+                    onAddFood = vm::addFoodToDashboard,
+                    onRemoveFood = vm::removeTrackedFood
+                )
             }
         }
     }
@@ -185,12 +195,18 @@ private fun ErrorSection(message: String, onRetry: () -> Unit) {
 }
 
 @Composable
-private fun NutritionContent(state: NutritionUiState.Success) {
+private fun NutritionContent(
+    state: NutritionUiState.Success,
+    trackedFoods: List<TrackedFoodEntry>,
+    onAddFood: (Food) -> Unit,
+    onRemoveFood: (String) -> Unit
+) {
     val data = state.data
     val settings = data.nutrition_settings
     val macroTargets = settings?.macro_targets
     val targetKcal = settings?.calorie_target_kcal ?: 2050
-    val consumedKcal = data.meal_plan_day?.summary?.energy_kcal?.toInt() ?: 1200
+    val totals = remember(trackedFoods) { trackedFoods.toMacroTotals() }
+    val consumedKcal = totals.calories
     val progress = if (targetKcal > 0) min(1f, max(0f, consumedKcal.toFloat() / targetKcal)) else 0f
 
     LazyColumn(
@@ -213,9 +229,26 @@ private fun NutritionContent(state: NutritionUiState.Success) {
                 proteinTarget = macroTargets?.protein_g?.toFloat() ?: 154f,
                 carbsTarget = macroTargets?.carbs_g?.toFloat() ?: 205f,
                 fatTarget = macroTargets?.fat_g?.toFloat() ?: 68f,
-                proteinConsumed = (data.meal_plan_day?.summary?.protein_g ?: 85.0).toFloat(),
-                carbsConsumed = (data.meal_plan_day?.summary?.carbs_g ?: 120.0).toFloat(),
-                fatConsumed = (data.meal_plan_day?.summary?.fat_g ?: 45.0).toFloat()
+                proteinConsumed = totals.protein.toFloat(),
+                carbsConsumed = totals.carbs.toFloat(),
+                fatConsumed = totals.fat.toFloat()
+            )
+        }
+
+        item {
+            Spacer(Modifier.height(12.dp))
+            FoodSelectionSection(
+                foods = data.food_database.orEmpty(),
+                onAddFood = onAddFood
+            )
+        }
+
+        item {
+            Spacer(Modifier.height(12.dp))
+            DailySummarySection(
+                totals = totals,
+                trackedFoods = trackedFoods,
+                onRemoveFood = onRemoveFood
             )
         }
 
@@ -503,6 +536,143 @@ private fun TagChip(text: String) {
 }
 
 @Composable
+private fun FoodSelectionSection(
+    foods: List<Food>,
+    onAddFood: (Food) -> Unit
+) {
+    val locale = Locale.getDefault().language
+    var expanded by remember { mutableStateOf(false) }
+    var selectedFood by remember { mutableStateOf<Food?>(null) }
+
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0x0DFFFFFF))
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text(
+                text = stringResource(R.string.nutrition_add_food_title),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Box {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(Color(0x12FFFFFF))
+                        .border(1.dp, Color.White.copy(alpha = 0.2f), RoundedCornerShape(12.dp))
+                        .clickable(enabled = foods.isNotEmpty()) { expanded = true }
+                        .padding(horizontal = 16.dp, vertical = 14.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = selectedFood?.name?.get(locale)
+                                ?: stringResource(R.string.nutrition_add_food_placeholder),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = if (selectedFood == null) Color.Gray else Color.White,
+                            modifier = Modifier.weight(1f)
+                        )
+                        Icon(
+                            imageVector = Icons.Filled.KeyboardArrowDown,
+                            contentDescription = null,
+                            tint = Color.White
+                        )
+                    }
+                }
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    foods.take(50).forEach { food ->
+                        DropdownMenuItem(
+                            text = { Text(food.name.get(locale)) },
+                            onClick = {
+                                selectedFood = food
+                                expanded = false
+                            }
+                        )
+                    }
+                }
+            }
+            Button(
+                onClick = { selectedFood?.let(onAddFood) },
+                enabled = selectedFood != null,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(stringResource(R.string.nutrition_add_food_button))
+            }
+        }
+    }
+}
+
+@Composable
+private fun DailySummarySection(
+    totals: MacroTotals,
+    trackedFoods: List<TrackedFoodEntry>,
+    onRemoveFood: (String) -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0x14FFFFFF))
+    ) {
+        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text(stringResource(R.string.nutrition_daily_summary_title), style = MaterialTheme.typography.titleMedium)
+
+            Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
+                MacroItemValue("Kcal", "${totals.calories}")
+                MacroItemValue("Prot", "${totals.protein} g", Color(0xFF34C759))
+                MacroItemValue("Carb", "${totals.carbs} g", Color(0xFF0A84FF))
+                MacroItemValue("Grasa", "${totals.fat} g", Color(0xFFFF9F0A))
+            }
+
+            Divider(color = Color.White.copy(alpha = 0.1f))
+
+            if (trackedFoods.isEmpty()) {
+                Text(
+                    text = stringResource(R.string.nutrition_daily_summary_empty),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.Gray
+                )
+            } else {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    trackedFoods.forEach { entry ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(16.dp))
+                                .background(Color(0x10FFFFFF))
+                                .padding(12.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(Modifier.weight(1f)) {
+                                Text(entry.foodName, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
+                                Spacer(Modifier.height(4.dp))
+                                Text(
+                                    "${entry.calories} kcal • ${entry.protein}P / ${entry.carbs}C / ${entry.fat}F",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = Color.Gray
+                                )
+                            }
+                            IconButton(onClick = { onRemoveFood(entry.id) }) {
+                                Icon(Icons.Default.Close, contentDescription = stringResource(R.string.nutrition_remove_food))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
 private fun FoodConfirmationDialog(
     result: com.ULSACUU.gym4ULSA.nutrition.viewmodel.AIAnalysisResult, // Ajusta el import según tu package
     onConfirm: () -> Unit,
@@ -549,5 +719,23 @@ fun MacroItemValue(label: String, value: String, color: Color = Color.White) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(label, style = MaterialTheme.typography.bodySmall, color = Color.Gray)
         Text(value, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold, color = color)
+    }
+}
+
+private data class MacroTotals(
+    val calories: Int,
+    val protein: Int,
+    val carbs: Int,
+    val fat: Int
+)
+
+private fun List<TrackedFoodEntry>.toMacroTotals(): MacroTotals {
+    return fold(MacroTotals(0, 0, 0, 0)) { acc, entry ->
+        MacroTotals(
+            calories = acc.calories + entry.calories,
+            protein = acc.protein + entry.protein,
+            carbs = acc.carbs + entry.carbs,
+            fat = acc.fat + entry.fat
+        )
     }
 }

@@ -75,21 +75,28 @@
     <string name="nutrition_per_100g">%1$d kcal / 100g</string>
     <string name="nutrition_loading">Loading data…</string>
     <string name="nutrition_error_title">An error occurred</string>
-    <string name="nutrition_retry">Retry</string>
+    <string name="nutrition_retry">Reintentar</string>
+    <string name="nutrition_add_food_title">Agregar comida manualmente</string>
+    <string name="nutrition_add_food_placeholder">Selecciona una comida</string>
+    <string name="nutrition_food_label">Comida</string>
+    <string name="nutrition_add_food_button">Agregar al panel</string>
+    <string name="nutrition_daily_summary_title">Resumen del día</string>
+    <string name="nutrition_daily_summary_empty">No has agregado comidas todavía</string>
+    <string name="nutrition_remove_food">Eliminar comida</string>
 
     <!-- QR Scanner -->
-    <string name="qr_title">Scan QR</string>
-    <string name="qr_back">Back</string>
-    <string name="qr_permission_required">Camera permission required</string>
-    <string name="qr_permission_message">To scan QR codes, we need access to your camera.</string>
-    <string name="qr_scanned_success">✓ Code scanned</string>
-    <string name="qr_format">Format: %1$s</string>
-    <string name="qr_scan_again">Scan another code</string>
-    <string name="qr_close">Close</string>
-    <string name="qr_instruction">Point the camera at the QR code</string>
-    <string name="action_scan_qr">Scan QR</string>
-    <string name="action_profile">Profile</string>
-    <string name="action_add">Add</string>
+    <string name="qr_title">Escanear QR</string>
+    <string name="qr_back">Atrás</string>
+    <string name="qr_permission_required">Permiso de cámara requerido</string>
+    <string name="qr_permission_message">Para escanear códigos QR, necesitamos acceso a tu cámara.</string>
+    <string name="qr_scanned_success">✓ Código escaneado</string>
+    <string name="qr_format">Formato: %1$s</string>
+    <string name="qr_scan_again">Escanear otro código</string>
+    <string name="qr_close">Cerrar</string>
+    <string name="qr_instruction">Apunta la cámara al código QR</string>
+    <string name="action_scan_qr">Escanear QR</string>
+    <string name="action_profile">Perfil</string>
+    <string name="action_add">Agregar</string>
 
     <!-- Home -->
     <string name="home_routines_title">Rutinas de Entrenamiento</string>
